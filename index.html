@@ -4,11 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="google-site-verification" content="DJLEpGJEWBb-r4Rz4WVdYUyIoedQqIf1h6_L08NeUZQ" />
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974"
-crossorigin="anonymous"></script>
-
 <title>Palettly — Free Color Palette Extractor from Images</title>
 <meta name="description" content="Upload any image and instantly extract a beautiful color palette. Copy HEX codes, CSS variables, Figma tokens or Tailwind config. 100% free, no sign-up, processed in your browser.">
 <meta name="keywords" content="color palette extractor, image color picker, extract colors from image, color palette generator, HEX color picker, CSS color variables, Figma color tokens, photo color extractor, free color tool, design color palette">
@@ -192,6 +187,19 @@ footer{border-top:1px solid var(--border);padding:26px 0;background:var(--surfac
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fadeUp .5s ease both}
 .fu.d1{animation-delay:.06s}.fu.d2{animation-delay:.13s}.fu.d3{animation-delay:.21s}
+
+/* DONATE */
+.donate-wrap{max-width:720px;margin:16px auto 0;text-align:center}
+.donate-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.donate-left{display:flex;align-items:center;gap:14px}
+.donate-icon{width:42px;height:42px;background:var(--g50);border:1px solid var(--g200);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;line-height:1}
+.donate-text p{font-size:14px;font-weight:500;color:var(--s800);margin-bottom:2px}
+.donate-text span{font-size:13px;color:var(--muted)}
+.btn-donate{display:inline-flex;align-items:center;gap:8px;background:var(--g500);color:#fff;font-family:var(--fb);font-size:14px;font-weight:500;padding:10px 22px;border-radius:var(--rsm);text-decoration:none;transition:background .15s,transform .1s;white-space:nowrap;border:none;cursor:pointer}
+.btn-donate:hover{background:var(--g600);transform:translateY(-1px)}
+.btn-donate:active{transform:translateY(0)}
+.btn-donate svg{width:16px;height:16px;flex-shrink:0}
+
 canvas{display:none}
 </style>
 </head>
@@ -325,6 +333,22 @@ canvas{display:none}
         </div>
       </div>
       <div class="ad-banner ad-bottom">Advertisement</div>
+
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text">
+              <p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p>
+              <span data-i18n="donate_sub">This tool is free and always will be. A small tip keeps it alive.</span>
+            </div>
+          </div>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575z"/></svg>
+            <span data-i18n="donate_btn">Support via PayPal</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -421,6 +445,7 @@ const T = {
     use4_t:'Brand & marketing', use4_p:'Reverse-engineer a visual identity or match product photo colors.',
     footer_tagline:'Free color palette extractor. Built with care.',
     footer_privacy:'Privacy', footer_about:'About', footer_contact:'Contact',
+    donate_title:'Enjoying Palettly? Buy me a coffee', donate_sub:'This tool is free and always will be. A small tip keeps it alive.', donate_btn:'Support via PayPal',
   },
   es: {
     nav_how:'Cómo funciona', nav_uses:'Casos de uso', nav_free:'Gratis para siempre',
@@ -443,6 +468,7 @@ const T = {
     use4_t:'Marca y marketing', use4_p:'Analizá la identidad visual de la competencia o igualá los colores de tus productos.',
     footer_tagline:'Extractor de paletas gratuito. Hecho con cariño.',
     footer_privacy:'Privacidad', footer_about:'Acerca de', footer_contact:'Contacto',
+    donate_title:'¿Te gustó Palettly? Invitame un café', donate_sub:'Esta herramienta es gratuita y siempre lo será. Un pequeño aporte la mantiene viva.', donate_btn:'Apoyar por PayPal',
   },
   pt: {
     nav_how:'Como funciona', nav_uses:'Casos de uso', nav_free:'Gratuito para sempre',
@@ -465,6 +491,7 @@ const T = {
     use4_t:'Marca e marketing', use4_p:'Analise a identidade visual da concorrência ou combine as cores dos seus produtos.',
     footer_tagline:'Extrator de paletas gratuito. Feito com carinho.',
     footer_privacy:'Privacidade', footer_about:'Sobre', footer_contact:'Contato',
+    donate_title:'Gostou do Palettly? Me pague um café', donate_sub:'Esta ferramenta é gratuita e sempre será. Uma pequena contribuição a mantém viva.', donate_btn:'Apoiar via PayPal',
   },
   fr: {
     nav_how:'Comment ça marche', nav_uses:'Cas d\'usage', nav_free:'Gratuit pour toujours',
@@ -487,6 +514,7 @@ const T = {
     use4_t:'Marque & marketing', use4_p:'Analysez l\'identité visuelle de la concurrence ou assortissez les couleurs de vos produits.',
     footer_tagline:'Extracteur de palettes gratuit. Fait avec soin.',
     footer_privacy:'Confidentialité', footer_about:'À propos', footer_contact:'Contact',
+    donate_title:'Vous aimez Palettly ? Offrez-moi un café', donate_sub:'Cet outil est gratuit et le restera. Un petit pourboire le maintient en vie.', donate_btn:'Soutenir via PayPal',
   },
   de: {
     nav_how:'So funktioniert\'s', nav_uses:'Anwendungsfälle', nav_free:'Für immer kostenlos',
@@ -509,6 +537,7 @@ const T = {
     use4_t:'Marke & Marketing', use4_p:'Analysiere die visuelle Identität der Konkurrenz oder passe Produktfarben an.',
     footer_tagline:'Kostenloser Farbpaletten-Extraktor. Mit Sorgfalt gebaut.',
     footer_privacy:'Datenschutz', footer_about:'Über uns', footer_contact:'Kontakt',
+    donate_title:'Gefällt dir Palettly? Kauf mir einen Kaffee', donate_sub:'Dieses Tool ist kostenlos und bleibt es auch. Ein kleiner Tipp hält es am Leben.', donate_btn:'Unterstützen via PayPal',
   },
   it: {
     nav_how:'Come funziona', nav_uses:'Casi d\'uso', nav_free:'Gratuito per sempre',
@@ -531,6 +560,7 @@ const T = {
     use4_t:'Brand & marketing', use4_p:'Analizza l\'identità visiva della concorrenza o abbina i colori dei tuoi prodotti.',
     footer_tagline:'Estrattore di palette gratuito. Costruito con cura.',
     footer_privacy:'Privacy', footer_about:'Chi siamo', footer_contact:'Contatti',
+    donate_title:'Ti piace Palettly? Offrimi un caffè', donate_sub:'Questo strumento è gratuito e lo sarà sempre. Un piccolo contributo lo mantiene in vita.', donate_btn:'Supporta via PayPal',
   },
   zh: {
     nav_how:'使用方法', nav_uses:'使用场景', nav_free:'永久免费',
@@ -553,6 +583,7 @@ const T = {
     use4_t:'品牌与营销', use4_p:'分析竞品视觉风格，或匹配产品照片中的颜色。',
     footer_tagline:'免费调色板提取工具，用心打造。',
     footer_privacy:'隐私政策', footer_about:'关于我们', footer_contact:'联系我们',
+    donate_title:'喜欢 Palettly？请我喝杯咖啡', donate_sub:'这个工具永久免费，一点小小的支持让它持续运行。', donate_btn:'通过 PayPal 支持',
   },
   ja: {
     nav_how:'使い方', nav_uses:'活用事例', nav_free:'ずっと無料',
@@ -575,6 +606,7 @@ const T = {
     use4_t:'ブランド＆マーケティング', use4_p:'競合のビジュアルアイデンティティを分析、または商品写真の色をマッチング。',
     footer_tagline:'無料カラーパレット抽出ツール。心を込めて制作。',
     footer_privacy:'プライバシー', footer_about:'概要', footer_contact:'お問い合わせ',
+    donate_title:'Palettlyを気に入ってくれた？コーヒーを一杯どうぞ', donate_sub:'このツールはずっと無料です。小さなサポートが開発を支えます。', donate_btn:'PayPalで支援する',
   },
 };
 
