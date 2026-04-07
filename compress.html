@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Image Compressor — Palettly</title>
+<meta name="description" content="Compress JPG and PNG images in your browser. Adjust quality, see the size reduction and download instantly. Free, no upload to servers.">
+<meta name="keywords" content="image compressor, compress jpg online, compress png, reduce image size, image optimizer, free image compression">
+<link rel="canonical" href="https://palettly-eight.vercel.app/compress.html">
+<meta property="og:title" content="Image Compressor — Palettly">
+<meta property="og:description" content="Compress JPG and PNG images in your browser. Free, no sign-up, images never leave your device.">
+<meta property="og:url" content="https://palettly-eight.vercel.app/compress.html">
+<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="shared.css">
+<style>
+#drop-zone{border:2px dashed var(--g200);border-radius:var(--rlg);background:var(--g50);min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;text-align:center;padding:24px}
+#drop-zone:hover,#drop-zone.over{border-color:var(--g400);background:var(--g100)}
+#drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{width:48px;height:48px;background:var(--surface);border-radius:14px;border:1px solid var(--g200);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--s100);border-radius:var(--rmd);padding:14px;text-align:center}
+.stat-val{font-size:22px;font-weight:500;color:var(--text);display:block}
+.stat-val.green{color:var(--g600)}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;display:block}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.compare-wrap{grid-template-columns:1fr}}
+.img-panel{border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden}
+.img-panel img{width:100%;display:block;max-height:200px;object-fit:contain;background:var(--s100)}
+.img-panel-label{padding:8px 12px;font-size:12px;color:var(--muted);background:var(--s50);border-top:1px solid var(--border)}
+.quality-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.quality-row label{font-size:14px;color:var(--muted);white-space:nowrap;min-width:60px}
+.quality-val{font-size:14px;font-weight:500;min-width:36px}
+#results{display:none}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container"><div class="ad-banner ad-top">Advertisement</div></div>
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+    <div class="ad-banner ad-side ad-side-l">Ad</div>
+    <div class="ad-banner ad-side ad-side-r">Ad</div>
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head"><h2>Image compressor</h2></div>
+        <div class="tool-body">
+
+          <div id="drop-zone">
+            <input type="file" id="file-in" accept="image/jpeg,image/png,image/webp">
+            <div class="drop-icon">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p style="font-size:15px;font-weight:500;color:var(--s800);margin-bottom:4px">Drop your image here</p>
+            <p style="font-size:13px;color:var(--s400)">JPG, PNG, WEBP — images never leave your device</p>
+            <p style="margin:12px 0 8px;font-size:13px;color:var(--s400)">or</p>
+            <button class="btn-primary" type="button" onclick="document.getElementById('file-in').click();event.stopPropagation()" style="position:relative;z-index:2">Browse files</button>
+          </div>
+
+          <div id="results">
+            <div class="quality-row" style="margin-top:20px">
+              <label>Quality</label>
+              <input type="range" id="quality" min="10" max="100" value="80" step="1" style="flex:1">
+              <span class="quality-val" id="quality-val">80%</span>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-val" id="orig-size">—</span>
+                <span class="stat-label">Original</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-val" id="comp-size">—</span>
+                <span class="stat-label">Compressed</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-val green" id="savings">—</span>
+                <span class="stat-label">Savings</span>
+              </div>
+            </div>
+
+            <div class="compare-wrap">
+              <div class="img-panel">
+                <img id="orig-img" alt="Original">
+                <div class="img-panel-label">Original</div>
+              </div>
+              <div class="img-panel">
+                <img id="comp-img" alt="Compressed">
+                <div class="img-panel-label">Compressed</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn-primary" id="btn-download">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download compressed
+              </button>
+              <button class="btn-secondary" id="btn-reset">← Try another image</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="ad-banner ad-bottom">Advertisement</div>
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+          </div>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools.</div>
+      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+    </div>
+  </div>
+</footer>
+</div>
+<canvas id="canvas" style="display:none"></canvas>
+<script>
+const dz=document.getElementById('drop-zone');
+const fi=document.getElementById('file-in');
+const results=document.getElementById('results');
+let origFile=null,origSize=0,fileName='image',fileType='image/jpeg';
+
+function fmtSize(bytes){if(bytes<1024)return bytes+'B';if(bytes<1024*1024)return(bytes/1024).toFixed(1)+'KB';return(bytes/1024/1024).toFixed(2)+'MB'}
+
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');const f=e.dataTransfer.files[0];if(f)load(f)});
+dz.addEventListener('click',e=>{if(!e.target.closest('.btn-primary'))fi.click()});
+fi.addEventListener('change',e=>{if(e.target.files[0])load(e.target.files[0])});
+
+function load(file){
+  origFile=file;origSize=file.size;
+  fileName=file.name.replace(/\.[^.]+$/,'');
+  fileType=file.type==='image/png'?'image/png':'image/jpeg';
+  const url=URL.createObjectURL(file);
+  document.getElementById('orig-img').src=url;
+  document.getElementById('orig-size').textContent=fmtSize(origSize);
+  dz.style.display='none';results.style.display='block';
+  compress();
+}
+
+function compress(){
+  if(!origFile)return;
+  const q=+document.getElementById('quality').value/100;
+  const img=new Image();
+  const url=URL.createObjectURL(origFile);
+  img.onload=()=>{
+    const cv=document.getElementById('canvas');
+    cv.width=img.naturalWidth;cv.height=img.naturalHeight;
+    const ctx=cv.getContext('2d');
+    ctx.drawImage(img,0,0);
+    cv.toBlob(blob=>{
+      const compUrl=URL.createObjectURL(blob);
+      document.getElementById('comp-img').src=compUrl;
+      document.getElementById('comp-size').textContent=fmtSize(blob.size);
+      const saved=Math.round((1-blob.size/origSize)*100);
+      document.getElementById('savings').textContent=(saved>0?'-':'')+Math.abs(saved)+'%';
+      document.getElementById('btn-download').onclick=()=>{
+        const a=document.createElement('a');
+        a.href=compUrl;
+        a.download=fileName+'-compressed.'+(fileType==='image/png'?'png':'jpg');
+        a.click();
+      };
+    },fileType,q);
+    URL.revokeObjectURL(url);
+  };
+  img.src=url;
+}
+
+document.getElementById('quality').addEventListener('input',e=>{
+  document.getElementById('quality-val').textContent=e.target.value+'%';
+  compress();
+});
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  results.style.display='none';dz.style.display='flex';fi.value='';origFile=null;
+});
+</script>
+</body>
+</html>

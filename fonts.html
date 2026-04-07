@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Fonts Picker & Preview — Palettly</title>
+<meta name="description" content="Browse, preview and compare Google Fonts with your own text. Adjust size and weight. Get the embed code instantly. Free, no sign-up.">
+<meta name="keywords" content="google fonts picker, font preview tool, google fonts browser, web font selector, typography tool, font pairing">
+<link rel="canonical" href="https://palettly-eight.vercel.app/fonts.html">
+<meta property="og:title" content="Google Fonts Picker — Palettly">
+<meta property="og:description" content="Browse, preview and compare Google Fonts. Get embed code instantly.">
+<meta property="og:url" content="https://palettly-eight.vercel.app/fonts.html">
+<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="shared.css">
+<style>
+.controls-bar{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.controls-bar{grid-template-columns:1fr}}
+.preview-text-wrap{margin-bottom:20px}
+.preview-text-wrap textarea{width:100%;resize:none;height:60px;font-size:15px}
+.font-size-row{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.font-size-row label{font-size:13px;color:var(--muted);white-space:nowrap}
+.font-size-val{font-size:14px;font-weight:500;min-width:40px}
+.fonts-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:500px){.fonts-grid{grid-template-columns:1fr}}
+.font-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px;cursor:pointer;transition:all .2s;position:relative}
+.font-card:hover{border-color:var(--g400);transform:translateY(-1px)}
+.font-card.selected{border-color:var(--g500);background:var(--g50)}
+.font-card .font-name{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.font-card .font-preview{font-size:22px;line-height:1.3;color:var(--text);word-break:break-word}
+.font-card .sel-badge{font-size:10px;background:var(--g500);color:#fff;padding:2px 7px;border-radius:100px}
+.selected-section{border-top:1px solid var(--s100);padding-top:18px;margin-top:4px}
+.selected-preview{font-size:32px;line-height:1.3;margin-bottom:16px;color:var(--text);word-break:break-word}
+.weight-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+.wt{font-family:var(--fb);font-size:12px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);transition:all .15s}
+.wt.active{background:var(--g50);color:var(--g700);border-color:var(--g200)}
+.search-wrap{position:relative;margin-bottom:16px}
+.search-wrap input{padding-left:36px}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);pointer-events:none}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container"><div class="ad-banner ad-top">Advertisement</div></div>
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+    <div class="ad-banner ad-side ad-side-l">Ad</div>
+    <div class="ad-banner ad-side ad-side-r">Ad</div>
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head"><h2>Google Fonts picker</h2></div>
+        <div class="tool-body">
+
+          <div class="search-wrap">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="var(--s400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search" placeholder="Search fonts...">
+          </div>
+
+          <div class="preview-text-wrap">
+            <span class="slabel">Preview text</span>
+            <textarea id="preview-text">The quick brown fox jumps over the lazy dog</textarea>
+          </div>
+
+          <div class="font-size-row">
+            <label>Size</label>
+            <input type="range" id="font-size" min="14" max="64" value="22" step="1" style="flex:1">
+            <span class="font-size-val" id="size-val">22px</span>
+          </div>
+
+          <div class="controls-bar">
+            <div>
+              <span class="slabel">Category</span>
+              <select id="category">
+                <option value="">All categories</option>
+                <option value="serif">Serif</option>
+                <option value="sans-serif">Sans Serif</option>
+                <option value="display">Display</option>
+                <option value="monospace">Monospace</option>
+                <option value="handwriting">Handwriting</option>
+              </select>
+            </div>
+            <div>
+              <span class="slabel">Sort by</span>
+              <select id="sort">
+                <option value="popularity">Popularity</option>
+                <option value="alpha">Alphabetical</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+          </div>
+
+          <span class="slabel">Fonts — click to select</span>
+          <div class="fonts-grid" id="fonts-grid"></div>
+          <button class="btn-secondary" id="load-more" style="margin-bottom:20px">Load more fonts</button>
+
+          <div class="selected-section" id="selected-section" style="display:none">
+            <span class="slabel" id="selected-name">Selected font</span>
+            <div class="selected-preview" id="selected-preview">The quick brown fox jumps over the lazy dog</div>
+            <div class="weight-tabs" id="weight-tabs"></div>
+            <span class="slabel">Embed code</span>
+            <div class="code-out">
+              <pre id="embed-code"></pre>
+              <button class="btn-cp" id="btn-cp">Copy</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="ad-banner ad-bottom">Advertisement</div>
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+          </div>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools.</div>
+      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+    </div>
+  </div>
+</footer>
+</div>
+<script>
+const FONTS=[
+  {name:'Inter',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Roboto',cat:'sans-serif',weights:[300,400,500,700]},
+  {name:'Open Sans',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Lato',cat:'sans-serif',weights:[300,400,700]},
+  {name:'Montserrat',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Poppins',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Nunito',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Raleway',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Source Sans 3',cat:'sans-serif',weights:[300,400,600,700]},
+  {name:'Noto Sans',cat:'sans-serif',weights:[400,700]},
+  {name:'DM Sans',cat:'sans-serif',weights:[300,400,500,700]},
+  {name:'Figtree',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Plus Jakarta Sans',cat:'sans-serif',weights:[300,400,500,600,700]},
+  {name:'Playfair Display',cat:'serif',weights:[400,500,600,700]},
+  {name:'Merriweather',cat:'serif',weights:[300,400,700]},
+  {name:'Lora',cat:'serif',weights:[400,500,600,700]},
+  {name:'PT Serif',cat:'serif',weights:[400,700]},
+  {name:'Libre Baskerville',cat:'serif',weights:[400,700]},
+  {name:'EB Garamond',cat:'serif',weights:[400,500,600,700]},
+  {name:'DM Serif Display',cat:'serif',weights:[400]},
+  {name:'Cormorant Garamond',cat:'serif',weights:[300,400,500,600,700]},
+  {name:'Oswald',cat:'display',weights:[300,400,500,600,700]},
+  {name:'Bebas Neue',cat:'display',weights:[400]},
+  {name:'Anton',cat:'display',weights:[400]},
+  {name:'Righteous',cat:'display',weights:[400]},
+  {name:'Pacifico',cat:'handwriting',weights:[400]},
+  {name:'Dancing Script',cat:'handwriting',weights:[400,500,600,700]},
+  {name:'Caveat',cat:'handwriting',weights:[400,500,600,700]},
+  {name:'Fira Code',cat:'monospace',weights:[300,400,500,600,700]},
+  {name:'JetBrains Mono',cat:'monospace',weights:[300,400,500,700]},
+  {name:'Source Code Pro',cat:'monospace',weights:[300,400,500,700]},
+  {name:'Space Mono',cat:'monospace',weights:[400,700]},
+];
+
+let loaded={};
+let selectedFont=null;
+let selectedWeight=400;
+let page=0;const PER_PAGE=8;
+let filtered=FONTS;
+
+function loadFont(name){
+  if(loaded[name])return Promise.resolve();
+  return new Promise(res=>{
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href=`https://fonts.googleapis.com/css2?family=${encodeURIComponent(name)}:wght@300;400;500;600;700&display=swap`;
+    link.onload=res;
+    document.head.appendChild(link);
+    loaded[name]=true;
+  });
+}
+
+function getFiltered(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const cat=document.getElementById('category').value;
+  const sort=document.getElementById('sort').value;
+  let list=FONTS.filter(f=>{
+    return(!q||f.name.toLowerCase().includes(q))&&(!cat||f.cat===cat);
+  });
+  if(sort==='alpha') list.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sort==='newest') list.reverse();
+  return list;
+}
+
+function renderGrid(reset=false){
+  if(reset) page=0;
+  filtered=getFiltered();
+  const grid=document.getElementById('fonts-grid');
+  if(reset) grid.innerHTML='';
+  const slice=filtered.slice(page*PER_PAGE,(page+1)*PER_PAGE);
+  slice.forEach(f=>{
+    loadFont(f.name);
+    const card=document.createElement('div');
+    card.className='font-card'+(selectedFont&&selectedFont.name===f.name?' selected':'');
+    card.dataset.name=f.name;
+    const previewTxt=document.getElementById('preview-text').value||f.name;
+    const sz=document.getElementById('font-size').value;
+    card.innerHTML=`<div class="font-name">${f.name}${selectedFont&&selectedFont.name===f.name?'<span class="sel-badge">Selected</span>':''}</div>
+      <div class="font-preview" style="font-family:'${f.name}',sans-serif;font-size:${sz}px">${previewTxt}</div>`;
+    card.onclick=()=>selectFont(f);
+    grid.appendChild(card);
+  });
+  document.getElementById('load-more').style.display=(page+1)*PER_PAGE>=filtered.length?'none':'block';
+}
+
+function selectFont(f){
+  selectedFont=f;
+  selectedWeight=f.weights.includes(400)?400:f.weights[0];
+  loadFont(f.name);
+  document.getElementById('selected-section').style.display='block';
+  document.getElementById('selected-name').textContent=f.name;
+  updateSelectedPreview();
+  renderWeights(f);
+  renderGrid(true);
+}
+
+function updateSelectedPreview(){
+  if(!selectedFont)return;
+  const txt=document.getElementById('preview-text').value||selectedFont.name;
+  const sz=document.getElementById('font-size').value;
+  const el=document.getElementById('selected-preview');
+  el.style.fontFamily=`'${selectedFont.name}',sans-serif`;
+  el.style.fontSize=sz+'px';
+  el.style.fontWeight=selectedWeight;
+  el.textContent=txt;
+  const embedUrl=`https://fonts.googleapis.com/css2?family=${encodeURIComponent(selectedFont.name)}:wght@${selectedFont.weights.join(';')}&display=swap`;
+  document.getElementById('embed-code').textContent=`<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${embedUrl}" rel="stylesheet">\n\n/* CSS */\nbody {\n  font-family: '${selectedFont.name}', sans-serif;\n  font-weight: ${selectedWeight};\n}`;
+}
+
+function renderWeights(f){
+  const wt=document.getElementById('weight-tabs');
+  wt.innerHTML='';
+  f.weights.forEach(w=>{
+    const btn=document.createElement('button');
+    btn.className='wt'+(w===selectedWeight?' active':'');
+    btn.textContent=w;
+    btn.style.fontWeight=w;
+    btn.onclick=()=>{selectedWeight=w;document.querySelectorAll('.wt').forEach(b=>b.classList.remove('active'));btn.classList.add('active');updateSelectedPreview()};
+    wt.appendChild(btn);
+  });
+}
+
+document.getElementById('search').addEventListener('input',()=>renderGrid(true));
+document.getElementById('category').addEventListener('change',()=>renderGrid(true));
+document.getElementById('sort').addEventListener('change',()=>renderGrid(true));
+document.getElementById('preview-text').addEventListener('input',()=>{renderGrid(true);updateSelectedPreview()});
+document.getElementById('font-size').addEventListener('input',e=>{
+  document.getElementById('size-val').textContent=e.target.value+'px';
+  renderGrid(true);updateSelectedPreview();
+});
+document.getElementById('load-more').addEventListener('click',()=>{page++;renderGrid(false)});
+
+const bcp=document.getElementById('btn-cp');
+bcp.addEventListener('click',()=>{
+  navigator.clipboard.writeText(document.getElementById('embed-code').textContent);
+  bcp.textContent='Copied!';bcp.classList.add('ok');
+  setTimeout(()=>{bcp.textContent='Copy';bcp.classList.remove('ok')},1800);
+});
+
+renderGrid(true);
+</script>
+</body>
+</html>
