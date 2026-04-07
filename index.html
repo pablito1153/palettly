@@ -4,22 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Palettly — Free Design & Developer Tools</title>
-<meta name="description" content="A suite of free, browser-based tools for designers and developers. Color palette extractor, gradient generator, unit converter, image compressor, font picker and more. No sign-up required.">
+<meta name="description" content="Free browser-based tools for designers and developers. Extract color palettes, generate CSS gradients, convert units, compress images and more. No sign-up needed.">
 <meta name="keywords" content="free design tools, developer tools online, color palette, CSS gradient generator, image compressor, font picker, unit converter, hex to rgb, browser tools">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#2da05a">
-<link rel="canonical" href="https://palettly-eight.vercel.app/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://palettly.xyz/">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://palettly-eight.vercel.app/">
+<meta property="og:url" content="https://palettly.xyz/">
 <meta property="og:title" content="Palettly — Free Design & Developer Tools">
-<meta property="og:description" content="A suite of free browser-based tools for designers and developers. No sign-up, no backend, 100% free.">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:description" content="Free browser-based tools for designers and developers. No sign-up, no backend, 100% free.">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta property="og:site_name" content="Palettly">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Palettly — Free Design & Developer Tools">
-<meta name="twitter:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://palettly.xyz/og-image.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Palettly","url":"https://palettly-eight.vercel.app/","description":"Free browser-based design and developer tools. No sign-up required."}
+{"@context":"https://schema.org","@type":"WebSite","name":"Palettly","url":"https://palettly.xyz/","description":"Free browser-based design and developer tools. No sign-up required."}
 </script>
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -116,6 +118,8 @@ h1 em{font-style:italic;color:var(--g600)}
 
 <section class="tools-section">
   <div class="container">
+    <h2 style="font-family:var(--fd);font-size:clamp(24px,3vw,32px);font-weight:400;letter-spacing:-.5px;text-align:center;margin-bottom:8px;color:var(--s900)">All tools</h2>
+    <p style="text-align:center;color:var(--muted);font-size:15px;margin-bottom:32px;font-weight:300">Click any tool to get started — everything runs instantly in your browser</p>
     <div class="tools-grid">
 
       <a href="palette.html" class="tool-card-hub tc-green">
@@ -201,6 +205,23 @@ h1 em{font-style:italic;color:var(--g600)}
 </section>
 
 <div class="container">
+  <section style="max-width:800px;margin:0 auto 56px;padding:0 0 0">
+    <h2 style="font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:400;letter-spacing:-.3px;margin-bottom:20px;color:var(--s900)">Why use Palettly?</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">100% browser-based</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Every tool runs entirely in your browser using JavaScript and the Canvas API. No files are ever uploaded to any server — your data stays on your device at all times.</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">No sign-up, no limits</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Open a tool and start using it immediately. No account creation, no email required, no watermarks on exports, no daily limits. Just fast, focused tools that do their job.</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">Built for professionals</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Export color palettes as HEX, CSS variables, Figma design tokens or Tailwind config. Convert units with custom base sizes. Generate CSS gradients ready to paste directly into your stylesheet.</p>
+      </div>
+    </div>
+  </section>
   <div class="donate-wrap" style="margin-bottom:32px">
     <div class="donate-card">
       <div class="donate-left">
@@ -221,6 +242,7 @@ h1 em{font-style:italic;color:var(--g600)}
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
       <div class="flinks">
         <a href="index.html" data-i18n="nav_all_tools">All tools</a>
+        <a href="palette.html">Color palette extractor</a>
         <a href="#" data-i18n="footer_privacy">Privacy</a>
         <a href="#" data-i18n="footer_about">About</a>
         <a href="#" data-i18n="footer_contact">Contact</a>

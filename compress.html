@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Image Compressor — Palettly</title>
-<meta name="description" content="Compress JPG and PNG images in your browser. Adjust quality, see the size reduction and download instantly. Free, no upload to servers.">
+<meta name="description" content="Compress JPG and PNG images directly in your browser. Adjust quality, compare before and after, download instantly. Free, no upload.">
 <meta name="keywords" content="image compressor, compress jpg online, compress png, reduce image size, image optimizer, free image compression">
-<link rel="canonical" href="https://palettly-eight.vercel.app/compress.html">
+<link rel="canonical" href="https://palettly.xyz/compress.html">
 <meta property="og:title" content="Image Compressor — Palettly">
 <meta property="og:description" content="Compress JPG and PNG images in your browser. Free, no sign-up, images never leave your device.">
-<meta property="og:url" content="https://palettly-eight.vercel.app/compress.html">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:url" content="https://palettly.xyz/compress.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="shared.css">
 <style>
 #drop-zone{border:2px dashed var(--g200);border-radius:var(--rlg);background:var(--g50);min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;text-align:center;padding:24px}
@@ -65,7 +67,7 @@
     <div class="ad-banner ad-side ad-side-r">Ad</div>
     <div class="tool-wrap">
       <div class="tool-card">
-        <div class="tool-head"><h2>Image compressor</h2></div>
+        <div class="tool-head"><h2 data-i18n="tool_title">Image compressor</h2></div>
         <div class="tool-body">
 
           <div id="drop-zone">
@@ -73,15 +75,15 @@
             <div class="drop-icon">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
-            <p style="font-size:15px;font-weight:500;color:var(--s800);margin-bottom:4px">Drop your image here</p>
-            <p style="font-size:13px;color:var(--s400)">JPG, PNG, WEBP — images never leave your device</p>
-            <p style="margin:12px 0 8px;font-size:13px;color:var(--s400)">or</p>
-            <button class="btn-primary" type="button" onclick="document.getElementById('file-in').click();event.stopPropagation()" style="position:relative;z-index:2">Browse files</button>
+            <p style="font-size:15px;font-weight:500;color:var(--s800);margin-bottom:4px" data-i18n="drop_title">Drop your image here</p>
+            <p style="font-size:13px;color:var(--s400)" data-i18n="drop_sub">JPG, PNG, WEBP — images never leave your device</p>
+            <p style="margin:12px 0 8px;font-size:13px;color:var(--s400)" data-i18n="drop_or">or</p>
+            <button class="btn-primary" type="button" onclick="document.getElementById('file-in').click();event.stopPropagation()" style="position:relative;z-index:2" data-i18n="drop_btn">Browse files</button>
           </div>
 
           <div id="results">
             <div class="quality-row" style="margin-top:20px">
-              <label>Quality</label>
+              <label data-i18n="lbl_quality">Quality</label>
               <input type="range" id="quality" min="10" max="100" value="80" step="1" style="flex:1">
               <span class="quality-val" id="quality-val">80%</span>
             </div>
@@ -89,15 +91,15 @@
             <div class="stats-grid">
               <div class="stat-card">
                 <span class="stat-val" id="orig-size">—</span>
-                <span class="stat-label">Original</span>
+                <span class="stat-label" data-i18n="lbl_orig">Original</span>
               </div>
               <div class="stat-card">
                 <span class="stat-val" id="comp-size">—</span>
-                <span class="stat-label">Compressed</span>
+                <span class="stat-label" data-i18n="lbl_comp">Compressed</span>
               </div>
               <div class="stat-card">
                 <span class="stat-val green" id="savings">—</span>
-                <span class="stat-label">Savings</span>
+                <span class="stat-label" data-i18n="lbl_savings">Savings</span>
               </div>
             </div>
 
@@ -117,7 +119,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Download compressed
               </button>
-              <button class="btn-secondary" id="btn-reset">← Try another image</button>
+              <button class="btn-secondary" id="btn-reset" data-i18n="btn_reset">← Try another image</button>
             </div>
           </div>
 
@@ -128,9 +130,9 @@
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
-            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
           </div>
-          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer" data-i18n="donate_btn">Support via PayPal</a>
         </div>
       </div>
     </div>
@@ -140,7 +142,7 @@
   <div class="container">
     <div class="finner">
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
-      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+      <div class="flinks"><a href="index.html" data-i18n="nav_all_tools">All tools</a><a href="#" data-i18n="footer_privacy">Privacy</a><a href="#" data-i18n="footer_contact">Contact</a></div>
     </div>
   </div>
 </footer>

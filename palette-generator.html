@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Color Palette Generator from Base Color — Palettly</title>
-<meta name="description" content="Pick a base color and generate complementary, analogous, triadic, split-complementary or monochromatic palettes. Copy HEX codes instantly. Free.">
+<meta name="description" content="Generate complementary, analogous, triadic and monochromatic color palettes from any base color. Free color scheme generator.">
 <meta name="keywords" content="color palette generator, complementary colors, analogous colors, triadic palette, color theory, color scheme generator">
-<link rel="canonical" href="https://palettly-eight.vercel.app/palette-generator.html">
+<link rel="canonical" href="https://palettly.xyz/palette-generator.html">
 <meta property="og:title" content="Color Palette Generator — Palettly">
 <meta property="og:description" content="Generate color palettes from any base color. Complementary, analogous, triadic and more.">
-<meta property="og:url" content="https://palettly-eight.vercel.app/palette-generator.html">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:url" content="https://palettly.xyz/palette-generator.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="shared.css">
 <style>
 .picker-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
@@ -64,7 +66,7 @@
     <div class="ad-banner ad-side ad-side-r">Ad</div>
     <div class="tool-wrap">
       <div class="tool-card">
-        <div class="tool-head"><h2>Palette from base color</h2></div>
+        <div class="tool-head"><h2 data-i18n="tool_title">Palette from base color</h2></div>
         <div class="tool-body">
           <div class="picker-row">
             <input type="color" class="big-picker" id="base-picker" value="#2da05a">
@@ -81,13 +83,13 @@
             <button class="scheme-tab" data-scheme="mono">Monochromatic</button>
           </div>
 
-          <span class="slabel">Palette — click any color to copy</span>
+          <span class="slabel" data-i18n="lbl_palette">Palette — click any color to copy</span>
           <div class="palette-out" id="palette-out"></div>
 
-          <span class="slabel">Shades of base color</span>
+          <span class="slabel" data-i18n="lbl_shades">Shades of base color</span>
           <div class="shades-grid" id="shades-grid"></div>
 
-          <span class="slabel">Export CSS</span>
+          <span class="slabel" data-i18n="lbl_export">Export CSS</span>
           <div class="code-out">
             <pre id="css-out"></pre>
             <button class="btn-cp" id="btn-cp">Copy</button>
@@ -99,9 +101,9 @@
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
-            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
           </div>
-          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer" data-i18n="donate_btn">Support via PayPal</a>
         </div>
       </div>
     </div>
@@ -111,7 +113,7 @@
   <div class="container">
     <div class="finner">
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
-      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+      <div class="flinks"><a href="index.html" data-i18n="nav_all_tools">All tools</a><a href="#" data-i18n="footer_privacy">Privacy</a><a href="#" data-i18n="footer_contact">Contact</a></div>
     </div>
   </div>
 </footer>

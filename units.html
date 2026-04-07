@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSS Unit Converter px rem em vh — Palettly</title>
-<meta name="description" content="Convert CSS units instantly. px to rem, rem to em, px to vh, and more. Set your base font size. Free, no sign-up.">
+<meta name="description" content="Convert CSS units instantly. px to rem, em, vh, vw and pt. Set your base font size. Free CSS unit converter, no sign-up.">
 <meta name="keywords" content="px to rem converter, css unit converter, px to em, rem calculator, css units, font size converter">
-<link rel="canonical" href="https://palettly-eight.vercel.app/units.html">
+<link rel="canonical" href="https://palettly.xyz/units.html">
 <meta property="og:title" content="CSS Unit Converter — Palettly">
 <meta property="og:description" content="Convert px ↔ rem ↔ em ↔ vh ↔ vw instantly.">
-<meta property="og:url" content="https://palettly-eight.vercel.app/units.html">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:url" content="https://palettly.xyz/units.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="shared.css">
 <style>
 .settings-bar{background:var(--g50);border:1px solid var(--g200);border-radius:var(--rmd);padding:14px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
@@ -65,13 +67,13 @@ td:first-child{color:var(--muted)}
     <div class="ad-banner ad-side ad-side-r">Ad</div>
     <div class="tool-wrap">
       <div class="tool-card">
-        <div class="tool-head"><h2>CSS unit converter</h2></div>
+        <div class="tool-head"><h2 data-i18n="tool_title">CSS unit converter</h2></div>
         <div class="tool-body">
 
           <div class="settings-bar">
-            <label>Base font size <input type="number" id="base-size" value="16" min="1" max="100"> px</label>
-            <label>Viewport width <input type="number" id="vp-width" value="1440" min="1"> px</label>
-            <label>Viewport height <input type="number" id="vp-height" value="900" min="1"> px</label>
+            <label data-i18n="lbl_base">Base font size <input type="number" id="base-size" value="16" min="1" max="100"> px</label>
+            <label data-i18n="lbl_vpw">Viewport width <input type="number" id="vp-width" value="1440" min="1"> px</label>
+            <label data-i18n="lbl_vph">Viewport height <input type="number" id="vp-height" value="900" min="1"> px</label>
           </div>
 
           <div class="units-grid">
@@ -113,7 +115,7 @@ td:first-child{color:var(--muted)}
             </div>
           </div>
 
-          <span class="slabel">Common values reference</span>
+          <span class="slabel" data-i18n="lbl_ref">Common values reference</span>
           <div class="table-wrap">
             <table id="ref-table">
               <thead><tr><th>px</th><th>rem</th><th>em</th><th>pt</th></tr></thead>
@@ -127,9 +129,9 @@ td:first-child{color:var(--muted)}
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
-            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
           </div>
-          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer" data-i18n="donate_btn">Support via PayPal</a>
         </div>
       </div>
     </div>
@@ -139,7 +141,7 @@ td:first-child{color:var(--muted)}
   <div class="container">
     <div class="finner">
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
-      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+      <div class="flinks"><a href="index.html" data-i18n="nav_all_tools">All tools</a><a href="#" data-i18n="footer_privacy">Privacy</a><a href="#" data-i18n="footer_contact">Contact</a></div>
     </div>
   </div>
 </footer>

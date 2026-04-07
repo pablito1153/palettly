@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Google Fonts Picker & Preview — Palettly</title>
-<meta name="description" content="Browse, preview and compare Google Fonts with your own text. Adjust size and weight. Get the embed code instantly. Free, no sign-up.">
+<meta name="description" content="Browse, preview and compare Google Fonts with your own text. Get the embed code instantly. Free font picker, no sign-up required.">
 <meta name="keywords" content="google fonts picker, font preview tool, google fonts browser, web font selector, typography tool, font pairing">
-<link rel="canonical" href="https://palettly-eight.vercel.app/fonts.html">
+<link rel="canonical" href="https://palettly.xyz/fonts.html">
 <meta property="og:title" content="Google Fonts Picker — Palettly">
 <meta property="og:description" content="Browse, preview and compare Google Fonts. Get embed code instantly.">
-<meta property="og:url" content="https://palettly-eight.vercel.app/fonts.html">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:url" content="https://palettly.xyz/fonts.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="shared.css">
 <style>
 .controls-bar{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
@@ -70,7 +72,7 @@
     <div class="ad-banner ad-side ad-side-r">Ad</div>
     <div class="tool-wrap">
       <div class="tool-card">
-        <div class="tool-head"><h2>Google Fonts picker</h2></div>
+        <div class="tool-head"><h2 data-i18n="tool_title">Google Fonts picker</h2></div>
         <div class="tool-body">
 
           <div class="search-wrap">
@@ -79,7 +81,7 @@
           </div>
 
           <div class="preview-text-wrap">
-            <span class="slabel">Preview text</span>
+            <span class="slabel" data-i18n="lbl_preview">Preview text</span>
             <textarea id="preview-text">The quick brown fox jumps over the lazy dog</textarea>
           </div>
 
@@ -91,7 +93,7 @@
 
           <div class="controls-bar">
             <div>
-              <span class="slabel">Category</span>
+              <span class="slabel" data-i18n="lbl_category">Category</span>
               <select id="category">
                 <option value="">All categories</option>
                 <option value="serif">Serif</option>
@@ -102,7 +104,7 @@
               </select>
             </div>
             <div>
-              <span class="slabel">Sort by</span>
+              <span class="slabel" data-i18n="lbl_sort">Sort by</span>
               <select id="sort">
                 <option value="popularity">Popularity</option>
                 <option value="alpha">Alphabetical</option>
@@ -111,15 +113,15 @@
             </div>
           </div>
 
-          <span class="slabel">Fonts — click to select</span>
+          <span class="slabel" data-i18n="lbl_fonts">Fonts — click to select</span>
           <div class="fonts-grid" id="fonts-grid"></div>
-          <button class="btn-secondary" id="load-more" style="margin-bottom:20px">Load more fonts</button>
+          <button class="btn-secondary" id="load-more" style="margin-bottom:20px" data-i18n="btn_more">Load more fonts</button>
 
           <div class="selected-section" id="selected-section" style="display:none">
             <span class="slabel" id="selected-name">Selected font</span>
             <div class="selected-preview" id="selected-preview">The quick brown fox jumps over the lazy dog</div>
             <div class="weight-tabs" id="weight-tabs"></div>
-            <span class="slabel">Embed code</span>
+            <span class="slabel" data-i18n="lbl_embed">Embed code</span>
             <div class="code-out">
               <pre id="embed-code"></pre>
               <button class="btn-cp" id="btn-cp">Copy</button>
@@ -133,9 +135,9 @@
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
-            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
           </div>
-          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer" data-i18n="donate_btn">Support via PayPal</a>
         </div>
       </div>
     </div>
@@ -145,7 +147,7 @@
   <div class="container">
     <div class="finner">
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
-      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+      <div class="flinks"><a href="index.html" data-i18n="nav_all_tools">All tools</a><a href="#" data-i18n="footer_privacy">Privacy</a><a href="#" data-i18n="footer_contact">Contact</a></div>
     </div>
   </div>
 </footer>

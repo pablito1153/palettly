@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSS Gradient Generator — Palettly</title>
-<meta name="description" content="Create beautiful CSS gradients visually. Linear, radial and conic. Copy the CSS code instantly. Free, no sign-up.">
+<meta name="description" content="Free CSS gradient generator. Create linear, radial and conic gradients visually. Copy the CSS code instantly. No sign-up required.">
 <meta name="keywords" content="CSS gradient generator, linear gradient, radial gradient, conic gradient, CSS background generator, free gradient tool">
-<link rel="canonical" href="https://palettly-eight.vercel.app/gradient.html">
+<link rel="canonical" href="https://palettly.xyz/gradient.html">
 <meta property="og:title" content="CSS Gradient Generator — Palettly">
 <meta property="og:description" content="Create beautiful CSS gradients visually. Free, no sign-up.">
-<meta property="og:url" content="https://palettly-eight.vercel.app/gradient.html">
-<meta property="og:image" content="https://palettly-eight.vercel.app/og-image.png">
+<meta property="og:url" content="https://palettly.xyz/gradient.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="shared.css">
 <style>
 .preview-box{width:100%;height:200px;border-radius:var(--rlg);border:1px solid var(--border);margin-bottom:20px;transition:all .2s}
@@ -61,20 +63,20 @@
     <div class="tool-wrap">
       <div class="tool-card">
         <div class="tool-head">
-          <h2>CSS gradient generator</h2>
+          <h2 data-i18n="tool_title">CSS gradient generator</h2>
         </div>
         <div class="tool-body">
           <div id="preview-box" class="preview-box"></div>
 
           <div class="type-tabs">
-            <button class="type-tab active" data-type="linear">Linear</button>
-            <button class="type-tab" data-type="radial">Radial</button>
-            <button class="type-tab" data-type="conic">Conic</button>
+            <button class="type-tab active" data-type="linear" data-type="linear" data-i18n-btn="linear">Linear</button>
+            <button class="type-tab" data-type="radial" data-type="radial" data-i18n-btn="radial">Radial</button>
+            <button class="type-tab" data-type="conic" data-type="conic"  data-i18n-btn="conic">Conic</button>
           </div>
 
           <div class="row" id="angle-row">
             <div>
-              <span class="slabel">Angle</span>
+              <span class="slabel" data-i18n="lbl_angle">Angle</span>
               <input type="range" id="angle" min="0" max="360" value="135" step="1">
             </div>
             <div>
@@ -83,13 +85,13 @@
             </div>
           </div>
 
-          <span class="slabel">Color stops</span>
+          <span class="slabel" data-i18n="lbl_stops">Color stops</span>
           <div class="stops-list" id="stops-list"></div>
           <div class="btn-row">
-            <button class="btn-ghost" id="add-stop">+ Add stop</button>
+            <button class="btn-ghost" id="add-stop" data-i18n="btn_add">+ Add stop</button>
           </div>
 
-          <span class="slabel">Generated CSS</span>
+          <span class="slabel" data-i18n="lbl_css">Generated CSS</span>
           <div class="code-out">
             <pre id="css-out"></pre>
             <button class="btn-cp" id="btn-cp">Copy</button>
@@ -101,9 +103,9 @@
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
-            <div class="donate-text"><p>Enjoying Palettly?</p><span>A small tip keeps it free forever.</span></div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
           </div>
-          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer" data-i18n="donate_btn">Support via PayPal</a>
         </div>
       </div>
     </div>
@@ -113,7 +115,7 @@
   <div class="container">
     <div class="finner">
       <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
-      <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+      <div class="flinks"><a href="index.html" data-i18n="nav_all_tools">All tools</a><a href="#" data-i18n="footer_privacy">Privacy</a><a href="#" data-i18n="footer_contact">Contact</a></div>
     </div>
   </div>
 </footer>
