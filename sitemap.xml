@@ -144,5 +144,20 @@
     <xhtml:link rel="alternate" hreflang="ja" href="https://palettly.xyz/mood.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://palettly.xyz/mood.html"/>
   </url>
+  <url>
+    <loc>https://palettly.xyz/picker.html</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://palettly.xyz/picker.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://palettly.xyz/picker.html"/>
+  </url>
 
 </urlset>
