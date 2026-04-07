@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Format Converter SVG PNG JPG WEBP — Palettly</title>
+<meta name="description" content="Convert images between SVG, PNG, JPG and WEBP instantly in your browser. Auto-detects format, no sign-up, no upload to servers. Free forever.">
+<meta name="keywords" content="svg to png, png to jpg, jpg to webp, webp to png, image converter online, convert image format free, svg converter">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2da05a">
+<link rel="canonical" href="https://palettly.xyz/convert.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Image Format Converter — Palettly">
+<meta property="og:description" content="Convert SVG, PNG, JPG and WEBP instantly in your browser. Free, no sign-up.">
+<meta property="og:url" content="https://palettly.xyz/convert.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9QD3WBBG77');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="shared.css">
+<style>
+#drop-zone{border:2px dashed var(--g200);border-radius:var(--rlg);background:var(--g50);min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;text-align:center;padding:24px}
+#drop-zone:hover,#drop-zone.over{border-color:var(--g400);background:var(--g100)}
+#drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+
+/* FILE INFO */
+.file-info{background:var(--s100);border-radius:var(--rmd);padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.file-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;letter-spacing:.5px}
+.file-icon.svg{background:#fff7ec;color:#c07a10}
+.file-icon.png{background:var(--g50);color:var(--g700)}
+.file-icon.jpg,.file-icon.jpeg{background:#eef4fd;color:#185fa5}
+.file-icon.webp{background:#f3f0fe;color:#534ab7}
+.file-icon.gif{background:#fdf1ee;color:#993c1d}
+.file-details{flex:1;min-width:0}
+.file-name{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-meta{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* FORMAT TARGETS */
+.targets-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--s400);margin-bottom:10px;display:block}
+.targets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.target-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rmd);padding:16px;cursor:pointer;transition:all .18s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.target-card:hover{border-color:var(--g400);transform:translateY(-1px)}
+.target-card.selected{border-color:var(--g500);background:var(--g50)}
+.target-card.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.target-fmt{font-size:18px;font-weight:700;letter-spacing:1px}
+.target-fmt.svg-c{color:#c07a10}
+.target-fmt.png-c{color:var(--g600)}
+.target-fmt.jpg-c{color:#185fa5}
+.target-fmt.webp-c{color:#534ab7}
+.target-desc{font-size:11px;color:var(--muted);line-height:1.4}
+
+/* OPTIONS */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.options-grid{grid-template-columns:1fr}}
+.opt-card{background:var(--s50);border:1px solid var(--border);border-radius:var(--rmd);padding:14px}
+.opt-card label{font-size:12px;font-weight:500;color:var(--s600);display:block;margin-bottom:6px}
+.quality-row{display:flex;align-items:center;gap:10px}
+.quality-val{font-size:13px;font-weight:500;min-width:36px}
+.size-row{display:flex;gap:8px;align-items:center}
+.size-row input{width:80px;flex-shrink:0}
+.size-row span{font-size:13px;color:var(--muted)}
+.size-row .lock-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;color:var(--muted);transition:all .15s;white-space:nowrap}
+.size-row .lock-btn.locked{background:var(--g50);color:var(--g700);border-color:var(--g200)}
+
+/* BG TOGGLE */
+.bg-toggle{display:flex;gap:6px}
+.bg-opt{font-family:var(--fb);font-size:12px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);transition:all .15s}
+.bg-opt.active{background:var(--g50);color:var(--g700);border-color:var(--g200);font-weight:500}
+.bg-opt.checker{background:repeating-conic-gradient(#ccc 0% 25%, white 0% 50%) 0 0 / 12px 12px;color:var(--s800)}
+.bg-opt.checker.active{border-color:var(--g500)}
+
+/* PREVIEW */
+.preview-wrap{margin-bottom:20px}
+.preview-box{border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:160px;background:repeating-conic-gradient(#e5e3dc 0% 25%, var(--s50) 0% 50%) 0 0 / 16px 16px}
+.preview-box img{max-width:100%;max-height:280px;display:block}
+.preview-box.white-bg{background:#ffffff}
+
+/* RESULT */
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat-chip{background:var(--s100);border-radius:var(--rsm);padding:10px;text-align:center}
+.stat-chip .sv{font-size:16px;font-weight:500;color:var(--text);display:block}
+.stat-chip .sl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;display:block}
+.stat-chip .sv.green{color:var(--g600)}
+
+#results{display:none}
+canvas{display:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container"><div class="ad-banner ad-top">Advertisement</div></div>
+
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+    <div class="ad-banner ad-side ad-side-l">Ad</div>
+    <div class="ad-banner ad-side ad-side-r">Ad</div>
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head">
+          <h2>Image format converter</h2>
+          <span style="font-size:13px;color:var(--muted)">SVG · PNG · JPG · WEBP · GIF</span>
+        </div>
+        <div class="tool-body">
+
+          <!-- DROP ZONE -->
+          <div id="drop-zone">
+            <input type="file" id="file-input" accept="image/svg+xml,image/png,image/jpeg,image/webp,image/gif">
+            <div class="drop-icon">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <p style="font-size:16px;font-weight:500;color:var(--s800);margin-bottom:4px">Drop your image here</p>
+            <p style="font-size:13px;color:var(--s400)">SVG, PNG, JPG, WEBP, GIF — never leaves your device</p>
+            <p style="margin:12px 0 8px;font-size:13px;color:var(--s400)">or</p>
+            <button class="btn-primary" type="button" onclick="document.getElementById('file-input').click();event.stopPropagation()" style="position:relative;z-index:2">Browse files</button>
+          </div>
+
+          <!-- RESULTS -->
+          <div id="results">
+
+            <!-- FILE INFO -->
+            <div class="file-info" id="file-info"></div>
+
+            <!-- FORMAT TARGETS -->
+            <span class="targets-label">Convert to</span>
+            <div class="targets-grid" id="targets-grid"></div>
+
+            <!-- OPTIONS -->
+            <div class="options-grid" id="options-grid">
+              <div class="opt-card" id="opt-quality" style="display:none">
+                <label>Quality</label>
+                <div class="quality-row">
+                  <input type="range" id="quality-slider" min="10" max="100" value="92" step="1" style="flex:1">
+                  <span class="quality-val" id="quality-val">92%</span>
+                </div>
+              </div>
+              <div class="opt-card">
+                <label>Output size</label>
+                <div class="size-row">
+                  <input type="number" id="out-w" placeholder="W" min="1" max="8000">
+                  <span>×</span>
+                  <input type="number" id="out-h" placeholder="H" min="1" max="8000">
+                  <button class="lock-btn locked" id="lock-btn" type="button">⛓ Lock</button>
+                </div>
+              </div>
+              <div class="opt-card" id="opt-bg">
+                <label>Background</label>
+                <div class="bg-toggle">
+                  <button class="bg-opt checker active" id="bg-transparent" type="button">Transparent</button>
+                  <button class="bg-opt active" id="bg-white" type="button" style="background:white;color:var(--s800)">White</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="preview-wrap">
+              <span class="slabel" style="margin-bottom:8px">Preview</span>
+              <div class="preview-box" id="preview-box">
+                <img id="preview-img" alt="Preview">
+              </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="result-stats" id="result-stats"></div>
+
+            <!-- ACTIONS -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+              <button class="btn-primary" id="btn-convert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download converted
+              </button>
+              <button class="btn-secondary" id="btn-reset">← Convert another</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="ad-banner ad-bottom">Advertisement</div>
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text">
+              <p>Enjoying Palettly? Buy me a coffee</p>
+              <span>These tools are free and always will be.</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn-donate" href="https://ko-fi.com/palettly" target="_blank" rel="noopener noreferrer" style="background:#FF5E5B">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.69-.929-1.201-2.224-.43-3.41.7-1.1 2.297-1.501 3.422-.503l.028.023.032-.024c1.143-1.019 2.791-.602 3.472.439.733 1.09.491 2.422-.061 3.52z"/></svg>
+              Ko-fi
+            </a>
+            <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+              PayPal
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="padding:48px 0 60px">
+  <div class="container" style="max-width:720px;margin:0 auto">
+    <h2 style="font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:400;letter-spacing:-.3px;margin-bottom:20px">Supported conversions</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#c07a10">SVG →</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">PNG, JPG, WEBP. Choose any output resolution — SVG scales perfectly to any size without losing quality.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:var(--g600)">PNG →</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">JPG, WEBP. Convert lossless PNG to compressed formats. Control quality to balance file size vs. sharpness.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#185fa5">JPG →</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">PNG, WEBP. Convert JPG to PNG for lossless editing, or to WEBP for smaller file sizes on the web.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#534ab7">WEBP →</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">PNG, JPG. Convert modern WEBP images to widely-supported formats for compatibility with older software.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools. Built with care.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+<canvas id="canvas"></canvas>
+<script src="shared.js"></script>
+<script>
+PALETTLY.initI18n('convert');
+
+// ── FORMAT DEFINITIONS ─────────────────────────────────────────
+const FORMATS = {
+  svg:  { label:'SVG',  mime:'image/svg+xml',  ext:'svg',  color:'svg-c',  desc:'Vector · Scalable' },
+  png:  { label:'PNG',  mime:'image/png',       ext:'png',  color:'png-c',  desc:'Lossless · Transparent' },
+  jpg:  { label:'JPG',  mime:'image/jpeg',      ext:'jpg',  color:'jpg-c',  desc:'Compressed · Universal' },
+  webp: { label:'WEBP', mime:'image/webp',      ext:'webp', color:'webp-c', desc:'Modern · Small size' },
+  gif:  { label:'GIF',  mime:'image/gif',       ext:'gif',  color:'png-c',  desc:'Animated (first frame)' },
+};
+
+// What each format can convert TO
+const CONVERSIONS = {
+  svg:  ['png','jpg','webp'],
+  png:  ['jpg','webp','svg'],
+  jpg:  ['png','webp'],
+  jpeg: ['png','webp'],
+  webp: ['png','jpg'],
+  gif:  ['png','jpg','webp'],
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+let srcFile     = null;
+let srcFmt      = null;
+let targetFmt   = null;
+let srcImg      = null;
+let naturalW    = 0;
+let naturalH    = 0;
+let aspectLocked= true;
+let bgWhite     = false;
+
+const cv  = document.getElementById('canvas');
+const ctx = cv.getContext('2d');
+
+// ── FILE LOAD ─────────────────────────────────────────────────
+const dz = document.getElementById('drop-zone');
+const fi = document.getElementById('file-input');
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('over')});
+dz.addEventListener('dragleave', ()=>dz.classList.remove('over'));
+dz.addEventListener('drop', e=>{e.preventDefault();dz.classList.remove('over');const f=e.dataTransfer.files[0];if(f)loadFile(f)});
+dz.addEventListener('click', e=>{if(!e.target.closest('.btn-primary'))fi.click()});
+fi.addEventListener('change', e=>{if(e.target.files[0])loadFile(e.target.files[0])});
+
+function detectFmt(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (ext === 'svg' || file.type === 'image/svg+xml') return 'svg';
+  if (ext === 'png' || file.type === 'image/png')     return 'png';
+  if (ext === 'jpg' || ext === 'jpeg' || file.type === 'image/jpeg') return 'jpg';
+  if (ext === 'webp'|| file.type === 'image/webp')    return 'webp';
+  if (ext === 'gif' || file.type === 'image/gif')     return 'gif';
+  return 'png';
+}
+
+function fmtSize(bytes) {
+  if (bytes < 1024)        return bytes + ' B';
+  if (bytes < 1024*1024)   return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1024/1024).toFixed(2) + ' MB';
+}
+
+function loadFile(file) {
+  srcFile = file;
+  srcFmt  = detectFmt(file);
+  const url = URL.createObjectURL(file);
+
+  if (srcFmt === 'svg') {
+    // Load SVG — read dimensions from SVG element
+    const reader = new FileReader();
+    reader.onload = e => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(e.target.result, 'image/svg+xml');
+      const svgEl = doc.querySelector('svg');
+      const vb = svgEl?.getAttribute('viewBox')?.split(/\s+/);
+      naturalW = parseInt(svgEl?.getAttribute('width'))  || (vb ? parseInt(vb[2]) : 512);
+      naturalH = parseInt(svgEl?.getAttribute('height')) || (vb ? parseInt(vb[3]) : 512);
+      loadImageEl(url, file);
+    };
+    reader.readAsText(file);
+  } else {
+    const tmp = new Image();
+    tmp.onload = () => { naturalW = tmp.naturalWidth; naturalH = tmp.naturalHeight; loadImageEl(url, file); };
+    tmp.src = url;
+  }
+}
+
+function loadImageEl(url, file) {
+  srcImg = new Image();
+  srcImg.onload = () => {
+    showResults(file);
+  };
+  srcImg.src = url;
+}
+
+function showResults(file) {
+  dz.style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  // File info
+  const ext = srcFmt.toUpperCase();
+  document.getElementById('file-info').innerHTML = `
+    <div class="file-icon ${srcFmt}">${ext}</div>
+    <div class="file-details">
+      <div class="file-name">${file.name}</div>
+      <div class="file-meta">${naturalW} × ${naturalH}px · ${fmtSize(file.size)}</div>
+    </div>`;
+
+  // Size inputs
+  document.getElementById('out-w').value = naturalW;
+  document.getElementById('out-h').value = naturalH;
+
+  // Target format cards
+  const targets = CONVERSIONS[srcFmt] || [];
+  const grid = document.getElementById('targets-grid');
+  grid.innerHTML = '';
+  targets.forEach(fmt => {
+    const f = FORMATS[fmt];
+    const card = document.createElement('div');
+    card.className = 'target-card';
+    card.dataset.fmt = fmt;
+    card.innerHTML = `
+      <span class="target-fmt ${f.color}">${f.label}</span>
+      <span class="target-desc">${f.desc}</span>`;
+    card.onclick = () => selectTarget(fmt);
+    grid.appendChild(card);
+  });
+
+  // Auto-select first target
+  if (targets.length) selectTarget(targets[0]);
+
+  // Preview
+  document.getElementById('preview-img').src = srcImg.src;
+  updatePreviewBg();
+}
+
+function selectTarget(fmt) {
+  targetFmt = fmt;
+  document.querySelectorAll('.target-card').forEach(c => c.classList.toggle('selected', c.dataset.fmt === fmt));
+
+  // Show/hide quality slider
+  const needsQuality = ['jpg','webp'].includes(fmt);
+  document.getElementById('opt-quality').style.display = needsQuality ? 'block' : 'none';
+
+  // Show/hide bg option (only relevant when target supports transparency)
+  const hasBg = ['png','webp'].includes(fmt);
+  document.getElementById('opt-bg').style.display = hasBg ? 'block' : 'none';
+}
+
+// ── SIZE INPUTS ───────────────────────────────────────────────
+const wInput = document.getElementById('out-w');
+const hInput = document.getElementById('out-h');
+const lockBtn= document.getElementById('lock-btn');
+
+wInput.addEventListener('input', () => {
+  if (aspectLocked && naturalH && naturalW) {
+    hInput.value = Math.round(+wInput.value * naturalH / naturalW);
+  }
+});
+hInput.addEventListener('input', () => {
+  if (aspectLocked && naturalW && naturalH) {
+    wInput.value = Math.round(+hInput.value * naturalW / naturalH);
+  }
+});
+lockBtn.addEventListener('click', () => {
+  aspectLocked = !aspectLocked;
+  lockBtn.classList.toggle('locked', aspectLocked);
+  lockBtn.textContent = aspectLocked ? '⛓ Lock' : '🔓 Free';
+});
+
+// ── QUALITY SLIDER ────────────────────────────────────────────
+document.getElementById('quality-slider').addEventListener('input', e => {
+  document.getElementById('quality-val').textContent = e.target.value + '%';
+});
+
+// ── BG TOGGLE ─────────────────────────────────────────────────
+document.getElementById('bg-transparent').addEventListener('click', () => {
+  bgWhite = false;
+  document.getElementById('bg-transparent').classList.add('active');
+  document.getElementById('bg-white').classList.remove('active');
+  updatePreviewBg();
+});
+document.getElementById('bg-white').addEventListener('click', () => {
+  bgWhite = true;
+  document.getElementById('bg-white').classList.add('active');
+  document.getElementById('bg-transparent').classList.remove('active');
+  updatePreviewBg();
+});
+function updatePreviewBg() {
+  document.getElementById('preview-box').classList.toggle('white-bg', bgWhite);
+}
+
+// ── CONVERT & DOWNLOAD ────────────────────────────────────────
+document.getElementById('btn-convert').addEventListener('click', () => {
+  if (!srcImg || !targetFmt) return;
+
+  const outW = Math.max(1, Math.min(8000, parseInt(wInput.value) || naturalW));
+  const outH = Math.max(1, Math.min(8000, parseInt(hInput.value) || naturalH));
+  const quality = parseInt(document.getElementById('quality-slider').value) / 100;
+  const mime = FORMATS[targetFmt]?.mime || 'image/png';
+  const ext  = FORMATS[targetFmt]?.ext  || 'png';
+
+  cv.width  = outW;
+  cv.height = outH;
+  ctx.clearRect(0, 0, outW, outH);
+
+  if (bgWhite || targetFmt === 'jpg') {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, outW, outH);
+  }
+
+  ctx.drawImage(srcImg, 0, 0, outW, outH);
+
+  cv.toBlob(blob => {
+    // Show stats
+    const origSize = srcFile.size;
+    const newSize  = blob.size;
+    const diff     = Math.round((1 - newSize/origSize) * 100);
+    const statsEl  = document.getElementById('result-stats');
+    statsEl.innerHTML = `
+      <div class="stat-chip"><span class="sv">${outW}×${outH}</span><span class="sl">Output size</span></div>
+      <div class="stat-chip"><span class="sv">${fmtSize(newSize)}</span><span class="sl">File size</span></div>
+      <div class="stat-chip"><span class="sv ${diff > 0 ? 'green' : ''}">${diff > 0 ? '-'+diff+'%' : '+'+Math.abs(diff)+'%'}</span><span class="sl">vs original</span></div>`;
+
+    // Download
+    const baseName = srcFile.name.replace(/\.[^.]+$/, '');
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${baseName}-palettly.${ext}`;
+    link.click();
+  }, mime, quality);
+});
+
+// ── RESET ─────────────────────────────────────────────────────
+document.getElementById('btn-reset').addEventListener('click', () => {
+  dz.style.display = 'flex';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('result-stats').innerHTML = '';
+  fi.value = '';
+  srcFile = srcFmt = targetFmt = srcImg = null;
+  naturalW = naturalH = 0;
+});
+</script>
+</body>
+</html>
