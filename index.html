@@ -144,6 +144,9 @@ header{padding:18px 0;border-bottom:1px solid var(--border);background:rgba(255,
 .btn-cp.ok{background:var(--g600);color:#fff;border-color:transparent}
 .btn-reset{font-family:var(--fb);font-size:14px;background:none;color:var(--muted);border:1px solid var(--border);padding:8px 16px;border-radius:var(--rsm);cursor:pointer;transition:all .15s;margin-top:4px}
 .btn-reset:hover{color:var(--text);background:var(--s100)}
+.btn-download{font-family:var(--fb);font-size:14px;font-weight:500;background:var(--g50);color:var(--g700);border:1px solid var(--g200);padding:8px 16px;border-radius:var(--rsm);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.btn-download:hover{background:var(--g100);border-color:var(--g400);transform:translateY(-1px)}
+.btn-download:active{transform:translateY(0)}
 
 /* HERO */
 .hero{padding:52px 0 40px;text-align:center}
@@ -326,8 +329,12 @@ canvas{display:none}
                 <button class="btn-cp" id="btn-cp" data-i18n="btn_copy">Copy</button>
               </div>
             </div>
-            <div style="margin-top:14px">
+            <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <button class="btn-reset" id="btn-reset" data-i18n="btn_reset">← Try another image</button>
+              <button class="btn-download" id="btn-download" data-i18n="btn_download">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download palette image
+              </button>
             </div>
           </div>
         </div>
@@ -446,6 +453,7 @@ const T = {
     footer_tagline:'Free color palette extractor. Built with care.',
     footer_privacy:'Privacy', footer_about:'About', footer_contact:'Contact',
     donate_title:'Enjoying Palettly? Buy me a coffee', donate_sub:'This tool is free and always will be. A small tip keeps it alive.', donate_btn:'Support via PayPal',
+    btn_download:'Download palette image',
   },
   es: {
     nav_how:'Cómo funciona', nav_uses:'Casos de uso', nav_free:'Gratis para siempre',
@@ -469,6 +477,7 @@ const T = {
     footer_tagline:'Extractor de paletas gratuito. Hecho con cariño.',
     footer_privacy:'Privacidad', footer_about:'Acerca de', footer_contact:'Contacto',
     donate_title:'¿Te gustó Palettly? Invitame un café', donate_sub:'Esta herramienta es gratuita y siempre lo será. Un pequeño aporte la mantiene viva.', donate_btn:'Apoyar por PayPal',
+    btn_download:'Descargar imagen de paleta',
   },
   pt: {
     nav_how:'Como funciona', nav_uses:'Casos de uso', nav_free:'Gratuito para sempre',
@@ -492,6 +501,7 @@ const T = {
     footer_tagline:'Extrator de paletas gratuito. Feito com carinho.',
     footer_privacy:'Privacidade', footer_about:'Sobre', footer_contact:'Contato',
     donate_title:'Gostou do Palettly? Me pague um café', donate_sub:'Esta ferramenta é gratuita e sempre será. Uma pequena contribuição a mantém viva.', donate_btn:'Apoiar via PayPal',
+    btn_download:'Baixar imagem da paleta',
   },
   fr: {
     nav_how:'Comment ça marche', nav_uses:'Cas d\'usage', nav_free:'Gratuit pour toujours',
@@ -515,6 +525,7 @@ const T = {
     footer_tagline:'Extracteur de palettes gratuit. Fait avec soin.',
     footer_privacy:'Confidentialité', footer_about:'À propos', footer_contact:'Contact',
     donate_title:'Vous aimez Palettly ? Offrez-moi un café', donate_sub:'Cet outil est gratuit et le restera. Un petit pourboire le maintient en vie.', donate_btn:'Soutenir via PayPal',
+    btn_download:'Télécharger l\'image de la palette',
   },
   de: {
     nav_how:'So funktioniert\'s', nav_uses:'Anwendungsfälle', nav_free:'Für immer kostenlos',
@@ -538,6 +549,7 @@ const T = {
     footer_tagline:'Kostenloser Farbpaletten-Extraktor. Mit Sorgfalt gebaut.',
     footer_privacy:'Datenschutz', footer_about:'Über uns', footer_contact:'Kontakt',
     donate_title:'Gefällt dir Palettly? Kauf mir einen Kaffee', donate_sub:'Dieses Tool ist kostenlos und bleibt es auch. Ein kleiner Tipp hält es am Leben.', donate_btn:'Unterstützen via PayPal',
+    btn_download:'Palettenbild herunterladen',
   },
   it: {
     nav_how:'Come funziona', nav_uses:'Casi d\'uso', nav_free:'Gratuito per sempre',
@@ -561,6 +573,7 @@ const T = {
     footer_tagline:'Estrattore di palette gratuito. Costruito con cura.',
     footer_privacy:'Privacy', footer_about:'Chi siamo', footer_contact:'Contatti',
     donate_title:'Ti piace Palettly? Offrimi un caffè', donate_sub:'Questo strumento è gratuito e lo sarà sempre. Un piccolo contributo lo mantiene in vita.', donate_btn:'Supporta via PayPal',
+    btn_download:'Scarica immagine palette',
   },
   zh: {
     nav_how:'使用方法', nav_uses:'使用场景', nav_free:'永久免费',
@@ -584,6 +597,7 @@ const T = {
     footer_tagline:'免费调色板提取工具，用心打造。',
     footer_privacy:'隐私政策', footer_about:'关于我们', footer_contact:'联系我们',
     donate_title:'喜欢 Palettly？请我喝杯咖啡', donate_sub:'这个工具永久免费，一点小小的支持让它持续运行。', donate_btn:'通过 PayPal 支持',
+    btn_download:'下载调色板图片',
   },
   ja: {
     nav_how:'使い方', nav_uses:'活用事例', nav_free:'ずっと無料',
@@ -607,6 +621,7 @@ const T = {
     footer_tagline:'無料カラーパレット抽出ツール。心を込めて制作。',
     footer_privacy:'プライバシー', footer_about:'概要', footer_contact:'お問い合わせ',
     donate_title:'Palettlyを気に入ってくれた？コーヒーを一杯どうぞ', donate_sub:'このツールはずっと無料です。小さなサポートが開発を支えます。', donate_btn:'PayPalで支援する',
+    btn_download:'パレット画像をダウンロード',
   },
 };
 
@@ -805,6 +820,87 @@ applyLang(detectLang());
   document.getElementById('btn-reset').addEventListener('click',()=>{
     res.style.display='none';dz.style.display='flex';fi.value='';imgFile=null;setPills(1);
   });
+
+  document.getElementById('btn-download').addEventListener('click',()=>downloadPalette());
+
+  function downloadPalette(){
+    if(!colors.length) return;
+    const swSize=160, pad=24, labelH=40, footerH=48;
+    const cols=Math.min(colors.length,8);
+    const rows=Math.ceil(colors.length/cols);
+    const W=cols*swSize+pad*2;
+    const H=pad+rows*(swSize+labelH)+pad+footerH;
+
+    const c=document.createElement('canvas');
+    c.width=W; c.height=H;
+    const x=c.getContext('2d');
+
+    // background
+    x.fillStyle='#ffffff';
+    x.fillRect(0,0,W,H);
+
+    // swatches
+    colors.forEach((hex,i)=>{
+      const col=i%cols, row=Math.floor(i/cols);
+      const sx=pad+col*swSize, sy=pad+row*(swSize+labelH);
+
+      // color square with rounded corners
+      x.beginPath();
+      roundRect(x,sx,sy,swSize-8,swSize-8,10);
+      x.fillStyle=hex;
+      x.fill();
+
+      // subtle shadow feel — thin border
+      x.strokeStyle='rgba(0,0,0,0.08)';
+      x.lineWidth=1;
+      x.stroke();
+
+      // HEX label
+      x.fillStyle='#6b6860';
+      x.font='500 13px "DM Sans", system-ui, sans-serif';
+      x.textAlign='center';
+      x.fillText(hex.toUpperCase(), sx+(swSize-8)/2, sy+swSize-8+20);
+    });
+
+    // footer bar
+    const fy=H-footerH;
+    x.fillStyle='#f3f2ee';
+    x.fillRect(0,fy,W,footerH);
+
+    // footer text
+    x.fillStyle='#a09d93';
+    x.font='400 12px "DM Sans", system-ui, sans-serif';
+    x.textAlign='left';
+    x.fillText('Generated by', pad, fy+footerH/2+4);
+
+    x.fillStyle='#2da05a';
+    x.font='600 13px "DM Sans", system-ui, sans-serif';
+    x.fillText('Palettly', pad+88, fy+footerH/2+4);
+
+    x.fillStyle='#a09d93';
+    x.font='400 12px "DM Sans", system-ui, sans-serif';
+    x.textAlign='right';
+    x.fillText('palettly.vercel.app', W-pad, fy+footerH/2+4);
+
+    // download
+    const link=document.createElement('a');
+    link.download='palettly-palette.png';
+    link.href=c.toDataURL('image/png');
+    link.click();
+  }
+
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
 
   function setPills(step){[1,2,3].forEach(n=>document.getElementById('pill-'+n).classList.toggle('active',n<=step))}
 })();
