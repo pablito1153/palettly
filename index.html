@@ -116,7 +116,7 @@
 
   .logo-text span { color: var(--green-500); }
 
-  nav { display: flex; align-items: center; gap: 6px; }
+  nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
   nav a {
     font-size: 14px;
@@ -235,6 +235,7 @@
     gap: 20px;
     font-size: 13px;
     color: var(--stone-400);
+    flex-wrap: wrap;
   }
 
   .hero-meta-item { display: flex; align-items: center; gap: 6px; }
@@ -244,13 +245,13 @@
   /* ── MAIN CONTENT LAYOUT ── */
   .content-grid {
     display: grid;
-    grid-template-columns: 160px 1fr 160px;
+    grid-template-columns: 160px minmax(0, 1fr) 160px;
     gap: 28px;
     align-items: start;
   }
 
-  @media (max-width: 900px) {
-    .content-grid { grid-template-columns: 1fr; }
+  @media (max-width: 1000px) {
+    .content-grid { grid-template-columns: minmax(0, 1fr); }
     .ad-sidebar { display: none; }
   }
 
@@ -382,7 +383,7 @@
     margin-bottom: 20px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     .result-grid { grid-template-columns: 1fr; }
   }
 
