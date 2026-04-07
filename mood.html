@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Palette Generator — Palettly</title>
+<meta name="description" content="Generate beautiful color palettes from mood keywords. Pick words like warm, dark, minimal or vibrant and get an instant palette. Free, no sign-up.">
+<meta name="keywords" content="mood color palette, palette from mood, color palette generator, aesthetic palette, vibe palette, color inspiration tool">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2da05a">
+<link rel="canonical" href="https://palettly.xyz/mood.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Mood Palette Generator — Palettly">
+<meta property="og:description" content="Pick mood keywords and get a beautiful color palette instantly. Free, no sign-up.">
+<meta property="og:url" content="https://palettly.xyz/mood.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QD3WBBG77');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* MOOD TAGS */
+.mood-section{margin-bottom:24px}
+.mood-group{margin-bottom:16px}
+.mood-group-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--s400);margin-bottom:8px;display:block}
+.mood-tags{display:flex;flex-wrap:wrap;gap:8px}
+.mood-tag{font-family:var(--fb);font-size:13px;font-weight:400;padding:7px 16px;border-radius:100px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .18s;user-select:none}
+.mood-tag:hover{border-color:var(--s400);color:var(--text)}
+.mood-tag.selected{color:#fff;border-color:transparent;font-weight:500}
+
+/* tag colors per group */
+.mood-tag.sel-temp  { background:#e05c3a; }
+.mood-tag.sel-light { background:#2c2b27; }
+.mood-tag.sel-sat   { background:#7c5cbf; }
+.mood-tag.sel-style { background:#2da05a; }
+.mood-tag.sel-feel  { background:#3a8fe8; }
+
+/* GENERATE BTN */
+.generate-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.btn-generate{font-family:var(--fb);font-size:15px;font-weight:500;background:var(--g500);color:#fff;border:none;padding:12px 28px;border-radius:var(--rsm);cursor:pointer;transition:background .15s,transform .1s;display:inline-flex;align-items:center;gap:9px}
+.btn-generate:hover{background:var(--g600);transform:translateY(-1px)}
+.btn-generate:active{transform:translateY(0)}
+.btn-generate:disabled{background:var(--s200);color:var(--s400);cursor:not-allowed;transform:none}
+.selected-summary{font-size:13px;color:var(--muted)}
+.selected-summary strong{color:var(--text)}
+
+/* PALETTE OUTPUT */
+#palette-out{display:none}
+.palette-bar{display:flex;height:140px;border-radius:var(--rlg);overflow:hidden;border:1px solid var(--border);margin-bottom:16px;cursor:pointer}
+.pal-seg{flex:1;position:relative;transition:flex .25s}
+.pal-seg:hover{flex:1.5}
+.pal-seg-label{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11px;font-weight:500;opacity:0;transition:opacity .15s;padding:3px 4px}
+.pal-seg:hover .pal-seg-label{opacity:1}
+.pal-seg .copied-flash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);opacity:0;transition:opacity .15s;border-radius:0}
+.pal-seg:hover .copied-flash{opacity:1}
+
+/* SWATCHES ROW */
+.swatches-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.swatch-edit-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+.swatch-edit{width:52px;height:52px;border-radius:var(--rsm);border:1px solid rgba(0,0,0,.08);position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.swatch-edit:hover{transform:scale(1.08);box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.swatch-edit input[type=color]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;border:none;padding:0}
+.swatch-hex{font-size:10px;color:var(--muted);font-family:var(--fb)}
+
+/* ACTIONS */
+.actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+
+/* EXPORT */
+.exp-tabs{display:flex;gap:3px;background:var(--s100);padding:4px;border-radius:var(--rsm);width:fit-content;margin-bottom:10px;flex-wrap:wrap}
+.exp-tab{font-family:var(--fb);font-size:13px;padding:5px 12px;border-radius:6px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.exp-tab.active{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* SHUFFLE ANIMATION */
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.anim-in{animation:fadeSlide .3s ease both}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state svg{margin:0 auto 14px;display:block;opacity:.3}
+.empty-state p{font-size:14px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container"><div class="ad-banner ad-top">Advertisement</div></div>
+
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+    <div class="ad-banner ad-side ad-side-l">Ad</div>
+    <div class="ad-banner ad-side ad-side-r">Ad</div>
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head">
+          <h2>Mood palette generator</h2>
+          <span style="font-size:13px;color:var(--muted)">Pick keywords → get a palette</span>
+        </div>
+        <div class="tool-body">
+
+          <!-- MOOD TAGS -->
+          <div class="mood-section">
+
+            <div class="mood-group">
+              <span class="mood-group-label">Temperature</span>
+              <div class="mood-tags" data-group="temp">
+                <button class="mood-tag" data-mood="warm" data-group="temp">Warm</button>
+                <button class="mood-tag" data-mood="cool" data-group="temp">Cool</button>
+                <button class="mood-tag" data-mood="neutral" data-group="temp">Neutral</button>
+              </div>
+            </div>
+
+            <div class="mood-group">
+              <span class="mood-group-label">Lightness</span>
+              <div class="mood-tags" data-group="light">
+                <button class="mood-tag" data-mood="light" data-group="light">Light</button>
+                <button class="mood-tag" data-mood="dark" data-group="light">Dark</button>
+                <button class="mood-tag" data-mood="balanced" data-group="light">Balanced</button>
+              </div>
+            </div>
+
+            <div class="mood-group">
+              <span class="mood-group-label">Saturation</span>
+              <div class="mood-tags" data-group="sat">
+                <button class="mood-tag" data-mood="vibrant" data-group="sat">Vibrant</button>
+                <button class="mood-tag" data-mood="muted" data-group="sat">Muted</button>
+                <button class="mood-tag" data-mood="pastel" data-group="sat">Pastel</button>
+                <button class="mood-tag" data-mood="neon" data-group="sat">Neon</button>
+              </div>
+            </div>
+
+            <div class="mood-group">
+              <span class="mood-group-label">Style</span>
+              <div class="mood-tags" data-group="style">
+                <button class="mood-tag" data-mood="minimal" data-group="style">Minimal</button>
+                <button class="mood-tag" data-mood="bold" data-group="style">Bold</button>
+                <button class="mood-tag" data-mood="earthy" data-group="style">Earthy</button>
+                <button class="mood-tag" data-mood="retro" data-group="style">Retro</button>
+                <button class="mood-tag" data-mood="futuristic" data-group="style">Futuristic</button>
+                <button class="mood-tag" data-mood="elegant" data-group="style">Elegant</button>
+              </div>
+            </div>
+
+            <div class="mood-group">
+              <span class="mood-group-label">Feel</span>
+              <div class="mood-tags" data-group="feel">
+                <button class="mood-tag" data-mood="calm" data-group="feel">Calm</button>
+                <button class="mood-tag" data-mood="energetic" data-group="feel">Energetic</button>
+                <button class="mood-tag" data-mood="romantic" data-group="feel">Romantic</button>
+                <button class="mood-tag" data-mood="mysterious" data-group="feel">Mysterious</button>
+                <button class="mood-tag" data-mood="playful" data-group="feel">Playful</button>
+                <button class="mood-tag" data-mood="professional" data-group="feel">Professional</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- GENERATE -->
+          <div class="generate-row">
+            <button class="btn-generate" id="btn-generate" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Generate palette
+            </button>
+            <span class="selected-summary" id="selected-summary">Select at least one keyword</span>
+          </div>
+
+          <!-- OUTPUT -->
+          <div id="palette-out">
+            <span class="slabel">Your palette — click any color to copy HEX</span>
+            <div class="palette-bar" id="palette-bar"></div>
+
+            <span class="slabel">Adjust colors</span>
+            <div class="swatches-row" id="swatches-row"></div>
+
+            <div class="actions-row">
+              <button class="btn-ghost" id="btn-shuffle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                Shuffle variation
+              </button>
+              <button class="btn-download" id="btn-download">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download image
+              </button>
+            </div>
+
+            <span class="slabel">Export</span>
+            <div class="exp-tabs">
+              <button class="exp-tab active" data-fmt="hex">HEX</button>
+              <button class="exp-tab" data-fmt="css">CSS variables</button>
+              <button class="exp-tab" data-fmt="figma">Figma tokens</button>
+              <button class="exp-tab" data-fmt="tailwind">Tailwind</button>
+            </div>
+            <div class="code-out">
+              <pre id="exp-pre"></pre>
+              <button class="btn-cp" id="btn-cp">Copy</button>
+            </div>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div id="empty-state" class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            <p>Pick some keywords above and hit <strong>Generate palette</strong></p>
+          </div>
+
+        </div>
+      </div>
+      <div class="ad-banner ad-bottom">Advertisement</div>
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text">
+              <p>Enjoying Palettly? Buy me a coffee</p>
+              <span>These tools are free and always will be.</span>
+            </div>
+          </div>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">Support via PayPal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="padding:52px 0 60px" id="how">
+  <div class="container" style="max-width:720px;margin:0 auto">
+    <h2 style="font-family:var(--fd);font-size:clamp(24px,3vw,32px);font-weight:400;letter-spacing:-.5px;margin-bottom:8px">How mood palettes work</h2>
+    <p style="font-size:15px;color:var(--muted);font-weight:300;margin-bottom:28px">Each keyword maps to a set of color properties — hue range, saturation level and lightness. Combining multiple keywords blends those properties together to produce a coherent palette.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Pick your mood</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Choose one or more keywords that describe the feeling you're going for. Mix temperature, lightness and style freely.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Generate & shuffle</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Hit generate to get a palette. Not quite right? Shuffle creates a variation using the same mood rules but different random seeds.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Adjust & export</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Click any swatch to fine-tune a color with the color picker. Export as HEX codes, CSS variables, Figma tokens or Tailwind config.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools. Built with care.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+<canvas id="canvas" style="display:none"></canvas>
+<script src="shared.js"></script>
+<script>
+PALETTLY.initI18n('mood');
+
+// ── MOOD DATA ──────────────────────────────────────────────────
+// Each mood defines: hues (array of [min,max] ranges), satRange [min,max], lightRange [min,max]
+const MOODS = {
+  // Temperature
+  warm:        { hues:[[0,50],[340,360]],    sat:[55,90],  light:[35,70] },
+  cool:        { hues:[[180,260]],           sat:[45,80],  light:[35,70] },
+  neutral:     { hues:[[0,360]],             sat:[5,25],   light:[35,75] },
+  // Lightness
+  light:       { hues:null,                  sat:null,     light:[70,92] },
+  dark:        { hues:null,                  sat:null,     light:[8,35]  },
+  balanced:    { hues:null,                  sat:null,     light:[35,65] },
+  // Saturation
+  vibrant:     { hues:null,                  sat:[70,100], light:null    },
+  muted:       { hues:null,                  sat:[10,35],  light:null    },
+  pastel:      { hues:null,                  sat:[30,60],  light:[70,88] },
+  neon:        { hues:null,                  sat:[90,100], light:[50,65] },
+  // Style
+  minimal:     { hues:[[0,360]],             sat:[0,20],   light:[60,95] },
+  bold:        { hues:null,                  sat:[75,100], light:[25,55] },
+  earthy:      { hues:[[15,55],[60,100]],    sat:[25,65],  light:[28,60] },
+  retro:       { hues:[[20,80],[320,360]],   sat:[40,75],  light:[45,72] },
+  futuristic:  { hues:[[180,280]],           sat:[60,100], light:[20,55] },
+  elegant:     { hues:[[240,300],[0,30]],    sat:[10,45],  light:[20,55] },
+  // Feel
+  calm:        { hues:[[180,240]],           sat:[20,55],  light:[55,80] },
+  energetic:   { hues:[[0,60],[300,360]],    sat:[80,100], light:[40,65] },
+  romantic:    { hues:[[330,360],[0,20]],    sat:[40,80],  light:[45,75] },
+  mysterious:  { hues:[[240,300]],           sat:[30,65],  light:[10,40] },
+  playful:     { hues:[[0,360]],             sat:[65,100], light:[50,75] },
+  professional:{ hues:[[200,260]],           sat:[10,50],  light:[20,60] },
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+let selectedMoods = {};   // { group: moodName }
+let currentColors = [];
+let currentFmt = 'hex';
+
+// ── TAG INTERACTION ────────────────────────────────────────────
+document.querySelectorAll('.mood-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    const group = tag.dataset.group;
+    const mood  = tag.dataset.mood;
+    const groupSel = selectedMoods[group];
+
+    // toggle off if already selected
+    if (groupSel === mood) {
+      delete selectedMoods[group];
+      tag.classList.remove('selected', `sel-${group}`);
+    } else {
+      // deselect previous in same group
+      if (groupSel) {
+        document.querySelector(`.mood-tag[data-group="${group}"][data-mood="${groupSel}"]`)
+          ?.classList.remove('selected', `sel-${group}`);
+      }
+      selectedMoods[group] = mood;
+      tag.classList.add('selected', `sel-${group}`);
+    }
+    updateSummary();
+  });
+});
+
+function updateSummary() {
+  const keys = Object.values(selectedMoods);
+  const btn = document.getElementById('btn-generate');
+  const sum = document.getElementById('selected-summary');
+  if (keys.length === 0) {
+    btn.disabled = true;
+    sum.innerHTML = 'Select at least one keyword';
+  } else {
+    btn.disabled = false;
+    sum.innerHTML = `Generating from: <strong>${keys.join(', ')}</strong>`;
+  }
+}
+
+// ── PALETTE GENERATION ─────────────────────────────────────────
+function rnd(min, max) { return min + Math.random() * (max - min); }
+
+function mergeMoodProps() {
+  const keys = Object.values(selectedMoods);
+  if (keys.length === 0) return null;
+
+  let hueRanges = [], satMins = [], satMaxs = [], lightMins = [], lightMaxs = [];
+
+  keys.forEach(k => {
+    const m = MOODS[k];
+    if (m.hues)  hueRanges = [...hueRanges, ...m.hues];
+    if (m.sat)   { satMins.push(m.sat[0]);   satMaxs.push(m.sat[1]); }
+    if (m.light) { lightMins.push(m.light[0]); lightMaxs.push(m.light[1]); }
+  });
+
+  return {
+    hueRanges: hueRanges.length ? hueRanges : [[0, 360]],
+    satMin:  satMins.length  ? satMins.reduce((a,b)=>a+b,0)/satMins.length   : 40,
+    satMax:  satMaxs.length  ? satMaxs.reduce((a,b)=>a+b,0)/satMaxs.length   : 85,
+    lightMin:lightMins.length? lightMins.reduce((a,b)=>a+b,0)/lightMins.length: 30,
+    lightMax:lightMaxs.length? lightMaxs.reduce((a,b)=>a+b,0)/lightMaxs.length: 75,
+  };
+}
+
+function pickHue(ranges) {
+  const range = ranges[Math.floor(Math.random() * ranges.length)];
+  return rnd(range[0], range[1]) % 360;
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => Math.round((l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))) * 255);
+  return '#' + [f(0), f(8), f(4)].map(v => v.toString(16).padStart(2,'0')).join('');
+}
+
+function generateColors(props, n = 5) {
+  const colors = [];
+  const usedHues = [];
+  const MIN_HUE_DIST = 25;
+
+  for (let i = 0; i < n * 10 && colors.length < n; i++) {
+    const h = pickHue(props.hueRanges);
+    const tooClose = usedHues.some(uh => {
+      const d = Math.abs(h - uh);
+      return Math.min(d, 360 - d) < MIN_HUE_DIST;
+    });
+    if (tooClose && colors.length > 0) continue;
+
+    const s = rnd(props.satMin, props.satMax);
+    // vary lightness across the palette for visual interest
+    const lSpread = (props.lightMax - props.lightMin);
+    const l = props.lightMin + (lSpread / n) * colors.length + rnd(-lSpread * 0.12, lSpread * 0.12);
+    const lClamped = Math.max(5, Math.min(95, l));
+
+    colors.push(hslToHex(h, s, lClamped));
+    usedHues.push(h);
+  }
+
+  // fill remaining if needed
+  while (colors.length < n) {
+    const h = pickHue(props.hueRanges);
+    const s = rnd(props.satMin, props.satMax);
+    const l = rnd(props.lightMin, props.lightMax);
+    colors.push(hslToHex(h, s, l));
+  }
+
+  return colors;
+}
+
+// ── RENDER ─────────────────────────────────────────────────────
+function renderPalette(colors) {
+  currentColors = colors;
+
+  // bar
+  const bar = document.getElementById('palette-bar');
+  bar.innerHTML = '';
+  colors.forEach(hex => {
+    const seg = document.createElement('div');
+    seg.className = 'pal-seg anim-in';
+    seg.style.background = hex;
+    const lbl = document.createElement('div');
+    lbl.className = 'pal-seg-label';
+    lbl.style.background = 'rgba(255,255,255,.85)';
+    lbl.style.color = '#181714';
+    lbl.style.borderRadius = '6px';
+    lbl.style.fontSize = '11px';
+    lbl.style.margin = '0 4px';
+    lbl.textContent = hex.toUpperCase();
+    const flash = document.createElement('div');
+    flash.className = 'copied-flash';
+    flash.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+    seg.appendChild(lbl);
+    seg.appendChild(flash);
+    seg.onclick = () => {
+      navigator.clipboard.writeText(hex);
+      flash.style.opacity = '1';
+      setTimeout(() => flash.style.opacity = '', 800);
+    };
+    bar.appendChild(seg);
+  });
+
+  // swatches
+  const row = document.getElementById('swatches-row');
+  row.innerHTML = '';
+  colors.forEach((hex, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'swatch-edit-wrap';
+    const sw = document.createElement('div');
+    sw.className = 'swatch-edit';
+    sw.style.background = hex;
+    const picker = document.createElement('input');
+    picker.type = 'color';
+    picker.value = hex;
+    picker.addEventListener('input', e => {
+      currentColors[i] = e.target.value;
+      sw.style.background = e.target.value;
+      lbl.textContent = e.target.value.toUpperCase();
+      renderBar(currentColors);
+      renderExport(currentFmt);
+    });
+    sw.appendChild(picker);
+    const lbl = document.createElement('span');
+    lbl.className = 'swatch-hex';
+    lbl.textContent = hex.toUpperCase();
+    wrap.appendChild(sw);
+    wrap.appendChild(lbl);
+    row.appendChild(wrap);
+  });
+
+  renderExport(currentFmt);
+
+  document.getElementById('palette-out').style.display = 'block';
+  document.getElementById('empty-state').style.display = 'none';
+}
+
+function renderBar(colors) {
+  const bar = document.getElementById('palette-bar');
+  const segs = bar.querySelectorAll('.pal-seg');
+  colors.forEach((hex, i) => { if (segs[i]) segs[i].style.background = hex; });
+}
+
+function renderExport(fmt) {
+  let t = '';
+  if (fmt === 'hex') t = currentColors.join('\n');
+  else if (fmt === 'css') t = ':root {\n' + currentColors.map((c,i) => `  --color-${i+1}: ${c};`).join('\n') + '\n}';
+  else if (fmt === 'figma') { const o = {}; currentColors.forEach((c,i) => { o[`color${i+1}`] = {value:c,type:'color'}; }); t = JSON.stringify(o, null, 2); }
+  else if (fmt === 'tailwind') { const inner = currentColors.map((c,i) => `    'palette-${i+1}': '${c}',`).join('\n'); t = `// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n${inner}\n      },\n    },\n  },\n};`; }
+  document.getElementById('exp-pre').textContent = t;
+}
+
+// ── EVENTS ─────────────────────────────────────────────────────
+document.getElementById('btn-generate').addEventListener('click', () => {
+  const props = mergeMoodProps();
+  if (!props) return;
+  renderPalette(generateColors(props, 5));
+});
+
+document.getElementById('btn-shuffle').addEventListener('click', () => {
+  const props = mergeMoodProps();
+  if (!props) return;
+  renderPalette(generateColors(props, 5));
+});
+
+document.querySelectorAll('.exp-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFmt = tab.dataset.fmt;
+    renderExport(currentFmt);
+  });
+});
+
+const bcp = document.getElementById('btn-cp');
+bcp.addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('exp-pre').textContent);
+  bcp.textContent = 'Copied!'; bcp.classList.add('ok');
+  setTimeout(() => { bcp.textContent = 'Copy'; bcp.classList.remove('ok'); }, 1800);
+});
+
+document.getElementById('btn-download').addEventListener('click', () => {
+  if (!currentColors.length) return;
+  const swSize = 160, pad = 24, labelH = 40, footerH = 48;
+  const n = currentColors.length;
+  const W = n * swSize + pad * 2;
+  const H = pad + swSize + labelH + pad + footerH;
+  const cv = document.getElementById('canvas');
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, W, H);
+  currentColors.forEach((hex, i) => {
+    const x = pad + i * swSize;
+    ctx.beginPath();
+    roundRect(ctx, x, pad, swSize - 8, swSize - 8, 10);
+    ctx.fillStyle = hex; ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,.07)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = '#6b6860';
+    ctx.font = '500 13px "DM Sans", system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(hex.toUpperCase(), x + (swSize - 8) / 2, pad + swSize - 8 + 22);
+  });
+  ctx.fillStyle = '#f3f2ee'; ctx.fillRect(0, H - footerH, W, footerH);
+  ctx.fillStyle = '#a09d93'; ctx.font = '400 12px "DM Sans", system-ui, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Generated by', pad, H - footerH / 2 + 4);
+  ctx.fillStyle = '#2da05a'; ctx.font = '600 13px "DM Sans", system-ui, sans-serif';
+  ctx.fillText('Palettly', pad + 90, H - footerH / 2 + 4);
+  ctx.fillStyle = '#a09d93'; ctx.font = '400 12px "DM Sans", system-ui, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('palettly.xyz', W - pad, H - footerH / 2 + 4);
+  const link = document.createElement('a');
+  link.download = 'palettly-mood-palette.png';
+  link.href = cv.toDataURL('image/png');
+  link.click();
+});
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+}
+</script>
+</body>
+</html>
