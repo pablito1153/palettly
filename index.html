@@ -61,8 +61,6 @@ h1 em{font-style:italic;color:var(--g600)}
 .tool-arrow{position:absolute;bottom:20px;right:20px;color:var(--border);transition:color .2s,transform .2s}
 .tool-card-hub:hover .tool-arrow{color:var(--g400);transform:translateX(3px)}
 </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974"
-     crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page">
@@ -77,8 +75,16 @@ h1 em{font-style:italic;color:var(--g600)}
         <span class="logotext">Palet<span>tly</span></span>
       </a>
       <div class="nav-right">
-        <a href="index.html" class="active">All tools</a>
-        <span class="badge">Free forever</span>
+        <a href="index.html" class="active" data-i18n="nav_all_tools">All tools</a>
+        <span class="badge" data-i18n="nav_free">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -88,21 +94,21 @@ h1 em{font-style:italic;color:var(--g600)}
 
 <section class="hero">
   <div class="container">
-    <div class="eyebrow fu"><span class="dot"></span> No sign-up · 100% free</div>
-    <h1 class="fu d1"><em>Design tools</em> that<br>just work</h1>
-    <p class="hsub fu d2">A growing suite of fast, browser-based tools for designers and developers.</p>
+    <div class="eyebrow fu"><span class="dot"></span> <span data-i18n="eyebrow">No sign-up · No backend · 100% free</span></div>
+    <h1 class="fu d1" data-i18n-html="hero_title"><em>Design tools</em> that<br>just work</h1>
+    <p class="hsub fu d2" data-i18n="hero_sub">A growing suite of fast, browser-based tools for designers and developers.</p>
     <div class="hmeta fu d3">
       <span class="hmeta-item">
         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Everything runs in your browser
+        <span data-i18n="meta1">Everything runs in your browser</span>
       </span>
       <span class="hmeta-item">
         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Your files never leave your device
+        <span data-i18n="meta2">Your files never leave your device</span>
       </span>
       <span class="hmeta-item">
         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        6 tools and growing
+        <span data-i18n="meta3">6 tools and growing</span>
       </span>
     </div>
   </div>
@@ -212,16 +218,18 @@ h1 em{font-style:italic;color:var(--g600)}
 <footer>
   <div class="container">
     <div class="finner">
-      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools. Built with care.</div>
+      <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
       <div class="flinks">
-        <a href="index.html">All tools</a>
-        <a href="#">Privacy</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="index.html" data-i18n="nav_all_tools">All tools</a>
+        <a href="#" data-i18n="footer_privacy">Privacy</a>
+        <a href="#" data-i18n="footer_about">About</a>
+        <a href="#" data-i18n="footer_contact">Contact</a>
       </div>
     </div>
   </div>
 </footer>
 </div>
+<script src="shared.js"></script>
+<script>PALETTLY.initI18n('index');</script>
 </body>
 </html>

@@ -28,8 +28,6 @@
 @media(max-width:500px){.row{grid-template-columns:1fr}}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974"
-     crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page">
@@ -42,7 +40,15 @@
       </a>
       <div class="nav-right">
         <a href="index.html">← All tools</a>
-        <span class="badge">Free forever</span>
+        <span class="badge" data-i18n="nav_free">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -106,7 +112,7 @@
 <footer>
   <div class="container">
     <div class="finner">
-      <div class="fleft"><strong>Palettly</strong> — Free design & developer tools.</div>
+      <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free design & developer tools. Built with care.</span></div>
       <div class="flinks"><a href="index.html">All tools</a><a href="#">Privacy</a><a href="#">Contact</a></div>
     </div>
   </div>
@@ -184,5 +190,7 @@ bcp.addEventListener('click',()=>{
 
 renderStops(); render();
 </script>
+<script src="shared.js"></script>
+<script>PALETTLY.initI18n("gradient");</script>
 </body>
 </html>
