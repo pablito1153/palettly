@@ -63,7 +63,13 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 .size-wrap{display:flex;align-items:center;gap:6px;padding:0 4px}
 .size-wrap label{font-size:11px;color:var(--s400);white-space:nowrap}
 .size-wrap input[type=range]{width:72px;accent-color:var(--g500)}
-.size-val{font-size:11px;font-weight:500;color:var(--s800);min-width:20px}
+.size-val{font-size:11px;font-weight:500;color:var(--s800);min-width:28px}
+.size-preset{font-family:var(--fb);font-size:10px;font-weight:600;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--s600);cursor:pointer;transition:all .12s;display:flex;align-items:center;justify-content:center}
+.size-preset:hover{background:var(--s100);color:var(--s900)}
+.size-preset.active{background:var(--g50);color:var(--g700);border-color:var(--g300)}
+
+/* CURSOR PREVIEW */
+#cursor-preview{position:absolute;border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);display:none;mix-blend-mode:difference}
 
 /* OPACITY */
 .opacity-wrap{display:flex;align-items:center;gap:6px;padding:0 4px}
@@ -242,8 +248,14 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
   <div class="tool-group">
     <div class="size-wrap">
       <label>Size</label>
-      <input type="range" id="size-slider" min="1" max="40" value="3" step="1">
-      <span class="size-val" id="size-val">3</span>
+      <div style="display:flex;gap:3px;align-items:center">
+        <button class="size-preset" data-size="2" title="Thin">S</button>
+        <button class="size-preset" data-size="5" title="Medium">M</button>
+        <button class="size-preset" data-size="12" title="Thick">L</button>
+        <button class="size-preset" data-size="28" title="Extra thick">XL</button>
+      </div>
+      <input type="range" id="size-slider" min="1" max="80" value="3" step="1">
+      <span class="size-val" id="size-val">3px</span>
     </div>
   </div>
 
@@ -291,6 +303,7 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 <!-- CANVAS -->
 <div class="canvas-area" id="canvas-area">
   <canvas id="main-canvas"></canvas>
+  <div id="cursor-preview"></div>
   <div id="text-input-overlay">
     <textarea id="text-input-box" rows="1" placeholder="Type here…"></textarea>
   </div>
@@ -678,6 +691,8 @@ function setTool(t) {
   else if (t==='eraser') canvas.classList.add('tool-eraser');
   else canvas.classList.add('tool-pen');
   document.getElementById('font-controls').style.display = t==='text' ? 'flex' : 'none';
+  // hide cursor preview for text/pan
+  if (t === 'text' || t === 'pan') cursorPreview.style.display = 'none';
 }
 
 // Keyboard shortcuts
@@ -744,10 +759,59 @@ function updateColorHistory() {
 }
 
 // ── SIZE & OPACITY ────────────────────────────────────────────
+const cursorPreview = document.getElementById('cursor-preview');
+
+function updateSizeDisplay() {
+  document.getElementById('size-val').textContent = lineWidth + 'px';
+  document.getElementById('size-slider').value = lineWidth;
+  // update active preset
+  document.querySelectorAll('.size-preset').forEach(btn => {
+    btn.classList.toggle('active', +btn.dataset.size === lineWidth);
+  });
+}
+
 document.getElementById('size-slider').addEventListener('input', e => {
   lineWidth = +e.target.value;
-  document.getElementById('size-val').textContent = lineWidth;
+  updateSizeDisplay();
 });
+
+// preset buttons
+document.querySelectorAll('.size-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    lineWidth = +btn.dataset.size;
+    updateSizeDisplay();
+  });
+});
+
+// cursor preview
+function updateCursorPreview(e) {
+  if (tool === 'text' || tool === 'pan') {
+    cursorPreview.style.display = 'none';
+    return;
+  }
+  const rect = area.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const displaySize = Math.max(4, lineWidth * zoom);
+
+  cursorPreview.style.display = 'block';
+  cursorPreview.style.left = x + 'px';
+  cursorPreview.style.top  = y + 'px';
+  cursorPreview.style.width  = displaySize + 'px';
+  cursorPreview.style.height = displaySize + 'px';
+
+  if (tool === 'eraser') {
+    cursorPreview.style.border = '1.5px solid #666';
+    cursorPreview.style.background = 'rgba(255,255,255,0.4)';
+  } else {
+    cursorPreview.style.border = '1.5px solid rgba(0,0,0,0.3)';
+    cursorPreview.style.background = strokeColor + '80';
+  }
+}
+
+area.addEventListener('mousemove', updateCursorPreview);
+area.addEventListener('mouseleave', () => { cursorPreview.style.display = 'none'; });
+
 document.getElementById('opacity-slider').addEventListener('input', e => {
   opacity = +e.target.value / 100;
   document.getElementById('opacity-val').textContent = e.target.value + '%';
