@@ -1,59 +1,54 @@
-# llms.txt
-# https://palettly.xyz
+# Palettly — Free Design & Developer Tools
+
 > Free browser-based tools for designers and developers. Extract color palettes, generate CSS gradients, convert units, compress images and more. No sign-up needed.
 
-## root
+## Palettly
+[Palettly](https://palettly.xyz/index.html)
 
-- [Palettly — Free Design & Developer Tools](https://palettly.xyz/)
+## Color palette extractor Upload any image and extract a beautiful color palette. Export as HEX, CSS, Figma tokens or Tailwind config. Most popular
+[Color palette extractor Upload any image and extract a beautiful color palette. Export as HEX, CSS, Figma tokens or Tailwind config. Most popular](https://palettly.xyz/palette.html)
 
-## palette.html
+## CSS gradient generator Create linear, radial and conic gradients visually. Copy the CSS code ready to paste into your project.
+[CSS gradient generator Create linear, radial and conic gradients visually. Copy the CSS code ready to paste into your project.](https://palettly.xyz/gradient.html)
 
-- [Palettly — Free Color Palette Extractor from Images](https://palettly.xyz/palette.html)
+## Color format converter Convert between HEX, RGB, HSL, HSB and CSS color names instantly. Live preview included.
+[Color format converter Convert between HEX, RGB, HSL, HSB and CSS color names instantly. Live preview included.](https://palettly.xyz/color-convert.html)
 
-## gradient.html
+## Palette from base color Pick a base color and generate complementary, analogous, triadic or monochromatic palettes automatically.
+[Palette from base color Pick a base color and generate complementary, analogous, triadic or monochromatic palettes automatically.](https://palettly.xyz/palette-generator.html)
 
-- [CSS Gradient Generator — Palettly](https://palettly.xyz/gradient.html)
+## Unit converter Convert px ↔ rem ↔ em ↔ vh ↔ vw instantly. Set your base font size and get all values at once.
+[Unit converter Convert px ↔ rem ↔ em ↔ vh ↔ vw instantly. Set your base font size and get all values at once.](https://palettly.xyz/units.html)
 
-## color-convert.html
+## Image compressor Compress JPG and PNG images directly in your browser. Adjust quality and download the result instantly.
+[Image compressor Compress JPG and PNG images directly in your browser. Adjust quality and download the result instantly.](https://palettly.xyz/compress.html)
 
-- [Color Format Converter HEX RGB HSL — Palettly](https://palettly.xyz/color-convert.html)
+## Google Fonts picker Browse, preview and compare Google Fonts with your own text. Get the embed code ready to copy.
+[Google Fonts picker Browse, preview and compare Google Fonts with your own text. Get the embed code ready to copy.](https://palettly.xyz/fonts.html)
 
-## palette-generator.html
+## Mood palette generator Not inspired? Pick mood keywords — warm, dark, minimal, retro — and get a matching color palette instantly. New
+[Mood palette generator Not inspired? Pick mood keywords — warm, dark, minimal, retro — and get a matching color palette instantly. New](https://palettly.xyz/mood.html)
 
-- [Color Palette Generator from Base Color — Palettly](https://palettly.xyz/palette-generator.html)
+## Image color picker Upload any image and use the precision eyedropper to pick exact colors. Get HEX, RGB and HSL instantly. New
+[Image color picker Upload any image and use the precision eyedropper to pick exact colors. Get HEX, RGB and HSL instantly. New](https://palettly.xyz/picker.html)
 
-## units.html
+## Image format converter Convert between SVG, PNG, JPG and WEBP instantly. Auto-detects format, custom output size, quality control. New
+[Image format converter Convert between SVG, PNG, JPG and WEBP instantly. Auto-detects format, custom output size, quality control. New](https://palettly.xyz/convert.html)
 
-- [CSS Unit Converter px rem em vh — Palettly](https://palettly.xyz/units.html)
+## Spreadsheet converter Convert between CSV, XLSX, JSON and TSV instantly. Preview your data before downloading. New
+[Spreadsheet converter Convert between CSV, XLSX, JSON and TSV instantly. Preview your data before downloading. New](https://palettly.xyz/spreadsheet.html)
 
-## compress.html
+## PDF to DOCX converter Convert PDF files to editable Word documents. Text and basic formatting preserved. Works best with simple PDFs. New
+[PDF to DOCX converter Convert PDF files to editable Word documents. Text and basic formatting preserved. Works best with simple PDFs. New](https://palettly.xyz/pdf-to-docx.html)
 
-- [Free Image Compressor — Palettly](https://palettly.xyz/compress.html)
+## Palettly Canvas Draw, add shapes and text. Export your canvas as PNG plus a design kit with your color palette and fonts used. New
+[Palettly Canvas Draw, add shapes and text. Export your canvas as PNG plus a design kit with your color palette and fonts used. New](https://palettly.xyz/canvas.html)
 
-## fonts.html
+## Ko-fi
+[Ko-fi](https://ko-fi.com/palettly)
 
-- [Google Fonts Picker & Preview — Palettly](https://palettly.xyz/fonts.html)
+## Pay Pal
+[Pay Pal](https://paypal.me/pablovozzi)
 
-## mood.html
-
-- [Mood Palette Generator — Palettly](https://palettly.xyz/mood.html)
-
-## picker.html
-
-- [Image Color Picker Eyedropper — Palettly](https://palettly.xyz/picker.html)
-
-## convert.html
-
-- [Image Format Converter SVG PNG JPG WEBP — Palettly](https://palettly.xyz/convert.html)
-
-## spreadsheet.html
-
-- [CSV to XLSX Converter — Spreadsheet Format Converter — Palettly](https://palettly.xyz/spreadsheet.html)
-
-## pdf-to-docx.html
-
-- [PDF to DOCX Converter — Free Online — Palettly](https://palettly.xyz/pdf-to-docx.html)
-
-## canvas.html
-
-- [Palettly Canvas — Free Online Drawing & Design Tool](https://palettly.xyz/canvas.html)
+## Privacy
+[Privacy](https://palettly.xyz)
