@@ -633,28 +633,36 @@ canvas.addEventListener('click', e => {
   const box     = document.getElementById('text-input-box');
   const rect    = canvas.getBoundingClientRect();
 
-  const screenX = pos.x * zoom + panX + rect.left;
-  const screenY = pos.y * zoom + panY + rect.top;
+  const screenX = pos.x * zoom + panX;
+  const screenY = pos.y * zoom + panY;
 
   overlay.style.display = 'block';
-  overlay.style.left = (screenX - rect.left) + 'px';
-  overlay.style.top  = (screenY - rect.top)  + 'px';
-  box.style.fontSize  = (fontSize * zoom) + 'px';
-  box.style.fontFamily= `"${fontFamily}", sans-serif`;
-  box.style.color     = 'transparent';
-  box.style.caretColor= strokeColor;
-  box.style.minWidth  = '120px';
+  overlay.style.left = screenX + 'px';
+  overlay.style.top  = screenY + 'px';
+  box.style.fontSize   = (fontSize * zoom) + 'px';
+  box.style.fontFamily = `"${fontFamily}", sans-serif`;
+  box.style.color      = strokeColor;
+  box.style.caretColor = strokeColor;
+  box.style.background = 'rgba(255,255,255,0.85)';
+  box.style.minWidth   = '120px';
+  box.style.border     = '1.5px dashed ' + strokeColor;
   box.value = '';
   box.focus();
 
+  function commit() {
+    const text = box.value.trim();
+    if (text) commitText(text, pos);
+    overlay.style.display = 'none';
+    box.onkeydown = null;
+    box.onblur = null;
+  }
+
   box.onkeydown = ev => {
     if (ev.key === 'Escape') { overlay.style.display='none'; return; }
-    if (ev.key === 'Enter' && !ev.shiftKey) {
-      ev.preventDefault();
-      commitText(box.value.trim(), pos);
-      overlay.style.display = 'none';
-    }
+    if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); commit(); }
   };
+
+  box.onblur = () => setTimeout(commit, 100);
 });
 
 function commitText(text, pos) {
