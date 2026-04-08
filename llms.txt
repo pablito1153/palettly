@@ -1,0 +1,60 @@
+# llms.txt
+# https://palettly.xyz
+> Free browser-based tools for designers and developers. Extract color palettes, generate CSS gradients, convert units, compress images and more. No sign-up needed.
+# Last updated: 2026-04-08
+
+## root
+
+- [Palettly — Free Design & Developer Tools](https://palettly.xyz/)
+
+## palette.html
+
+- [Palettly — Free Color Palette Extractor from Images](https://palettly.xyz/palette.html)
+
+## gradient.html
+
+- [CSS Gradient Generator — Palettly](https://palettly.xyz/gradient.html)
+
+## color-convert.html
+
+- [Color Format Converter HEX RGB HSL — Palettly](https://palettly.xyz/color-convert.html)
+
+## palette-generator.html
+
+- [Color Palette Generator from Base Color — Palettly](https://palettly.xyz/palette-generator.html)
+
+## units.html
+
+- [CSS Unit Converter px rem em vh — Palettly](https://palettly.xyz/units.html)
+
+## compress.html
+
+- [Free Image Compressor — Palettly](https://palettly.xyz/compress.html)
+
+## fonts.html
+
+- [Google Fonts Picker & Preview — Palettly](https://palettly.xyz/fonts.html)
+
+## mood.html
+
+- [Mood Palette Generator — Palettly](https://palettly.xyz/mood.html)
+
+## picker.html
+
+- [Image Color Picker Eyedropper — Palettly](https://palettly.xyz/picker.html)
+
+## convert.html
+
+- [Image Format Converter SVG PNG JPG WEBP — Palettly](https://palettly.xyz/convert.html)
+
+## spreadsheet.html
+
+- [CSV to XLSX Converter — Spreadsheet Format Converter — Palettly](https://palettly.xyz/spreadsheet.html)
+
+## pdf-to-docx.html
+
+- [PDF to DOCX Converter — Free Online — Palettly](https://palettly.xyz/pdf-to-docx.html)
+
+## canvas.html
+
+- [Palettly Canvas — Free Online Drawing & Design Tool](https://palettly.xyz/canvas.html)
