@@ -1,7 +1,6 @@
 # llms.txt
 # https://palettly.xyz
 > Free browser-based tools for designers and developers. Extract color palettes, generate CSS gradients, convert units, compress images and more. No sign-up needed.
-# Last updated: 2026-04-08
 
 ## root
 
