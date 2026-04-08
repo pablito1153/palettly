@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://palettly.xyz/sitemap.xml
+
+Llms: https://palettly.xyz/llms.txt
