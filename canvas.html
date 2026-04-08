@@ -71,6 +71,14 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 /* CURSOR PREVIEW */
 #cursor-preview{position:absolute;border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);display:none;mix-blend-mode:difference}
 
+/* SELECTION */
+#selection-box{position:absolute;border:1.5px solid var(--g500);border-radius:3px;pointer-events:none;z-index:40;display:none;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
+.sel-handle{position:absolute;width:9px;height:9px;background:white;border:1.5px solid var(--g500);border-radius:2px;pointer-events:none}
+.sel-action-bar{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;display:none;gap:3px;z-index:60;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.sel-action-btn{font-family:var(--fb);font-size:11px;font-weight:500;background:none;border:none;border-radius:5px;padding:4px 8px;cursor:pointer;color:var(--s600);transition:all .12s;display:flex;align-items:center;gap:4px}
+.sel-action-btn:hover{background:var(--s100);color:var(--s900)}
+.sel-action-btn.danger:hover{background:#fdf1ee;color:#b84424}
+
 /* OPACITY */
 .opacity-wrap{display:flex;align-items:center;gap:6px;padding:0 4px}
 .opacity-wrap label{font-size:11px;color:var(--s400)}
@@ -199,6 +207,9 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 <div class="toolbar">
   <!-- TOOLS -->
   <div class="tool-group">
+    <button class="tbtn" id="tool-select" data-tip="Select (V)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-7 1-4 7z"/></svg>
+    </button>
     <button class="tbtn active" id="tool-pen" data-tip="Pen (P)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
     </button>
@@ -304,6 +315,30 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 <div class="canvas-area" id="canvas-area">
   <canvas id="main-canvas"></canvas>
   <div id="cursor-preview"></div>
+  <div id="selection-box">
+    <div class="sel-handle" style="top:-5px;left:-5px"></div>
+    <div class="sel-handle" style="top:-5px;right:-5px"></div>
+    <div class="sel-handle" style="bottom:-5px;left:-5px"></div>
+    <div class="sel-handle" style="bottom:-5px;right:-5px"></div>
+  </div>
+  <div class="sel-action-bar" id="sel-action-bar" style="display:flex">
+    <button class="sel-action-btn" id="sel-bring-front" title="Bring to front">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="8" width="13" height="13" rx="1"/><path d="M8 8V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/></svg>
+      Front
+    </button>
+    <button class="sel-action-btn" id="sel-send-back" title="Send to back">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="8" y="8" width="13" height="13" rx="1"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+      Back
+    </button>
+    <button class="sel-action-btn" id="sel-duplicate" title="Duplicate">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Duplicate
+    </button>
+    <button class="sel-action-btn danger" id="sel-delete" title="Delete">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+      Delete
+    </button>
+  </div>
   <div id="text-input-overlay">
     <textarea id="text-input-box" rows="1" placeholder="Type here…"></textarea>
   </div>
@@ -426,6 +461,10 @@ function redrawAll() {
   ctx.scale(zoom, zoom);
   paths.forEach(drawObject);
   ctx.restore();
+  // refresh selection box position after redraw
+  if (selectedIdx >= 0 && selectedIdx < paths.length) {
+    showSelectionBox(selectedIdx);
+  }
 }
 
 function drawObject(obj) {
@@ -681,7 +720,7 @@ function commitText(text, pos) {
 
 // ── TOOL SELECTION ────────────────────────────────────────────
 const toolBtns = {
-  pen:'tool-pen', eraser:'tool-eraser', line:'tool-line', arrow:'tool-arrow',
+  select:'tool-select', pen:'tool-pen', eraser:'tool-eraser', line:'tool-line', arrow:'tool-arrow',
   rect:'tool-rect', circle:'tool-circle', text:'tool-text', pan:'tool-pan'
 };
 Object.entries(toolBtns).forEach(([t, id]) => {
@@ -706,15 +745,242 @@ function setTool(t) {
 // Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-  const map = {p:'pen',e:'eraser',l:'line',a:'arrow',r:'rect',c:'circle',t:'text'};
+  const map = {v:'select',p:'pen',e:'eraser',l:'line',a:'arrow',r:'rect',c:'circle',t:'text'};
   if (map[e.key.toLowerCase()]) setTool(map[e.key.toLowerCase()]);
   if (e.key === ' ') { e.preventDefault(); setTool('pan'); }
   if ((e.ctrlKey||e.metaKey) && e.key==='z') { e.preventDefault(); undo(); }
   if ((e.ctrlKey||e.metaKey) && e.key==='y') { e.preventDefault(); redo(); }
 });
 document.addEventListener('keyup', e => {
-  if (e.key === ' ' && tool === 'pan') setTool('pen');
+  if (e.key === ' ' && tool === 'pan') setToolWithDeselect('pen');
 });
+
+// ── SELECTION SYSTEM ──────────────────────────────────────────
+let selectedIdx   = -1;
+let isDragging    = false;
+let dragStartPos  = null;
+let dragStartObj  = null;
+
+const selBox      = document.getElementById('selection-box');
+const selActionBar= document.getElementById('sel-action-bar');
+
+// ── BOUNDING BOX ──────────────────────────────────────────────
+function getBBox(obj) {
+  const pad = (obj.lw || 2) / 2 + 4;
+  switch(obj.type) {
+    case 'pen': case 'eraser': {
+      if (!obj.pts || !obj.pts.length) return null;
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      obj.pts.forEach(p=>{minX=Math.min(minX,p.x);minY=Math.min(minY,p.y);maxX=Math.max(maxX,p.x);maxY=Math.max(maxY,p.y)});
+      return {x:minX-pad,y:minY-pad,w:maxX-minX+pad*2,h:maxY-minY+pad*2};
+    }
+    case 'line': case 'arrow': {
+      const minX=Math.min(obj.x1,obj.x2),minY=Math.min(obj.y1,obj.y2);
+      const maxX=Math.max(obj.x1,obj.x2),maxY=Math.max(obj.y1,obj.y2);
+      return {x:minX-pad,y:minY-pad,w:maxX-minX+pad*2,h:maxY-minY+pad*2};
+    }
+    case 'rect':
+      return {x:obj.x-pad,y:obj.y-pad,w:obj.w+pad*2,h:obj.h+pad*2};
+    case 'circle':
+      return {x:obj.cx-Math.abs(obj.rx)-pad,y:obj.cy-Math.abs(obj.ry)-pad,w:Math.abs(obj.rx)*2+pad*2,h:Math.abs(obj.ry)*2+pad*2};
+    case 'text': {
+      // approximate text bbox
+      const lines = obj.text.split('\n');
+      const w = lines.reduce((mx,l)=>Math.max(mx,l.length),0) * obj.fs * 0.6;
+      const h = lines.length * obj.fs * 1.3;
+      return {x:obj.x-pad,y:obj.y-obj.fs-pad,w:w+pad*2,h:h+pad*2};
+    }
+    default: return null;
+  }
+}
+
+// ── HIT TEST ──────────────────────────────────────────────────
+function hitTest(obj, px, py) {
+  const bb = getBBox(obj);
+  if (!bb) return false;
+  return px >= bb.x && px <= bb.x+bb.w && py >= bb.y && py <= bb.y+bb.h;
+}
+
+function findTopObject(px, py) {
+  for (let i = paths.length - 1; i >= 0; i--) {
+    if (hitTest(paths[i], px, py)) return i;
+  }
+  return -1;
+}
+
+// ── SELECT MOUSE HANDLERS ─────────────────────────────────────
+function selectMouseDown(e) {
+  const pos = getPos(e);
+  const hit = findTopObject(pos.x, pos.y);
+
+  if (hit >= 0) {
+    selectedIdx  = hit;
+    isDragging   = true;
+    dragStartPos = {x: pos.x, y: pos.y};
+    dragStartObj = JSON.parse(JSON.stringify(paths[hit]));
+    showSelectionBox(hit);
+    saveUndo();
+  } else {
+    selectedIdx = -1;
+    hideSelectionBox();
+  }
+}
+
+function selectMouseMove(e) {
+  if (!isDragging || selectedIdx < 0) return;
+  const pos = getPos(e);
+  const dx = pos.x - dragStartPos.x;
+  const dy = pos.y - dragStartPos.y;
+  moveObject(paths[selectedIdx], dragStartObj, dx, dy);
+  redrawAll();
+  showSelectionBox(selectedIdx);
+}
+
+function selectMouseUp() {
+  isDragging = false;
+  dragStartPos = null;
+  dragStartObj = null;
+  updatePanel();
+}
+
+function moveObject(obj, orig, dx, dy) {
+  switch(obj.type) {
+    case 'pen': case 'eraser':
+      obj.pts = orig.pts.map(p => ({x:p.x+dx, y:p.y+dy})); break;
+    case 'line': case 'arrow':
+      obj.x1=orig.x1+dx; obj.y1=orig.y1+dy;
+      obj.x2=orig.x2+dx; obj.y2=orig.y2+dy; break;
+    case 'rect':
+      obj.x=orig.x+dx; obj.y=orig.y+dy; break;
+    case 'circle':
+      obj.cx=orig.cx+dx; obj.cy=orig.cy+dy; break;
+    case 'text':
+      obj.x=orig.x+dx; obj.y=orig.y+dy; break;
+  }
+}
+
+// ── SELECTION BOX DISPLAY ─────────────────────────────────────
+function showSelectionBox(idx) {
+  const obj = paths[idx];
+  if (!obj) return;
+  const bb = getBBox(obj);
+  if (!bb) return;
+
+  // convert canvas coords to screen coords
+  const sx = bb.x * zoom + panX;
+  const sy = bb.y * zoom + panY;
+  const sw = bb.w * zoom;
+  const sh = bb.h * zoom;
+
+  selBox.style.display = 'block';
+  selBox.style.left   = sx + 'px';
+  selBox.style.top    = sy + 'px';
+  selBox.style.width  = sw + 'px';
+  selBox.style.height = sh + 'px';
+
+  // position action bar above the selection
+  selActionBar.style.display = 'flex';
+  const barY = sy - 38;
+  selActionBar.style.top  = Math.max(4, barY) + 'px';
+  selActionBar.style.left = sx + 'px';
+}
+
+function hideSelectionBox() {
+  selBox.style.display = 'none';
+  selActionBar.style.display = 'none';
+}
+
+// ── ACTION BAR BUTTONS ────────────────────────────────────────
+document.getElementById('sel-bring-front').addEventListener('click', () => {
+  if (selectedIdx < 0) return;
+  saveUndo();
+  const obj = paths.splice(selectedIdx, 1)[0];
+  paths.push(obj);
+  selectedIdx = paths.length - 1;
+  redrawAll(); showSelectionBox(selectedIdx);
+});
+
+document.getElementById('sel-send-back').addEventListener('click', () => {
+  if (selectedIdx < 0) return;
+  saveUndo();
+  const obj = paths.splice(selectedIdx, 1)[0];
+  paths.unshift(obj);
+  selectedIdx = 0;
+  redrawAll(); showSelectionBox(selectedIdx);
+});
+
+document.getElementById('sel-duplicate').addEventListener('click', () => {
+  if (selectedIdx < 0) return;
+  saveUndo();
+  const clone = JSON.parse(JSON.stringify(paths[selectedIdx]));
+  // offset clone slightly
+  moveObject(clone, clone, 16, 16);
+  paths.push(clone);
+  selectedIdx = paths.length - 1;
+  redrawAll(); showSelectionBox(selectedIdx); updatePanel();
+});
+
+document.getElementById('sel-delete').addEventListener('click', deleteSelected);
+
+function deleteSelected() {
+  if (selectedIdx < 0) return;
+  saveUndo();
+  paths.splice(selectedIdx, 1);
+  selectedIdx = -1;
+  hideSelectionBox();
+  redrawAll(); updatePanel();
+}
+
+// Delete key
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  if ((e.key === 'Delete' || e.key === 'Backspace') && tool === 'select' && selectedIdx >= 0) {
+    e.preventDefault();
+    deleteSelected();
+  }
+});
+
+// Hook into existing mousedown/move/up to route select tool
+const _origStartDraw = startDraw;
+canvas.removeEventListener('mousedown', startDraw);
+canvas.addEventListener('mousedown', e => {
+  if (tool === 'select') { selectMouseDown(e); return; }
+  _origStartDraw(e);
+});
+
+const _origContinueDraw = continueDraw;
+canvas.removeEventListener('mousemove', continueDraw);
+canvas.addEventListener('mousemove', e => {
+  if (tool === 'select') { selectMouseMove(e); return; }
+  _origContinueDraw(e);
+});
+
+const _origEndDraw = endDraw;
+canvas.removeEventListener('mouseup', endDraw);
+canvas.addEventListener('mouseup', e => {
+  if (tool === 'select') { selectMouseUp(e); return; }
+  _origEndDraw(e);
+});
+
+// Update selection box on zoom/pan
+const _origSetZoom = setZoom;
+// patch redrawAll to also update sel box
+const _origRedrawAll = redrawAll;
+
+// Deselect when switching tools
+const _origSetTool = setTool;
+function setToolWithDeselect(t) {
+  if (t !== 'select') { selectedIdx = -1; hideSelectionBox(); }
+  _origSetTool(t);
+}
+// re-wire all tool buttons
+Object.entries(toolBtns).forEach(([t, id]) => {
+  const el = document.getElementById(id);
+  el.replaceWith(el.cloneNode(true)); // remove old listeners
+  document.getElementById(id).addEventListener('click', () => setToolWithDeselect(t));
+});
+// re-wire keyboard shortcuts for setTool
+document.removeEventListener('keydown', null); // can't remove anonymous, patch via flag
 
 // ── FILL TOGGLE ───────────────────────────────────────────────
 document.getElementById('tool-fill-toggle').addEventListener('click', () => {
