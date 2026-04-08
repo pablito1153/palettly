@@ -4,168 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Palettly Canvas — Free Online Drawing & Design Tool</title>
-<meta name="description" content="Free online canvas tool. Draw, add shapes and text, then export your palette and fonts used. No sign-up, no backend, runs in your browser.">
-<meta name="keywords" content="online canvas, drawing tool, free whiteboard, design canvas, export color palette, online sketchpad">
+<meta name="description" content="Free online canvas tool. Draw, add shapes and text, select and move objects, then export your palette and fonts used.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#2da05a">
 <link rel="canonical" href="https://palettly.xyz/canvas.html">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta property="og:title" content="Palettly Canvas — Free Online Drawing Tool">
-<meta property="og:description" content="Draw, add shapes and text, export your palette and fonts. Free, no sign-up.">
-<meta property="og:url" content="https://palettly.xyz/canvas.html">
-<meta property="og:image" content="https://palettly.xyz/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9QD3WBBG77');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Montserrat&family=Playfair+Display&family=Lora&family=Oswald&family=Fira+Code&family=Pacifico&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --g50:#f0faf3;--g100:#d6f3df;--g200:#aee6c3;--g500:#2da05a;--g600:#1e7d44;--g700:#155c31;
+  --g50:#f0faf3;--g100:#d6f3df;--g200:#aee6c3;--g500:#2da05a;--g600:#1e7d44;
   --s50:#fafaf8;--s100:#f3f2ee;--s200:#e5e3dc;--s400:#a09d93;--s600:#6b6860;--s800:#2c2b27;--s900:#181714;
   --surface:#fff;--border:#e5e3dc;
-  --fb:'DM Sans',system-ui,sans-serif;
-  --fd:'DM Serif Display',Georgia,serif;
-  --toolbar-h:52px;
-  --panel-w:220px;
+  --fb:'DM Sans',system-ui,sans-serif;--fd:'DM Serif Display',Georgia,serif;
 }
 html,body{height:100%;overflow:hidden;font-family:var(--fb)}
-
-/* ── LAYOUT ── */
 .app{display:flex;flex-direction:column;height:100vh;background:var(--s50)}
+
+/* HEADER */
 header{height:48px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:10}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none}
-.logomark{width:28px;height:28px;background:var(--g500);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logotext{font-family:var(--fd);font-size:18px;color:var(--s900)}
-.logotext span{color:var(--g500)}
-.header-actions{display:flex;align-items:center;gap:6px}
-
-/* ── TOOLBAR ── */
-.toolbar{height:var(--toolbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:4px;flex-shrink:0;flex-wrap:wrap;overflow:hidden}
-.tool-group{display:flex;align-items:center;gap:2px;padding:0 8px;border-right:1px solid var(--border)}
-.tool-group:last-child{border-right:none}
-.tbtn{width:34px;height:34px;border:none;background:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--s600);transition:all .15s;position:relative;flex-shrink:0}
-.tbtn:hover{background:var(--s100);color:var(--s900)}
-.tbtn.active{background:var(--g50);color:var(--g600)}
-.tbtn svg{width:18px;height:18px;pointer-events:none}
-.tbtn title{display:none}
-
-/* COLOR SWATCH */
-.color-swatch-btn{width:28px;height:28px;border-radius:6px;border:2px solid var(--border);cursor:pointer;transition:transform .15s;flex-shrink:0}
-.color-swatch-btn:hover{transform:scale(1.1)}
-input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-
-/* SIZE SLIDER */
-.size-wrap{display:flex;align-items:center;gap:6px;padding:0 4px}
-.size-wrap label{font-size:11px;color:var(--s400);white-space:nowrap}
-.size-wrap input[type=range]{width:72px;accent-color:var(--g500)}
-.size-val{font-size:11px;font-weight:500;color:var(--s800);min-width:28px}
-.size-preset{font-family:var(--fb);font-size:10px;font-weight:600;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--s600);cursor:pointer;transition:all .12s;display:flex;align-items:center;justify-content:center}
-.size-preset:hover{background:var(--s100);color:var(--s900)}
-.size-preset.active{background:var(--g50);color:var(--g700);border-color:var(--g300)}
-
-/* CURSOR PREVIEW */
-#cursor-preview{position:absolute;border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);display:none;mix-blend-mode:difference}
-
-/* SELECTION */
-#selection-box{position:absolute;border:1.5px solid var(--g500);border-radius:3px;pointer-events:none;z-index:40;display:none;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
-.sel-handle{position:absolute;width:9px;height:9px;background:white;border:1.5px solid var(--g500);border-radius:2px;pointer-events:none}
-.sel-action-bar{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;display:none;gap:3px;z-index:60;box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.sel-action-btn{font-family:var(--fb);font-size:11px;font-weight:500;background:none;border:none;border-radius:5px;padding:4px 8px;cursor:pointer;color:var(--s600);transition:all .12s;display:flex;align-items:center;gap:4px}
-.sel-action-btn:hover{background:var(--s100);color:var(--s900)}
-.sel-action-btn.danger:hover{background:#fdf1ee;color:#b84424}
-
-/* OPACITY */
-.opacity-wrap{display:flex;align-items:center;gap:6px;padding:0 4px}
-.opacity-wrap label{font-size:11px;color:var(--s400)}
-.opacity-wrap input[type=range]{width:60px;accent-color:var(--g500)}
-
-/* FONT SELECT */
-.font-select{font-family:var(--fb);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:4px 8px;background:var(--surface);color:var(--s800);cursor:pointer;max-width:130px}
-.font-size-input{width:46px;font-family:var(--fb);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:4px 6px;text-align:center;color:var(--s800)}
-
-/* ── CANVAS AREA ── */
-.canvas-area{flex:1;position:relative;overflow:hidden}
-#main-canvas{position:absolute;top:0;left:0;cursor:crosshair;touch-action:none}
-#main-canvas.tool-select{cursor:default}
-#main-canvas.tool-pan{cursor:grab}
-#main-canvas.tool-pan.panning{cursor:grabbing}
-#main-canvas.tool-text{cursor:text}
-#main-canvas.tool-eraser{cursor:cell}
-
-/* TEXT INPUT OVERLAY */
-#text-input-overlay{position:absolute;display:none;z-index:20}
-#text-input-box{border:1.5px dashed var(--g400);background:transparent;outline:none;resize:none;font-family:inherit;color:transparent;caret-color:var(--s900);min-width:120px;min-height:32px;padding:4px;border-radius:4px}
-
-/* ── PANEL ── */
-.side-panel{position:absolute;right:0;top:0;bottom:0;width:var(--panel-w);background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:5;transition:transform .2s}
-.side-panel.hidden{transform:translateX(100%)}
-.panel-section{padding:14px;border-bottom:1px solid var(--s100)}
-.panel-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--s400);margin-bottom:10px}
-
-/* COLOR HISTORY */
-.color-history{display:flex;flex-wrap:wrap;gap:5px}
-.ch-swatch{width:22px;height:22px;border-radius:4px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .12s}
-.ch-swatch:hover{transform:scale(1.15)}
-
-/* PALETTE EXPORT */
-.palette-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.pe-swatch{display:flex;flex-direction:column;align-items:center;gap:3px}
-.pe-color{width:32px;height:32px;border-radius:6px;border:1px solid rgba(0,0,0,.08);cursor:pointer}
-.pe-hex{font-size:9px;color:var(--s400);font-family:monospace}
-
-/* FONTS USED */
-.fonts-list{display:flex;flex-direction:column;gap:6px}
-.font-item{background:var(--s50);border-radius:6px;padding:8px 10px}
-.font-item .fn{font-size:13px;font-weight:500;color:var(--s800)}
-.font-item .fs{font-size:11px;color:var(--s400);margin-top:2px}
-
-/* BUTTONS */
-.btn{font-family:var(--fb);font-size:13px;font-weight:500;border:none;border-radius:7px;padding:8px 14px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.btn-green{background:var(--g500);color:#fff}.btn-green:hover{background:var(--g600)}
-.btn-outline{background:none;color:var(--s600);border:1px solid var(--border)}.btn-outline:hover{background:var(--s100);color:var(--s900)}
-.btn-sm{font-size:12px;padding:6px 10px}
-.btn-row{display:flex;gap:6px;flex-wrap:wrap}
-
-/* HEADER BTNS */
+.logomark{width:28px;height:28px;background:var(--g500);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logotext{font-family:var(--fd);font-size:18px;color:var(--s900)}.logotext span{color:var(--g500)}
 .hbtn{font-family:var(--fb);font-size:12px;font-weight:500;border:1px solid var(--border);background:none;color:var(--s600);border-radius:7px;padding:6px 12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
 .hbtn:hover{background:var(--s100);color:var(--s900)}
 .hbtn.green{background:var(--g500);color:#fff;border-color:transparent}.hbtn.green:hover{background:var(--g600)}
+.header-actions{display:flex;align-items:center;gap:6px}
 
-/* TOOLTIP */
-.tbtn[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--s900);color:#fff;font-size:11px;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:100}
+/* TOOLBAR */
+.toolbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:2px;flex-shrink:0;overflow-x:auto}
+.tgroup{display:flex;align-items:center;gap:2px;padding:0 8px;border-right:1px solid var(--border)}
+.tgroup:last-child{border-right:none;margin-left:auto}
+.tbtn{width:34px;height:34px;border:none;background:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--s600);transition:all .15s;flex-shrink:0;position:relative}
+.tbtn:hover{background:var(--s100);color:var(--s900)}
+.tbtn.active{background:var(--g50);color:var(--g600)}
+.tbtn svg{width:18px;height:18px;pointer-events:none}
+.tbtn[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--s900);color:#fff;font-size:11px;padding:3px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:200}
+
+/* COLOR SWATCHES */
+.cswatch{width:26px;height:26px;border-radius:6px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;transition:transform .12s}
+.cswatch:hover{transform:scale(1.1)}
+
+/* SIZE CONTROLS */
+.size-group{display:flex;align-items:center;gap:5px;padding:0 6px}
+.size-group label{font-size:11px;color:var(--s400);white-space:nowrap}
+.size-group input[type=range]{width:70px;accent-color:var(--g500)}
+.size-group span{font-size:11px;font-weight:500;min-width:28px;color:var(--s800)}
+.spreset{font-family:var(--fb);font-size:10px;font-weight:600;width:22px;height:22px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--s600);cursor:pointer;transition:all .12s}
+.spreset:hover{background:var(--s100)}
+.spreset.active{background:var(--g50);color:var(--g700);border-color:var(--g200)}
+
+/* FONT CONTROLS */
+.fsel{font-family:var(--fb);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:4px 8px;background:var(--surface);color:var(--s800);max-width:130px}
+.fsize{width:46px;font-family:var(--fb);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:4px 6px;text-align:center}
+
+/* CANVAS AREA */
+.canvas-area{flex:1;position:relative;overflow:hidden}
+#cv{position:absolute;top:0;left:0;touch-action:none}
+#cv.cur-default{cursor:default}
+#cv.cur-crosshair{cursor:crosshair}
+#cv.cur-text{cursor:text}
+#cv.cur-grab{cursor:grab}
+#cv.cur-grabbing{cursor:grabbing}
+#cv.cur-move{cursor:move}
+#cv.cur-eraser{cursor:cell}
+
+/* CURSOR RING */
+#cur-ring{position:absolute;border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);display:none}
+
+/* SELECTION BOX */
+#sel-box{position:absolute;border:1.5px solid var(--g500);border-radius:3px;pointer-events:none;z-index:40;display:none;box-shadow:0 0 0 1px rgba(255,255,255,.6)}
+.sel-h{position:absolute;width:8px;height:8px;background:#fff;border:1.5px solid var(--g500);border-radius:2px;pointer-events:none}
+
+/* ACTION BAR */
+#act-bar{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;display:none;gap:2px;z-index:60;box-shadow:0 2px 10px rgba(0,0,0,.12);align-items:center}
+.abar-btn{font-family:var(--fb);font-size:11px;font-weight:500;background:none;border:none;border-radius:5px;padding:5px 9px;cursor:pointer;color:var(--s600);transition:all .12s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.abar-btn:hover{background:var(--s100);color:var(--s900)}
+.abar-btn.red:hover{background:#fdf1ee;color:#b84424}
+.abar-sep{width:1px;height:18px;background:var(--border);flex-shrink:0}
+
+/* TEXT INPUT */
+#txt-overlay{position:absolute;display:none;z-index:20}
+#txt-box{border:1.5px dashed var(--g500);background:rgba(255,255,255,.88);outline:none;resize:none;min-width:100px;min-height:28px;padding:4px 6px;border-radius:4px;font-family:inherit}
+
+/* PANEL */
+.panel{position:absolute;right:0;top:0;bottom:0;width:210px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:5;transition:transform .2s}
+.panel.hidden{transform:translateX(100%)}
+.psec{padding:12px;border-bottom:1px solid var(--s100)}
+.plabel{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--s400);margin-bottom:8px}
+.color-dots{display:flex;flex-wrap:wrap;gap:5px}
+.cdot{width:20px;height:20px;border-radius:4px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .12s}
+.cdot:hover{transform:scale(1.15)}
+.pal-swatches{display:flex;flex-wrap:wrap;gap:6px}
+.psw{display:flex;flex-direction:column;align-items:center;gap:3px}
+.psw-color{width:30px;height:30px;border-radius:6px;border:1px solid rgba(0,0,0,.08);cursor:pointer}
+.psw-hex{font-size:9px;color:var(--s400);font-family:monospace}
+.pfont{background:var(--s50);border-radius:6px;padding:7px 10px;margin-bottom:5px}
+.pfont-name{font-size:13px;font-weight:500;color:var(--s800)}
+.btn{font-family:var(--fb);font-size:12px;font-weight:500;border:none;border-radius:7px;padding:7px 12px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn-g{background:var(--g500);color:#fff}.btn-g:hover{background:var(--g600)}
+.btn-o{background:none;color:var(--s600);border:1px solid var(--border)}.btn-o:hover{background:var(--s100)}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border-radius:16px;padding:24px;max-width:520px;width:calc(100vw - 32px);box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:16px;padding:24px;max-width:520px;width:calc(100vw - 32px);box-shadow:0 8px 40px rgba(0,0,0,.15);max-height:90vh;overflow-y:auto}
 .modal h3{font-family:var(--fd);font-size:22px;font-weight:400;margin-bottom:16px}
-.modal-section{margin-bottom:20px}
-.modal-section h4{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.8px;color:var(--s400);margin-bottom:10px}
-.modal-palette{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.modal-swatch{display:flex;flex-direction:column;align-items:center;gap:4px}
-.modal-color{width:44px;height:44px;border-radius:8px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .12s}
-.modal-color:hover{transform:scale(1.08)}
-.modal-hex{font-size:10px;color:var(--s400);font-family:monospace}
-.modal-font-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.modal-font-card{background:var(--s50);border:1px solid var(--border);border-radius:8px;padding:12px}
-.modal-font-card .mfc-name{font-size:13px;font-weight:500;color:var(--s800)}
-.modal-font-card .mfc-preview{font-size:18px;margin:4px 0;color:var(--s900)}
-.modal-font-card .mfc-embed{font-size:10px;color:var(--s400);font-family:monospace;word-break:break-all;margin-top:4px}
+.msec{margin-bottom:20px}
+.msec h4{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.8px;color:var(--s400);margin-bottom:10px}
+.mpal{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.msw{display:flex;flex-direction:column;align-items:center;gap:4px}
+.msw-c{width:42px;height:42px;border-radius:8px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .12s}
+.msw-c:hover{transform:scale(1.08)}
+.msw-h{font-size:10px;color:var(--s400);font-family:monospace}
 .code-block{background:var(--s900);border-radius:8px;padding:12px;position:relative;margin-top:6px}
 .code-block pre{font-family:monospace;font-size:11px;color:#a8e6c0;line-height:1.6;overflow-x:auto;white-space:pre}
-.copy-code-btn{position:absolute;top:8px;right:8px;font-family:var(--fb);font-size:11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 9px;cursor:pointer}
-.copy-code-btn:hover{background:rgba(255,255,255,.2)}
-.copy-code-btn.ok{background:var(--g600);color:#fff;border-color:transparent}
-
-@media(max-width:700px){
-  .size-wrap,.opacity-wrap{display:none}
-  .side-panel{width:100%;top:auto;bottom:0;height:260px;border-left:none;border-top:1px solid var(--border)}
-}
+.copy-btn{position:absolute;top:8px;right:8px;font-family:var(--fb);font-size:11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 9px;cursor:pointer}
+.copy-btn:hover{background:rgba(255,255,255,.2)}
+.copy-btn.ok{background:var(--g600);color:#fff;border-color:transparent}
+.mfont-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mfont-card{background:var(--s50);border:1px solid var(--border);border-radius:8px;padding:10px}
+.mfont-card .mfn{font-size:12px;font-weight:500}
+.mfont-card .mfp{font-size:18px;margin:3px 0}
 </style>
 </head>
 <body>
@@ -180,25 +148,20 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
     <span class="logotext">Palet<span>tly</span> Canvas</span>
   </a>
   <div class="header-actions">
-    <button class="hbtn" id="btn-clear" data-tip="Clear canvas">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-      Clear
-    </button>
     <button class="hbtn" id="btn-undo">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
-      Undo
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>Undo
     </button>
     <button class="hbtn" id="btn-redo">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
-      Redo
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>Redo
     </button>
-    <button class="hbtn" id="btn-toggle-panel">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-      Panel
+    <button class="hbtn" id="btn-clear">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Clear
     </button>
-    <button class="hbtn green" id="btn-export-modal">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Export
+    <button class="hbtn" id="btn-panel">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>Panel
+    </button>
+    <button class="hbtn green" id="btn-export">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export
     </button>
   </div>
 </header>
@@ -206,1122 +169,827 @@ input[type=color].hidden-picker{position:absolute;opacity:0;width:0;height:0;poi
 <!-- TOOLBAR -->
 <div class="toolbar">
   <!-- TOOLS -->
-  <div class="tool-group">
-    <button class="tbtn" id="tool-select" data-tip="Select (V)">
+  <div class="tgroup">
+    <button class="tbtn" id="t-select" data-tip="Select (V)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-7 1-4 7z"/></svg>
     </button>
-    <button class="tbtn active" id="tool-pen" data-tip="Pen (P)">
+    <button class="tbtn active" id="t-pen" data-tip="Pen (P)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
     </button>
-    <button class="tbtn" id="tool-eraser" data-tip="Eraser (E)">
+    <button class="tbtn" id="t-eraser" data-tip="Eraser (E)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16l13-13 7 7-3 3"/><path d="M6 17l4-4"/></svg>
     </button>
-    <button class="tbtn" id="tool-line" data-tip="Line (L)">
+    <button class="tbtn" id="t-line" data-tip="Line (L)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="19" x2="19" y2="5"/></svg>
     </button>
-    <button class="tbtn" id="tool-arrow" data-tip="Arrow (A)">
+    <button class="tbtn" id="t-arrow" data-tip="Arrow (A)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="9 5 19 5 19 15"/></svg>
     </button>
-    <button class="tbtn" id="tool-rect" data-tip="Rectangle (R)">
+    <button class="tbtn" id="t-rect" data-tip="Rectangle (R)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="1"/></svg>
     </button>
-    <button class="tbtn" id="tool-circle" data-tip="Circle (C)">
+    <button class="tbtn" id="t-circle" data-tip="Circle (C)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
     </button>
-    <button class="tbtn" id="tool-text" data-tip="Text (T)">
+    <button class="tbtn" id="t-text" data-tip="Text (T)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
     </button>
-    <button class="tbtn" id="tool-pan" data-tip="Pan (Space)">
+    <button class="tbtn" id="t-pan" data-tip="Pan (Space)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M6 14a2 2 0 0 0-2 2v2a6 6 0 0 0 12 0v-5a2 2 0 0 0-2-2H6z"/></svg>
     </button>
   </div>
 
-  <!-- FILL -->
-  <div class="tool-group">
-    <button class="tbtn" id="tool-fill-toggle" data-tip="Toggle fill">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+  <!-- FILL TOGGLE -->
+  <div class="tgroup">
+    <button class="tbtn" id="t-fill" data-tip="Toggle fill">
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="8" cy="8" r="4"/><rect x="12" y="12" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
     </button>
   </div>
 
-  <!-- COLOR -->
-  <div class="tool-group">
+  <!-- COLORS -->
+  <div class="tgroup" style="gap:6px">
     <div style="position:relative">
-      <div class="color-swatch-btn" id="stroke-color-btn" style="background:#181714" title="Stroke color"></div>
-      <input type="color" id="stroke-color-input" class="hidden-picker" value="#181714">
+      <div class="cswatch" id="sw-stroke" style="background:#181714"></div>
+      <input type="color" id="in-stroke" value="#181714" style="position:absolute;opacity:0;width:0;height:0">
     </div>
-    <div style="position:relative;margin-left:4px">
-      <div class="color-swatch-btn" id="fill-color-btn" style="background:#aee6c3;opacity:.5" title="Fill color"></div>
-      <input type="color" id="fill-color-input" class="hidden-picker" value="#aee6c3">
+    <div style="position:relative">
+      <div class="cswatch" id="sw-fill" style="background:#aee6c3;opacity:.5"></div>
+      <input type="color" id="in-fill" value="#aee6c3" style="position:absolute;opacity:0;width:0;height:0">
     </div>
   </div>
 
   <!-- SIZE -->
-  <div class="tool-group">
-    <div class="size-wrap">
+  <div class="tgroup">
+    <div class="size-group">
       <label>Size</label>
-      <div style="display:flex;gap:3px;align-items:center">
-        <button class="size-preset" data-size="2" title="Thin">S</button>
-        <button class="size-preset" data-size="5" title="Medium">M</button>
-        <button class="size-preset" data-size="12" title="Thick">L</button>
-        <button class="size-preset" data-size="28" title="Extra thick">XL</button>
-      </div>
-      <input type="range" id="size-slider" min="1" max="80" value="3" step="1">
-      <span class="size-val" id="size-val">3px</span>
+      <button class="spreset" data-s="2">S</button>
+      <button class="spreset" data-s="5">M</button>
+      <button class="spreset" data-s="12">L</button>
+      <button class="spreset" data-s="28">XL</button>
+      <input type="range" id="sz-slider" min="1" max="80" value="3" step="1">
+      <span id="sz-val">3px</span>
     </div>
   </div>
 
   <!-- OPACITY -->
-  <div class="tool-group">
-    <div class="opacity-wrap">
+  <div class="tgroup">
+    <div class="size-group">
       <label>Opacity</label>
-      <input type="range" id="opacity-slider" min="10" max="100" value="100" step="5">
-      <span class="size-val" id="opacity-val">100%</span>
+      <input type="range" id="op-slider" min="10" max="100" value="100" step="5">
+      <span id="op-val">100%</span>
     </div>
   </div>
 
-  <!-- FONT (shown when text tool active) -->
-  <div class="tool-group" id="font-controls" style="display:none">
-    <select class="font-select" id="font-family-select">
-      <option value="DM Sans">DM Sans</option>
-      <option value="DM Serif Display">DM Serif Display</option>
-      <option value="Inter">Inter</option>
-      <option value="Roboto">Roboto</option>
-      <option value="Montserrat">Montserrat</option>
-      <option value="Playfair Display">Playfair Display</option>
-      <option value="Lora">Lora</option>
-      <option value="Oswald">Oswald</option>
-      <option value="Fira Code">Fira Code</option>
-      <option value="Pacifico">Pacifico</option>
+  <!-- FONT (text tool only) -->
+  <div class="tgroup" id="font-ctrl" style="display:none;gap:6px">
+    <select class="fsel" id="ff-sel">
+      <option>DM Sans</option><option>DM Serif Display</option>
+      <option>Inter</option><option>Roboto</option><option>Montserrat</option>
+      <option>Playfair Display</option><option>Lora</option>
+      <option>Oswald</option><option>Fira Code</option><option>Pacifico</option>
     </select>
-    <input type="number" class="font-size-input" id="font-size-input" value="20" min="8" max="120">
+    <input type="number" class="fsize" id="fs-inp" value="20" min="8" max="120">
   </div>
 
   <!-- ZOOM -->
-  <div class="tool-group" style="margin-left:auto">
-    <button class="tbtn" id="btn-zoom-out" data-tip="Zoom out">
+  <div class="tgroup">
+    <button class="tbtn" id="btn-zo" data-tip="Zoom out">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
     </button>
-    <span style="font-size:12px;color:var(--s400);min-width:40px;text-align:center" id="zoom-label">100%</span>
-    <button class="tbtn" id="btn-zoom-in" data-tip="Zoom in">
+    <span style="font-size:11px;color:var(--s400);min-width:38px;text-align:center" id="zoom-lbl">100%</span>
+    <button class="tbtn" id="btn-zi" data-tip="Zoom in">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
     </button>
-    <button class="tbtn" id="btn-zoom-reset" data-tip="Reset zoom">
+    <button class="tbtn" id="btn-zr" data-tip="Reset zoom">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
     </button>
   </div>
 </div>
 
 <!-- CANVAS -->
-<div class="canvas-area" id="canvas-area">
-  <canvas id="main-canvas"></canvas>
-  <div id="cursor-preview"></div>
-  <div id="selection-box">
-    <div class="sel-handle" style="top:-5px;left:-5px"></div>
-    <div class="sel-handle" style="top:-5px;right:-5px"></div>
-    <div class="sel-handle" style="bottom:-5px;left:-5px"></div>
-    <div class="sel-handle" style="bottom:-5px;right:-5px"></div>
+<div class="canvas-area" id="area">
+  <canvas id="cv"></canvas>
+  <div id="cur-ring"></div>
+  <div id="sel-box">
+    <div class="sel-h" style="top:-5px;left:-5px"></div>
+    <div class="sel-h" style="top:-5px;right:-5px"></div>
+    <div class="sel-h" style="bottom:-5px;left:-5px"></div>
+    <div class="sel-h" style="bottom:-5px;right:-5px"></div>
   </div>
-  <div class="sel-action-bar" id="sel-action-bar" style="display:flex">
-    <button class="sel-action-btn" id="sel-bring-front" title="Bring to front">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="8" width="13" height="13" rx="1"/><path d="M8 8V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/></svg>
-      Front
+  <div id="act-bar">
+    <button class="abar-btn" id="ab-front">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="8" width="13" height="13" rx="1"/><path d="M8 8V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/></svg>Front
     </button>
-    <button class="sel-action-btn" id="sel-send-back" title="Send to back">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="8" y="8" width="13" height="13" rx="1"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
-      Back
+    <div class="abar-sep"></div>
+    <button class="abar-btn" id="ab-back">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="8" y="8" width="13" height="13" rx="1"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>Back
     </button>
-    <button class="sel-action-btn" id="sel-duplicate" title="Duplicate">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      Duplicate
+    <div class="abar-sep"></div>
+    <button class="abar-btn" id="ab-dup">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Duplicate
     </button>
-    <button class="sel-action-btn danger" id="sel-delete" title="Delete">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      Delete
+    <div class="abar-sep"></div>
+    <button class="abar-btn red" id="ab-del">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete
     </button>
   </div>
-  <div id="text-input-overlay">
-    <textarea id="text-input-box" rows="1" placeholder="Type here…"></textarea>
+  <div id="txt-overlay">
+    <textarea id="txt-box" rows="1" placeholder="Type… Enter to confirm"></textarea>
   </div>
 </div>
 
-<!-- SIDE PANEL -->
-<div class="side-panel" id="side-panel">
-  <div class="panel-section">
-    <div class="panel-title">Recent colors</div>
-    <div class="color-history" id="color-history"></div>
+<!-- PANEL -->
+<div class="panel" id="panel">
+  <div class="psec">
+    <div class="plabel">Recent colors</div>
+    <div class="color-dots" id="p-colors"></div>
   </div>
-  <div class="panel-section" style="flex:1;overflow-y:auto">
-    <div class="panel-title">Canvas palette</div>
-    <div class="palette-row" id="panel-palette"></div>
-    <div class="panel-title" style="margin-top:12px">Fonts used</div>
-    <div class="fonts-list" id="panel-fonts"></div>
+  <div class="psec" style="flex:1;overflow-y:auto">
+    <div class="plabel">Canvas palette</div>
+    <div class="pal-swatches" id="p-palette"></div>
+    <div class="plabel" style="margin-top:12px">Fonts used</div>
+    <div id="p-fonts"></div>
   </div>
-  <div class="panel-section">
+  <div class="psec">
     <div class="btn-row">
-      <button class="btn btn-green btn-sm" id="btn-export-png">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
-        PNG
-      </button>
-      <button class="btn btn-outline btn-sm" id="btn-export-kit">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
-        Design kit
-      </button>
+      <button class="btn btn-g" style="font-size:11px;padding:6px 10px" id="p-png">↓ PNG</button>
+      <button class="btn btn-o" style="font-size:11px;padding:6px 10px" id="p-kit">↓ Design kit</button>
     </div>
   </div>
 </div>
 
-</div><!-- .app -->
+</div>
 
 <!-- EXPORT MODAL -->
-<div class="modal-overlay" id="export-modal">
+<div class="overlay" id="exp-modal">
   <div class="modal">
     <h3>Export design kit</h3>
-    <div class="modal-section">
+    <div class="msec">
       <h4>Color palette</h4>
-      <div class="modal-palette" id="modal-palette"></div>
-      <div class="code-block">
-        <pre id="modal-css-vars"></pre>
-        <button class="copy-code-btn" id="copy-css-btn">Copy</button>
-      </div>
+      <div class="mpal" id="m-pal"></div>
+      <div class="code-block"><pre id="m-css"></pre><button class="copy-btn" id="m-css-cp">Copy</button></div>
     </div>
-    <div class="modal-section">
+    <div class="msec">
       <h4>Fonts used</h4>
-      <div class="modal-font-grid" id="modal-fonts"></div>
-      <div class="code-block" style="margin-top:10px">
-        <pre id="modal-font-imports"></pre>
-        <button class="copy-code-btn" id="copy-fonts-btn">Copy</button>
-      </div>
+      <div class="mfont-grid" id="m-fonts"></div>
+      <div class="code-block" style="margin-top:10px"><pre id="m-imports"></pre><button class="copy-btn" id="m-imp-cp">Copy</button></div>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
-      <button class="btn btn-outline" id="modal-close">Close</button>
-      <button class="btn btn-green" id="modal-download-png">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
-        Download PNG
-      </button>
+      <button class="btn btn-o" id="m-close">Close</button>
+      <button class="btn btn-g" id="m-dl-png">↓ Download PNG</button>
     </div>
   </div>
 </div>
 
-<!-- Load Google Fonts for text tool -->
-<link id="gfonts-link" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Montserrat&family=Playfair+Display&family=Lora&family=Oswald&family=Fira+Code&family=Pacifico&display=swap">
-
 <script>
-// ── STATE ─────────────────────────────────────────────────────
-const canvas  = document.getElementById('main-canvas');
-const ctx     = canvas.getContext('2d');
-const area    = document.getElementById('canvas-area');
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const cv   = document.getElementById('cv');
+const ctx  = cv.getContext('2d');
+const area = document.getElementById('area');
 
-let tool        = 'pen';
-let strokeColor = '#181714';
-let fillColor   = '#aee6c3';
-let fillEnabled = false;
-let lineWidth   = 3;
-let opacity     = 1;
-let fontFamily  = 'DM Sans';
-let fontSize    = 20;
-let zoom        = 1;
-let panX        = 0;
-let panY        = 0;
-let isPanning   = false;
-let panStart    = {x:0,y:0};
-let isDrawing   = false;
-let startX      = 0;
-let startY      = 0;
-let paths       = [];       // all drawing objects
-let undoStack   = [];
-let redoStack   = [];
-let colorHistory= new Set();
-let fontsUsed   = new Set();
-let snapshot    = null;     // for shape preview
+let tool       = 'pen';
+let sColor     = '#181714';
+let fColor     = '#aee6c3';
+let fillOn     = false;
+let lw         = 3;
+let alpha      = 1;
+let ff         = 'DM Sans';
+let fs         = 20;
+let zoom       = 1;
+let panX       = 0, panY = 0;
+let panning    = false, panStart = {x:0,y:0};
+let drawing    = false;
+let sx         = 0, sy = 0;
+let paths      = [];
+let undos      = [], redos = [];
+let colorHist  = [];
+let fontsUsed  = new Set();
+let snap       = null;
+let curPath    = null;
 
-// ── RESIZE ────────────────────────────────────────────────────
+// selection
+let selIdx     = -1;
+let dragging   = false;
+let dragStart  = null;
+let dragOrig   = null;
+
+// ═══════════════════════════════════════════════════════
+// RESIZE
+// ═══════════════════════════════════════════════════════
 function resize() {
   const r = area.getBoundingClientRect();
-  canvas.width  = r.width;
-  canvas.height = r.height;
-  redrawAll();
+  cv.width = r.width; cv.height = r.height;
+  redraw();
 }
 window.addEventListener('resize', resize);
 resize();
 
-// ── COORDINATE TRANSFORM ──────────────────────────────────────
-function toCanvas(clientX, clientY) {
-  const r = canvas.getBoundingClientRect();
-  return {
-    x: (clientX - r.left - panX) / zoom,
-    y: (clientY - r.top  - panY) / zoom,
-  };
+// ═══════════════════════════════════════════════════════
+// COORDS
+// ═══════════════════════════════════════════════════════
+function toWorld(cx, cy) {
+  const r = cv.getBoundingClientRect();
+  return { x:(cx-r.left-panX)/zoom, y:(cy-r.top-panY)/zoom };
 }
-
-// ── DRAWING ───────────────────────────────────────────────────
-function redrawAll() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.save();
-  ctx.translate(panX, panY);
-  ctx.scale(zoom, zoom);
-  paths.forEach(drawObject);
-  ctx.restore();
-  // refresh selection box position after redraw
-  if (selectedIdx >= 0 && selectedIdx < paths.length) {
-    showSelectionBox(selectedIdx);
-  }
-}
-
-function drawObject(obj) {
-  ctx.save();
-  ctx.globalAlpha = obj.opacity ?? 1;
-  ctx.strokeStyle = obj.stroke;
-  ctx.lineWidth   = obj.lw;
-  ctx.lineCap     = 'round';
-  ctx.lineJoin    = 'round';
-  if (obj.fill) { ctx.fillStyle = obj.fill; }
-
-  switch(obj.type) {
-    case 'pen':
-      if (!obj.pts || obj.pts.length < 2) break;
-      ctx.beginPath();
-      ctx.moveTo(obj.pts[0].x, obj.pts[0].y);
-      for (let i = 1; i < obj.pts.length; i++) ctx.lineTo(obj.pts[i].x, obj.pts[i].y);
-      ctx.stroke();
-      break;
-    case 'eraser':
-      if (!obj.pts || obj.pts.length < 2) break;
-      ctx.save();
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.globalAlpha = 1;
-      ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineWidth = obj.lw;
-      ctx.beginPath();
-      ctx.moveTo(obj.pts[0].x, obj.pts[0].y);
-      for (let i = 1; i < obj.pts.length; i++) ctx.lineTo(obj.pts[i].x, obj.pts[i].y);
-      ctx.stroke();
-      ctx.restore();
-      break;
-    case 'line':
-      ctx.beginPath();
-      ctx.moveTo(obj.x1, obj.y1);
-      ctx.lineTo(obj.x2, obj.y2);
-      ctx.stroke();
-      break;
-    case 'arrow':
-      drawArrow(ctx, obj.x1, obj.y1, obj.x2, obj.y2, obj.lw);
-      break;
-    case 'rect':
-      ctx.beginPath();
-      ctx.rect(obj.x, obj.y, obj.w, obj.h);
-      if (obj.fill) ctx.fill();
-      ctx.stroke();
-      break;
-    case 'circle':
-      ctx.beginPath();
-      ctx.ellipse(obj.cx, obj.cy, Math.abs(obj.rx), Math.abs(obj.ry), 0, 0, Math.PI*2);
-      if (obj.fill) ctx.fill();
-      ctx.stroke();
-      break;
-    case 'text':
-      ctx.font = `${obj.fs}px "${obj.ff}", sans-serif`;
-      ctx.fillStyle = obj.stroke;
-      ctx.globalAlpha = obj.opacity ?? 1;
-      const lines = obj.text.split('\n');
-      lines.forEach((line, i) => ctx.fillText(line, obj.x, obj.y + i * obj.fs * 1.3));
-      break;
-  }
-  ctx.restore();
-}
-
-function drawArrow(ctx, x1, y1, x2, y2, lw) {
-  const headLen = Math.max(10, lw * 4);
-  const angle = Math.atan2(y2 - y1, x2 - x1);
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - headLen * Math.cos(angle - 0.4), y2 - headLen * Math.sin(angle - 0.4));
-  ctx.lineTo(x2 - headLen * Math.cos(angle + 0.4), y2 - headLen * Math.sin(angle + 0.4));
-  ctx.closePath();
-  ctx.fillStyle = ctx.strokeStyle;
-  ctx.fill();
-}
-
-// ── MOUSE / TOUCH ─────────────────────────────────────────────
 function getPos(e) {
-  if (e.touches) {
-    return toCanvas(e.touches[0].clientX, e.touches[0].clientY);
-  }
-  return toCanvas(e.clientX, e.clientY);
+  return e.touches ? toWorld(e.touches[0].clientX,e.touches[0].clientY) : toWorld(e.clientX,e.clientY);
 }
 
-canvas.addEventListener('mousedown', startDraw);
-canvas.addEventListener('mousemove', continueDraw);
-canvas.addEventListener('mouseup', endDraw);
-canvas.addEventListener('mouseleave', endDraw);
-canvas.addEventListener('touchstart', e=>{e.preventDefault();startDraw(e)},{passive:false});
-canvas.addEventListener('touchmove',  e=>{e.preventDefault();continueDraw(e)},{passive:false});
-canvas.addEventListener('touchend',   e=>{e.preventDefault();endDraw(e)},{passive:false});
+// ═══════════════════════════════════════════════════════
+// DRAW
+// ═══════════════════════════════════════════════════════
+function redraw() {
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.save(); ctx.translate(panX,panY); ctx.scale(zoom,zoom);
+  paths.forEach(drawObj);
+  ctx.restore();
+  if (selIdx>=0 && selIdx<paths.length) updateSelBox();
+  else hideSelBox();
+}
 
-let currentPath = null;
+function drawObj(o) {
+  ctx.save();
+  ctx.globalAlpha = o.a??1;
+  ctx.strokeStyle = o.s;
+  ctx.lineWidth   = o.lw;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (o.f) ctx.fillStyle = o.f;
 
-function startDraw(e) {
-  if (tool === 'text') return; // handled separately
+  switch(o.type) {
+    case 'pen':
+      if (!o.pts||o.pts.length<2) break;
+      ctx.beginPath(); ctx.moveTo(o.pts[0].x,o.pts[0].y);
+      o.pts.forEach(p=>ctx.lineTo(p.x,p.y)); ctx.stroke(); break;
+    case 'eraser':
+      if (!o.pts||o.pts.length<2) break;
+      ctx.save(); ctx.globalCompositeOperation='destination-out';
+      ctx.globalAlpha=1; ctx.strokeStyle='rgba(0,0,0,1)'; ctx.lineWidth=o.lw;
+      ctx.beginPath(); ctx.moveTo(o.pts[0].x,o.pts[0].y);
+      o.pts.forEach(p=>ctx.lineTo(p.x,p.y)); ctx.stroke(); ctx.restore(); break;
+    case 'line':
+      ctx.beginPath(); ctx.moveTo(o.x1,o.y1); ctx.lineTo(o.x2,o.y2); ctx.stroke(); break;
+    case 'arrow': drawArrow(ctx,o.x1,o.y1,o.x2,o.y2,o.lw); break;
+    case 'rect':
+      ctx.beginPath(); ctx.rect(o.x,o.y,o.w,o.h);
+      if(o.f)ctx.fill(); ctx.stroke(); break;
+    case 'circle':
+      ctx.beginPath(); ctx.ellipse(o.cx,o.cy,Math.abs(o.rx),Math.abs(o.ry),0,0,Math.PI*2);
+      if(o.f)ctx.fill(); ctx.stroke(); break;
+    case 'text':
+      ctx.font=`${o.fs}px "${o.ff}",sans-serif`;
+      ctx.fillStyle=o.s; ctx.globalAlpha=o.a??1;
+      o.text.split('\n').forEach((l,i)=>ctx.fillText(l,o.x,o.y+i*o.fs*1.3)); break;
+  }
+  ctx.restore();
+}
+
+function drawArrow(c,x1,y1,x2,y2,lw) {
+  const hl=Math.max(10,lw*4), ang=Math.atan2(y2-y1,x2-x1);
+  c.beginPath(); c.moveTo(x1,y1); c.lineTo(x2,y2); c.stroke();
+  c.beginPath(); c.moveTo(x2,y2);
+  c.lineTo(x2-hl*Math.cos(ang-0.4),y2-hl*Math.sin(ang-0.4));
+  c.lineTo(x2-hl*Math.cos(ang+0.4),y2-hl*Math.sin(ang+0.4));
+  c.closePath(); c.fillStyle=c.strokeStyle; c.fill();
+}
+
+// ═══════════════════════════════════════════════════════
+// MOUSE / TOUCH — UNIFIED HANDLER
+// ═══════════════════════════════════════════════════════
+cv.addEventListener('mousedown',  onDown);
+cv.addEventListener('mousemove',  onMove);
+cv.addEventListener('mouseup',    onUp);
+cv.addEventListener('mouseleave', onUp);
+cv.addEventListener('touchstart', e=>{e.preventDefault();onDown(e)},{passive:false});
+cv.addEventListener('touchmove',  e=>{e.preventDefault();onMove(e)},{passive:false});
+cv.addEventListener('touchend',   e=>{e.preventDefault();onUp(e)},{passive:false});
+
+function onDown(e) {
   const pos = getPos(e);
 
-  if (tool === 'pan' || e.button === 1 || (e.button === 0 && e.altKey)) {
-    isPanning = true;
-    panStart = {x: e.clientX - panX, y: e.clientY - panY};
-    canvas.classList.add('panning');
-    return;
+  // PAN: middle mouse or alt+left or pan tool
+  if (tool==='pan' || e.button===1 || (e.button===0&&e.altKey)) {
+    panning = true;
+    panStart = {x:e.clientX-panX, y:e.clientY-panY};
+    cv.className = 'cur-grabbing'; return;
   }
 
-  isDrawing = true;
-  startX = pos.x;
-  startY = pos.y;
+  // SELECT tool
+  if (tool==='select') {
+    const hit = hitTest(pos.x, pos.y);
+    if (hit>=0) {
+      selIdx = hit;
+      dragging = true;
+      dragStart = {x:pos.x, y:pos.y};
+      dragOrig  = JSON.parse(JSON.stringify(paths[hit]));
+      saveUndo();
+      cv.className = 'cur-move';
+    } else {
+      selIdx = -1;
+      hideSelBox();
+    }
+    redraw(); return;
+  }
+
+  // TEXT tool — handled on click
+  if (tool==='text') return;
+
+  // DRAWING tools
+  drawing = true;
+  sx = pos.x; sy = pos.y;
   saveUndo();
 
-  if (tool === 'pen' || tool === 'eraser') {
-    currentPath = {
-      type: tool, stroke: strokeColor, lw: lineWidth,
-      opacity, pts: [{x:pos.x, y:pos.y}]
-    };
-    paths.push(currentPath);
-    if (tool === 'pen') addColor(strokeColor);
+  if (tool==='pen'||tool==='eraser') {
+    curPath = {type:tool,s:sColor,lw,a:alpha,pts:[{x:pos.x,y:pos.y}]};
+    paths.push(curPath);
+    if(tool==='pen') addColor(sColor);
   } else {
-    snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    snap = ctx.getImageData(0,0,cv.width,cv.height);
   }
 }
 
-function continueDraw(e) {
-  if (tool === 'pan' || e.button === 1 || (isPanning)) {
-    if (isPanning) {
-      panX = e.clientX - panStart.x;
-      panY = e.clientY - panStart.y;
-      redrawAll();
-    }
-    return;
-  }
-  if (!isDrawing) return;
+function onMove(e) {
   const pos = getPos(e);
 
-  if (tool === 'pen' || tool === 'eraser') {
-    currentPath.pts.push({x:pos.x, y:pos.y});
-    redrawAll();
-  } else {
-    // Shape preview
-    ctx.putImageData(snapshot, 0, 0);
-    ctx.save();
-    ctx.translate(panX, panY);
-    ctx.scale(zoom, zoom);
-    ctx.globalAlpha = opacity;
-    ctx.strokeStyle = strokeColor;
-    ctx.lineWidth   = lineWidth;
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
-    if (fillEnabled) ctx.fillStyle = fillColor;
+  // update cursor ring
+  updateCursorRing(e);
 
-    if (tool === 'line') {
-      ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(pos.x,pos.y); ctx.stroke();
-    } else if (tool === 'arrow') {
-      drawArrow(ctx, startX, startY, pos.x, pos.y, lineWidth);
-    } else if (tool === 'rect') {
-      ctx.beginPath(); ctx.rect(startX, startY, pos.x-startX, pos.y-startY);
-      if (fillEnabled) ctx.fill(); ctx.stroke();
-    } else if (tool === 'circle') {
-      const rx = (pos.x - startX) / 2, ry = (pos.y - startY) / 2;
-      ctx.beginPath(); ctx.ellipse(startX+rx, startY+ry, Math.abs(rx), Math.abs(ry), 0, 0, Math.PI*2);
-      if (fillEnabled) ctx.fill(); ctx.stroke();
-    }
+  if (panning) {
+    panX = e.clientX-panStart.x;
+    panY = e.clientY-panStart.y;
+    redraw(); return;
+  }
+
+  if (tool==='select' && dragging && selIdx>=0) {
+    const dx = pos.x - dragStart.x;
+    const dy = pos.y - dragStart.y;
+    moveObj(paths[selIdx], dragOrig, dx, dy);
+    redraw(); return;
+  }
+
+  if (!drawing) return;
+  const p = pos;
+
+  if (tool==='pen'||tool==='eraser') {
+    curPath.pts.push({x:p.x,y:p.y}); redraw();
+  } else {
+    ctx.putImageData(snap,0,0);
+    ctx.save(); ctx.translate(panX,panY); ctx.scale(zoom,zoom);
+    ctx.globalAlpha=alpha; ctx.strokeStyle=sColor; ctx.lineWidth=lw;
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    if(fillOn) ctx.fillStyle=fColor;
+    previewShape(p);
     ctx.restore();
   }
 }
 
-function endDraw(e) {
-  if (isPanning) { isPanning = false; canvas.classList.remove('panning'); return; }
-  if (!isDrawing) return;
-  isDrawing = false;
-  const pos = e.touches ? toCanvas(e.changedTouches[0].clientX, e.changedTouches[0].clientY) : getPos(e);
+function onUp(e) {
+  if (panning) { panning=false; setCursor(); return; }
 
-  if (tool !== 'pen' && tool !== 'eraser') {
-    const obj = buildShapeObj(pos);
-    if (obj) { paths.push(obj); if (obj.stroke) addColor(obj.stroke); if (obj.fill) addColor(obj.fill); }
-    redrawAll();
-    snapshot = null;
+  if (tool==='select') {
+    dragging=false; dragStart=null; dragOrig=null;
+    setCursor(); updatePanel(); return;
   }
-  currentPath = null;
+
+  if (!drawing) return;
+  drawing = false;
+  const pos = e.touches ? toWorld(e.changedTouches[0].clientX,e.changedTouches[0].clientY) : getPos(e);
+
+  if (tool!=='pen'&&tool!=='eraser') {
+    const obj = makeShapeObj(pos);
+    if (obj) {
+      paths.push(obj);
+      if(obj.s) addColor(obj.s);
+      if(obj.f) addColor(obj.f);
+    }
+    snap=null;
+    redraw();
+  }
+  curPath=null;
   updatePanel();
 }
 
-function buildShapeObj(pos) {
-  const base = {stroke:strokeColor, lw:lineWidth, opacity};
-  const fill = fillEnabled ? fillColor : null;
-  if (tool === 'line')   return {...base, type:'line', x1:startX, y1:startY, x2:pos.x, y2:pos.y};
-  if (tool === 'arrow')  return {...base, type:'arrow', x1:startX, y1:startY, x2:pos.x, y2:pos.y};
-  if (tool === 'rect')   return {...base, type:'rect', fill, x:startX, y:startY, w:pos.x-startX, h:pos.y-startY};
-  if (tool === 'circle') {
-    const rx=(pos.x-startX)/2, ry=(pos.y-startY)/2;
-    return {...base, type:'circle', fill, cx:startX+rx, cy:startY+ry, rx, ry};
-  }
+function previewShape(p) {
+  if(tool==='line'){ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(p.x,p.y);ctx.stroke();}
+  else if(tool==='arrow'){drawArrow(ctx,sx,sy,p.x,p.y,lw);}
+  else if(tool==='rect'){ctx.beginPath();ctx.rect(sx,sy,p.x-sx,p.y-sy);if(fillOn)ctx.fill();ctx.stroke();}
+  else if(tool==='circle'){const rx=(p.x-sx)/2,ry=(p.y-sy)/2;ctx.beginPath();ctx.ellipse(sx+rx,sy+ry,Math.abs(rx),Math.abs(ry),0,0,Math.PI*2);if(fillOn)ctx.fill();ctx.stroke();}
+}
+
+function makeShapeObj(p) {
+  const base={s:sColor,lw,a:alpha};
+  const f=fillOn?fColor:null;
+  if(tool==='line')  return{...base,type:'line',x1:sx,y1:sy,x2:p.x,y2:p.y};
+  if(tool==='arrow') return{...base,type:'arrow',x1:sx,y1:sy,x2:p.x,y2:p.y};
+  if(tool==='rect')  return{...base,type:'rect',f,x:sx,y:sy,w:p.x-sx,h:p.y-sy};
+  if(tool==='circle'){const rx=(p.x-sx)/2,ry=(p.y-sy)/2;return{...base,type:'circle',f,cx:sx+rx,cy:sy+ry,rx,ry};}
   return null;
 }
 
-// ── TEXT TOOL ─────────────────────────────────────────────────
-canvas.addEventListener('click', e => {
-  if (tool !== 'text') return;
-  const pos = toCanvas(e.clientX, e.clientY);
-  const overlay = document.getElementById('text-input-overlay');
-  const box     = document.getElementById('text-input-box');
-  const rect    = canvas.getBoundingClientRect();
+// ═══════════════════════════════════════════════════════
+// TEXT TOOL
+// ═══════════════════════════════════════════════════════
+cv.addEventListener('click', e => {
+  if (tool!=='text') return;
+  const pos = toWorld(e.clientX, e.clientY);
+  const ov  = document.getElementById('txt-overlay');
+  const box = document.getElementById('txt-box');
+  const r   = cv.getBoundingClientRect();
 
-  const screenX = pos.x * zoom + panX;
-  const screenY = pos.y * zoom + panY;
-
-  overlay.style.display = 'block';
-  overlay.style.left = screenX + 'px';
-  overlay.style.top  = screenY + 'px';
-  box.style.fontSize   = (fontSize * zoom) + 'px';
-  box.style.fontFamily = `"${fontFamily}", sans-serif`;
-  box.style.color      = strokeColor;
-  box.style.caretColor = strokeColor;
-  box.style.background = 'rgba(255,255,255,0.85)';
-  box.style.minWidth   = '120px';
-  box.style.border     = '1.5px dashed ' + strokeColor;
-  box.value = '';
-  box.focus();
+  ov.style.display = 'block';
+  ov.style.left = (pos.x*zoom+panX) + 'px';
+  ov.style.top  = (pos.y*zoom+panY) + 'px';
+  box.style.fontSize   = (fs*zoom)+'px';
+  box.style.fontFamily = `"${ff}",sans-serif`;
+  box.style.color      = sColor;
+  box.style.caretColor = sColor;
+  box.style.borderColor= sColor;
+  box.style.width      = 'auto';
+  box.value=''; box.focus();
 
   function commit() {
-    const text = box.value.trim();
-    if (text) commitText(text, pos);
-    overlay.style.display = 'none';
-    box.onkeydown = null;
-    box.onblur = null;
+    const txt=box.value.trim();
+    if(txt){
+      saveUndo();
+      paths.push({type:'text',text:txt,x:pos.x,y:pos.y+fs,s:sColor,ff,fs,a:alpha});
+      fontsUsed.add(ff); addColor(sColor); redraw(); updatePanel();
+    }
+    ov.style.display='none';
+    box.onkeydown=null; box.onblur=null;
   }
-
-  box.onkeydown = ev => {
-    if (ev.key === 'Escape') { overlay.style.display='none'; return; }
-    if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); commit(); }
+  box.onkeydown = ev=>{
+    if(ev.key==='Escape'){ov.style.display='none';return;}
+    if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();commit();}
   };
-
-  box.onblur = () => setTimeout(commit, 100);
+  box.onblur = ()=>setTimeout(commit,100);
 });
 
-function commitText(text, pos) {
-  if (!text) return;
-  saveUndo();
-  const obj = {
-    type:'text', text, x:pos.x, y:pos.y+fontSize,
-    stroke:strokeColor, ff:fontFamily, fs:fontSize, opacity
-  };
-  paths.push(obj);
-  fontsUsed.add(fontFamily);
-  addColor(strokeColor);
-  redrawAll();
-  updatePanel();
-}
-
-// ── TOOL SELECTION ────────────────────────────────────────────
-const toolBtns = {
-  select:'tool-select', pen:'tool-pen', eraser:'tool-eraser', line:'tool-line', arrow:'tool-arrow',
-  rect:'tool-rect', circle:'tool-circle', text:'tool-text', pan:'tool-pan'
-};
-Object.entries(toolBtns).forEach(([t, id]) => {
-  document.getElementById(id).addEventListener('click', () => setTool(t));
-});
-
-function setTool(t) {
-  tool = t;
-  Object.entries(toolBtns).forEach(([tt,id]) =>
-    document.getElementById(id).classList.toggle('active', tt === t)
-  );
-  canvas.className = '';
-  if (t === 'pan')    canvas.classList.add('tool-pan');
-  else if (t==='text') canvas.classList.add('tool-text');
-  else if (t==='eraser') canvas.classList.add('tool-eraser');
-  else canvas.classList.add('tool-pen');
-  document.getElementById('font-controls').style.display = t==='text' ? 'flex' : 'none';
-  // hide cursor preview for text/pan
-  if (t === 'text' || t === 'pan') cursorPreview.style.display = 'none';
-}
-
-// Keyboard shortcuts
-document.addEventListener('keydown', e => {
-  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-  const map = {v:'select',p:'pen',e:'eraser',l:'line',a:'arrow',r:'rect',c:'circle',t:'text'};
-  if (map[e.key.toLowerCase()]) setTool(map[e.key.toLowerCase()]);
-  if (e.key === ' ') { e.preventDefault(); setTool('pan'); }
-  if ((e.ctrlKey||e.metaKey) && e.key==='z') { e.preventDefault(); undo(); }
-  if ((e.ctrlKey||e.metaKey) && e.key==='y') { e.preventDefault(); redo(); }
-});
-document.addEventListener('keyup', e => {
-  if (e.key === ' ' && tool === 'pan') setToolWithDeselect('pen');
-});
-
-// ── SELECTION SYSTEM ──────────────────────────────────────────
-let selectedIdx   = -1;
-let isDragging    = false;
-let dragStartPos  = null;
-let dragStartObj  = null;
-
-const selBox      = document.getElementById('selection-box');
-const selActionBar= document.getElementById('sel-action-bar');
-
-// ── BOUNDING BOX ──────────────────────────────────────────────
-function getBBox(obj) {
-  const pad = (obj.lw || 2) / 2 + 4;
-  switch(obj.type) {
-    case 'pen': case 'eraser': {
-      if (!obj.pts || !obj.pts.length) return null;
-      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
-      obj.pts.forEach(p=>{minX=Math.min(minX,p.x);minY=Math.min(minY,p.y);maxX=Math.max(maxX,p.x);maxY=Math.max(maxY,p.y)});
-      return {x:minX-pad,y:minY-pad,w:maxX-minX+pad*2,h:maxY-minY+pad*2};
+// ═══════════════════════════════════════════════════════
+// SELECT — HIT TEST & BBOX
+// ═══════════════════════════════════════════════════════
+function getBBox(o) {
+  const pad=(o.lw||2)/2+6;
+  switch(o.type){
+    case 'pen': case 'eraser':{
+      if(!o.pts||!o.pts.length)return null;
+      let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
+      o.pts.forEach(p=>{mnx=Math.min(mnx,p.x);mny=Math.min(mny,p.y);mxx=Math.max(mxx,p.x);mxy=Math.max(mxy,p.y)});
+      return{x:mnx-pad,y:mny-pad,w:mxx-mnx+pad*2,h:mxy-mny+pad*2};
     }
-    case 'line': case 'arrow': {
-      const minX=Math.min(obj.x1,obj.x2),minY=Math.min(obj.y1,obj.y2);
-      const maxX=Math.max(obj.x1,obj.x2),maxY=Math.max(obj.y1,obj.y2);
-      return {x:minX-pad,y:minY-pad,w:maxX-minX+pad*2,h:maxY-minY+pad*2};
+    case 'line': case 'arrow':{
+      const mnx=Math.min(o.x1,o.x2),mny=Math.min(o.y1,o.y2);
+      return{x:mnx-pad,y:mny-pad,w:Math.abs(o.x2-o.x1)+pad*2,h:Math.abs(o.y2-o.y1)+pad*2};
     }
-    case 'rect':
-      return {x:obj.x-pad,y:obj.y-pad,w:obj.w+pad*2,h:obj.h+pad*2};
-    case 'circle':
-      return {x:obj.cx-Math.abs(obj.rx)-pad,y:obj.cy-Math.abs(obj.ry)-pad,w:Math.abs(obj.rx)*2+pad*2,h:Math.abs(obj.ry)*2+pad*2};
-    case 'text': {
-      // approximate text bbox
-      const lines = obj.text.split('\n');
-      const w = lines.reduce((mx,l)=>Math.max(mx,l.length),0) * obj.fs * 0.6;
-      const h = lines.length * obj.fs * 1.3;
-      return {x:obj.x-pad,y:obj.y-obj.fs-pad,w:w+pad*2,h:h+pad*2};
+    case 'rect': return{x:o.x-pad,y:o.y-pad,w:o.w+pad*2,h:o.h+pad*2};
+    case 'circle': return{x:o.cx-Math.abs(o.rx)-pad,y:o.cy-Math.abs(o.ry)-pad,w:Math.abs(o.rx)*2+pad*2,h:Math.abs(o.ry)*2+pad*2};
+    case 'text':{
+      const lines=o.text.split('\n');
+      const tw=lines.reduce((m,l)=>Math.max(m,l.length),0)*o.fs*0.6;
+      return{x:o.x-pad,y:o.y-o.fs-pad,w:tw+pad*2,h:lines.length*o.fs*1.3+pad*2};
     }
-    default: return null;
+    default:return null;
   }
 }
 
-// ── HIT TEST ──────────────────────────────────────────────────
-function hitTest(obj, px, py) {
-  const bb = getBBox(obj);
-  if (!bb) return false;
-  return px >= bb.x && px <= bb.x+bb.w && py >= bb.y && py <= bb.y+bb.h;
-}
-
-function findTopObject(px, py) {
-  for (let i = paths.length - 1; i >= 0; i--) {
-    if (hitTest(paths[i], px, py)) return i;
+function hitTest(px,py) {
+  for(let i=paths.length-1;i>=0;i--){
+    const bb=getBBox(paths[i]);
+    if(bb&&px>=bb.x&&px<=bb.x+bb.w&&py>=bb.y&&py<=bb.y+bb.h) return i;
   }
   return -1;
 }
 
-// ── SELECT MOUSE HANDLERS ─────────────────────────────────────
-function selectMouseDown(e) {
-  const pos = getPos(e);
-  const hit = findTopObject(pos.x, pos.y);
-
-  if (hit >= 0) {
-    selectedIdx  = hit;
-    isDragging   = true;
-    dragStartPos = {x: pos.x, y: pos.y};
-    dragStartObj = JSON.parse(JSON.stringify(paths[hit]));
-    showSelectionBox(hit);
-    saveUndo();
-  } else {
-    selectedIdx = -1;
-    hideSelectionBox();
+function moveObj(o,orig,dx,dy){
+  switch(o.type){
+    case 'pen': case 'eraser': o.pts=orig.pts.map(p=>({x:p.x+dx,y:p.y+dy})); break;
+    case 'line': case 'arrow': o.x1=orig.x1+dx;o.y1=orig.y1+dy;o.x2=orig.x2+dx;o.y2=orig.y2+dy; break;
+    case 'rect': o.x=orig.x+dx;o.y=orig.y+dy; break;
+    case 'circle': o.cx=orig.cx+dx;o.cy=orig.cy+dy; break;
+    case 'text': o.x=orig.x+dx;o.y=orig.y+dy; break;
   }
 }
 
-function selectMouseMove(e) {
-  if (!isDragging || selectedIdx < 0) return;
-  const pos = getPos(e);
-  const dx = pos.x - dragStartPos.x;
-  const dy = pos.y - dragStartPos.y;
-  moveObject(paths[selectedIdx], dragStartObj, dx, dy);
-  redrawAll();
-  showSelectionBox(selectedIdx);
+// ═══════════════════════════════════════════════════════
+// SELECTION BOX
+// ═══════════════════════════════════════════════════════
+const selBox = document.getElementById('sel-box');
+const actBar = document.getElementById('act-bar');
+
+function updateSelBox() {
+  if(selIdx<0||selIdx>=paths.length){hideSelBox();return;}
+  const bb=getBBox(paths[selIdx]);
+  if(!bb){hideSelBox();return;}
+  const x=bb.x*zoom+panX, y=bb.y*zoom+panY;
+  const w=bb.w*zoom, h=bb.h*zoom;
+  selBox.style.cssText=`display:block;left:${x}px;top:${y}px;width:${w}px;height:${h}px`;
+  const barTop=Math.max(4,y-40);
+  actBar.style.cssText=`display:flex;left:${x}px;top:${barTop}px`;
 }
 
-function selectMouseUp() {
-  isDragging = false;
-  dragStartPos = null;
-  dragStartObj = null;
-  updatePanel();
+function hideSelBox(){
+  selBox.style.display='none';
+  actBar.style.display='none';
 }
 
-function moveObject(obj, orig, dx, dy) {
-  switch(obj.type) {
-    case 'pen': case 'eraser':
-      obj.pts = orig.pts.map(p => ({x:p.x+dx, y:p.y+dy})); break;
-    case 'line': case 'arrow':
-      obj.x1=orig.x1+dx; obj.y1=orig.y1+dy;
-      obj.x2=orig.x2+dx; obj.y2=orig.y2+dy; break;
-    case 'rect':
-      obj.x=orig.x+dx; obj.y=orig.y+dy; break;
-    case 'circle':
-      obj.cx=orig.cx+dx; obj.cy=orig.cy+dy; break;
-    case 'text':
-      obj.x=orig.x+dx; obj.y=orig.y+dy; break;
-  }
+// ACTION BAR
+document.getElementById('ab-front').onclick=()=>{
+  if(selIdx<0)return; saveUndo();
+  paths.push(paths.splice(selIdx,1)[0]);
+  selIdx=paths.length-1; redraw();
+};
+document.getElementById('ab-back').onclick=()=>{
+  if(selIdx<0)return; saveUndo();
+  paths.unshift(paths.splice(selIdx,1)[0]);
+  selIdx=0; redraw();
+};
+document.getElementById('ab-dup').onclick=()=>{
+  if(selIdx<0)return; saveUndo();
+  const clone=JSON.parse(JSON.stringify(paths[selIdx]));
+  moveObj(clone,clone,16,16);
+  paths.push(clone); selIdx=paths.length-1; redraw(); updatePanel();
+};
+document.getElementById('ab-del').onclick=delSelected;
+
+function delSelected(){
+  if(selIdx<0)return; saveUndo();
+  paths.splice(selIdx,1); selIdx=-1; hideSelBox(); redraw(); updatePanel();
 }
 
-// ── SELECTION BOX DISPLAY ─────────────────────────────────────
-function showSelectionBox(idx) {
-  const obj = paths[idx];
-  if (!obj) return;
-  const bb = getBBox(obj);
-  if (!bb) return;
+// ═══════════════════════════════════════════════════════
+// TOOL SWITCHING
+// ═══════════════════════════════════════════════════════
+const TOOLS = {
+  'select':'t-select','pen':'t-pen','eraser':'t-eraser','line':'t-line',
+  'arrow':'t-arrow','rect':'t-rect','circle':'t-circle','text':'t-text','pan':'t-pan'
+};
 
-  // convert canvas coords to screen coords
-  const sx = bb.x * zoom + panX;
-  const sy = bb.y * zoom + panY;
-  const sw = bb.w * zoom;
-  const sh = bb.h * zoom;
-
-  selBox.style.display = 'block';
-  selBox.style.left   = sx + 'px';
-  selBox.style.top    = sy + 'px';
-  selBox.style.width  = sw + 'px';
-  selBox.style.height = sh + 'px';
-
-  // position action bar above the selection
-  selActionBar.style.display = 'flex';
-  const barY = sy - 38;
-  selActionBar.style.top  = Math.max(4, barY) + 'px';
-  selActionBar.style.left = sx + 'px';
+function setTool(t) {
+  tool=t;
+  Object.entries(TOOLS).forEach(([k,id])=>document.getElementById(id).classList.toggle('active',k===t));
+  document.getElementById('font-ctrl').style.display = t==='text'?'flex':'none';
+  if(t!=='select'){selIdx=-1;hideSelBox();}
+  setCursor();
 }
 
-function hideSelectionBox() {
-  selBox.style.display = 'none';
-  selActionBar.style.display = 'none';
+function setCursor(){
+  cv.className = {
+    select: selIdx>=0?'cur-move':'cur-default',
+    pan:'cur-grab', text:'cur-text', eraser:'cur-eraser'
+  }[tool]||'cur-crosshair';
 }
 
-// ── ACTION BAR BUTTONS ────────────────────────────────────────
-document.getElementById('sel-bring-front').addEventListener('click', () => {
-  if (selectedIdx < 0) return;
-  saveUndo();
-  const obj = paths.splice(selectedIdx, 1)[0];
-  paths.push(obj);
-  selectedIdx = paths.length - 1;
-  redrawAll(); showSelectionBox(selectedIdx);
+Object.entries(TOOLS).forEach(([t,id])=>document.getElementById(id).addEventListener('click',()=>setTool(t)));
+
+// ═══════════════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown', e=>{
+  if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT') return;
+  const map={v:'select',p:'pen',e:'eraser',l:'line',a:'arrow',r:'rect',c:'circle',t:'text'};
+  if(map[e.key.toLowerCase()]) setTool(map[e.key.toLowerCase()]);
+  if(e.key===' '){e.preventDefault();setTool('pan');}
+  if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='y'){e.preventDefault();redo();}
+  if((e.key==='Delete'||e.key==='Backspace')&&tool==='select'&&selIdx>=0){e.preventDefault();delSelected();}
+});
+document.addEventListener('keyup',e=>{
+  if(e.key===' '&&tool==='pan') setTool('pen');
 });
 
-document.getElementById('sel-send-back').addEventListener('click', () => {
-  if (selectedIdx < 0) return;
-  saveUndo();
-  const obj = paths.splice(selectedIdx, 1)[0];
-  paths.unshift(obj);
-  selectedIdx = 0;
-  redrawAll(); showSelectionBox(selectedIdx);
-});
-
-document.getElementById('sel-duplicate').addEventListener('click', () => {
-  if (selectedIdx < 0) return;
-  saveUndo();
-  const clone = JSON.parse(JSON.stringify(paths[selectedIdx]));
-  // offset clone slightly
-  moveObject(clone, clone, 16, 16);
-  paths.push(clone);
-  selectedIdx = paths.length - 1;
-  redrawAll(); showSelectionBox(selectedIdx); updatePanel();
-});
-
-document.getElementById('sel-delete').addEventListener('click', deleteSelected);
-
-function deleteSelected() {
-  if (selectedIdx < 0) return;
-  saveUndo();
-  paths.splice(selectedIdx, 1);
-  selectedIdx = -1;
-  hideSelectionBox();
-  redrawAll(); updatePanel();
-}
-
-// Delete key
-document.addEventListener('keydown', e => {
-  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-  if ((e.key === 'Delete' || e.key === 'Backspace') && tool === 'select' && selectedIdx >= 0) {
-    e.preventDefault();
-    deleteSelected();
-  }
-});
-
-// Hook into existing mousedown/move/up to route select tool
-const _origStartDraw = startDraw;
-canvas.removeEventListener('mousedown', startDraw);
-canvas.addEventListener('mousedown', e => {
-  if (tool === 'select') { selectMouseDown(e); return; }
-  _origStartDraw(e);
-});
-
-const _origContinueDraw = continueDraw;
-canvas.removeEventListener('mousemove', continueDraw);
-canvas.addEventListener('mousemove', e => {
-  if (tool === 'select') { selectMouseMove(e); return; }
-  _origContinueDraw(e);
-});
-
-const _origEndDraw = endDraw;
-canvas.removeEventListener('mouseup', endDraw);
-canvas.addEventListener('mouseup', e => {
-  if (tool === 'select') { selectMouseUp(e); return; }
-  _origEndDraw(e);
-});
-
-// Update selection box on zoom/pan
-const _origSetZoom = setZoom;
-// patch redrawAll to also update sel box
-const _origRedrawAll = redrawAll;
-
-// Deselect when switching tools
-const _origSetTool = setTool;
-function setToolWithDeselect(t) {
-  if (t !== 'select') { selectedIdx = -1; hideSelectionBox(); }
-  _origSetTool(t);
-}
-// re-wire all tool buttons
-Object.entries(toolBtns).forEach(([t, id]) => {
-  const el = document.getElementById(id);
-  el.replaceWith(el.cloneNode(true)); // remove old listeners
-  document.getElementById(id).addEventListener('click', () => setToolWithDeselect(t));
-});
-// re-wire keyboard shortcuts for setTool
-document.removeEventListener('keydown', null); // can't remove anonymous, patch via flag
-
-// ── FILL TOGGLE ───────────────────────────────────────────────
-document.getElementById('tool-fill-toggle').addEventListener('click', () => {
-  fillEnabled = !fillEnabled;
-  document.getElementById('tool-fill-toggle').classList.toggle('active', fillEnabled);
-  document.getElementById('fill-color-btn').style.opacity = fillEnabled ? '1' : '0.4';
-});
-
-// ── COLORS ────────────────────────────────────────────────────
-const strokeBtn   = document.getElementById('stroke-color-btn');
-const strokeInput = document.getElementById('stroke-color-input');
-const fillBtn     = document.getElementById('fill-color-btn');
-const fillInput   = document.getElementById('fill-color-input');
-
-strokeBtn.addEventListener('click', ()=> strokeInput.click());
-strokeInput.addEventListener('input', e => {
-  strokeColor = e.target.value;
-  strokeBtn.style.background = strokeColor;
-});
-
-fillBtn.addEventListener('click', ()=> fillInput.click());
-fillInput.addEventListener('input', e => {
-  fillColor = e.target.value;
-  fillBtn.style.background = fillColor;
-});
+// ═══════════════════════════════════════════════════════
+// COLORS
+// ═══════════════════════════════════════════════════════
+document.getElementById('sw-stroke').onclick=()=>document.getElementById('in-stroke').click();
+document.getElementById('in-stroke').oninput=e=>{
+  sColor=e.target.value;
+  document.getElementById('sw-stroke').style.background=sColor;
+  updateCursorRingColor();
+};
+document.getElementById('sw-fill').onclick=()=>document.getElementById('in-fill').click();
+document.getElementById('in-fill').oninput=e=>{
+  fColor=e.target.value;
+  document.getElementById('sw-fill').style.background=fColor;
+};
+document.getElementById('t-fill').onclick=()=>{
+  fillOn=!fillOn;
+  document.getElementById('t-fill').classList.toggle('active',fillOn);
+  document.getElementById('sw-fill').style.opacity=fillOn?'1':'0.4';
+};
 
 function addColor(hex) {
-  if (!hex || hex === 'transparent') return;
-  // normalize
-  const c = hex.toLowerCase();
-  colorHistory.add(c);
-  updateColorHistory();
+  if(!hex||hex==='transparent') return;
+  const c=hex.toLowerCase();
+  colorHist=colorHist.filter(x=>x!==c);
+  colorHist.unshift(c);
+  if(colorHist.length>24) colorHist.pop();
+  updateColorDots();
 }
 
-function updateColorHistory() {
-  const el = document.getElementById('color-history');
-  el.innerHTML = '';
-  [...colorHistory].slice(-20).reverse().forEach(hex => {
-    const sw = document.createElement('div');
-    sw.className = 'ch-swatch';
-    sw.style.background = hex;
-    sw.title = hex;
-    sw.onclick = () => {
-      strokeColor = hex;
-      strokeInput.value = hex;
-      strokeBtn.style.background = hex;
-    };
-    el.appendChild(sw);
+function updateColorDots(){
+  const el=document.getElementById('p-colors');
+  el.innerHTML='';
+  colorHist.slice(0,16).forEach(hex=>{
+    const d=document.createElement('div');
+    d.className='cdot'; d.style.background=hex; d.title=hex;
+    d.onclick=()=>{sColor=hex;document.getElementById('in-stroke').value=hex;document.getElementById('sw-stroke').style.background=hex;};
+    el.appendChild(d);
   });
 }
 
-// ── SIZE & OPACITY ────────────────────────────────────────────
-const cursorPreview = document.getElementById('cursor-preview');
+// ═══════════════════════════════════════════════════════
+// SIZE & OPACITY
+// ═══════════════════════════════════════════════════════
+const curRing = document.getElementById('cur-ring');
 
-function updateSizeDisplay() {
-  document.getElementById('size-val').textContent = lineWidth + 'px';
-  document.getElementById('size-slider').value = lineWidth;
-  // update active preset
-  document.querySelectorAll('.size-preset').forEach(btn => {
-    btn.classList.toggle('active', +btn.dataset.size === lineWidth);
-  });
+function updateSizeUI(){
+  document.getElementById('sz-val').textContent=lw+'px';
+  document.getElementById('sz-slider').value=lw;
+  document.querySelectorAll('.spreset').forEach(b=>b.classList.toggle('active',+b.dataset.s===lw));
 }
+document.getElementById('sz-slider').oninput=e=>{lw=+e.target.value;updateSizeUI();};
+document.querySelectorAll('.spreset').forEach(b=>b.addEventListener('click',()=>{lw=+b.dataset.s;updateSizeUI();}));
+document.getElementById('op-slider').oninput=e=>{
+  alpha=+e.target.value/100;
+  document.getElementById('op-val').textContent=e.target.value+'%';
+};
 
-document.getElementById('size-slider').addEventListener('input', e => {
-  lineWidth = +e.target.value;
-  updateSizeDisplay();
-});
+function updateCursorRingColor(){ curRing.style.background=sColor+'60'; curRing.style.border='1.5px solid '+sColor+'aa'; }
 
-// preset buttons
-document.querySelectorAll('.size-preset').forEach(btn => {
-  btn.addEventListener('click', () => {
-    lineWidth = +btn.dataset.size;
-    updateSizeDisplay();
-  });
-});
-
-// cursor preview
-function updateCursorPreview(e) {
-  if (tool === 'text' || tool === 'pan') {
-    cursorPreview.style.display = 'none';
-    return;
-  }
-  const rect = area.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const displaySize = Math.max(4, lineWidth * zoom);
-
-  cursorPreview.style.display = 'block';
-  cursorPreview.style.left = x + 'px';
-  cursorPreview.style.top  = y + 'px';
-  cursorPreview.style.width  = displaySize + 'px';
-  cursorPreview.style.height = displaySize + 'px';
-
-  if (tool === 'eraser') {
-    cursorPreview.style.border = '1.5px solid #666';
-    cursorPreview.style.background = 'rgba(255,255,255,0.4)';
+function updateCursorRing(e){
+  if(tool==='text'||tool==='pan'||tool==='select'){curRing.style.display='none';return;}
+  const r=area.getBoundingClientRect();
+  curRing.style.display='block';
+  curRing.style.left=(e.clientX-r.left)+'px';
+  curRing.style.top=(e.clientY-r.top)+'px';
+  const sz=Math.max(4,lw*zoom);
+  curRing.style.width=sz+'px'; curRing.style.height=sz+'px';
+  if(tool==='eraser'){
+    curRing.style.background='rgba(200,200,200,.3)';
+    curRing.style.border='1.5px solid #888';
   } else {
-    cursorPreview.style.border = '1.5px solid rgba(0,0,0,0.3)';
-    cursorPreview.style.background = strokeColor + '80';
+    updateCursorRingColor();
   }
 }
+area.addEventListener('mousemove',updateCursorRing);
+area.addEventListener('mouseleave',()=>curRing.style.display='none');
 
-area.addEventListener('mousemove', updateCursorPreview);
-area.addEventListener('mouseleave', () => { cursorPreview.style.display = 'none'; });
+// ═══════════════════════════════════════════════════════
+// FONT CONTROLS
+// ═══════════════════════════════════════════════════════
+document.getElementById('ff-sel').onchange=e=>ff=e.target.value;
+document.getElementById('fs-inp').oninput=e=>fs=+e.target.value||20;
 
-document.getElementById('opacity-slider').addEventListener('input', e => {
-  opacity = +e.target.value / 100;
-  document.getElementById('opacity-val').textContent = e.target.value + '%';
-});
+// ═══════════════════════════════════════════════════════
+// ZOOM
+// ═══════════════════════════════════════════════════════
+function setZoom(z){
+  zoom=Math.max(.1,Math.min(10,z));
+  document.getElementById('zoom-lbl').textContent=Math.round(zoom*100)+'%';
+  redraw();
+}
+document.getElementById('btn-zi').onclick=()=>setZoom(zoom*1.2);
+document.getElementById('btn-zo').onclick=()=>setZoom(zoom/1.2);
+document.getElementById('btn-zr').onclick=()=>{setZoom(1);panX=0;panY=0;redraw();};
+cv.addEventListener('wheel',e=>{e.preventDefault();setZoom(zoom*(e.deltaY>0?.9:1.1));},{passive:false});
 
-// ── FONT CONTROLS ─────────────────────────────────────────────
-document.getElementById('font-family-select').addEventListener('change', e => { fontFamily = e.target.value; });
-document.getElementById('font-size-input').addEventListener('input', e => { fontSize = +e.target.value || 20; });
+// ═══════════════════════════════════════════════════════
+// UNDO / REDO
+// ═══════════════════════════════════════════════════════
+function saveUndo(){undos.push(JSON.stringify(paths));if(undos.length>60)undos.shift();redos=[];}
+function undo(){if(!undos.length)return;redos.push(JSON.stringify(paths));paths=JSON.parse(undos.pop());selIdx=-1;redraw();updatePanel();}
+function redo(){if(!redos.length)return;undos.push(JSON.stringify(paths));paths=JSON.parse(redos.pop());selIdx=-1;redraw();updatePanel();}
+document.getElementById('btn-undo').onclick=undo;
+document.getElementById('btn-redo').onclick=redo;
+document.getElementById('btn-clear').onclick=()=>{if(!paths.length)return;saveUndo();paths=[];selIdx=-1;hideSelBox();redraw();updatePanel();};
 
-// ── ZOOM ──────────────────────────────────────────────────────
-document.getElementById('btn-zoom-in').addEventListener('click',    ()=> setZoom(zoom * 1.2));
-document.getElementById('btn-zoom-out').addEventListener('click',   ()=> setZoom(zoom / 1.2));
-document.getElementById('btn-zoom-reset').addEventListener('click', ()=> { setZoom(1); panX=0; panY=0; redrawAll(); });
+// ═══════════════════════════════════════════════════════
+// PANEL
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-panel').onclick=()=>document.getElementById('panel').classList.toggle('hidden');
 
-canvas.addEventListener('wheel', e => {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? 0.9 : 1.1;
-  setZoom(zoom * delta);
-}, {passive:false});
-
-function setZoom(z) {
-  zoom = Math.max(0.1, Math.min(10, z));
-  document.getElementById('zoom-label').textContent = Math.round(zoom*100)+'%';
-  redrawAll();
+function extractColors(){
+  const s=new Set();
+  paths.forEach(o=>{if(o.s&&o.s!=='transparent')s.add(o.s.toLowerCase());if(o.f&&o.f!=='transparent')s.add(o.f.toLowerCase());});
+  return[...s];
+}
+function extractFonts(){
+  const s=new Set();
+  paths.forEach(o=>{if(o.type==='text'&&o.ff)s.add(o.ff);});
+  return[...s];
 }
 
-// ── UNDO / REDO ───────────────────────────────────────────────
-function saveUndo() {
-  undoStack.push(JSON.stringify(paths));
-  if (undoStack.length > 60) undoStack.shift();
-  redoStack = [];
-}
-function undo() {
-  if (!undoStack.length) return;
-  redoStack.push(JSON.stringify(paths));
-  paths = JSON.parse(undoStack.pop());
-  redrawAll(); updatePanel();
-}
-function redo() {
-  if (!redoStack.length) return;
-  undoStack.push(JSON.stringify(paths));
-  paths = JSON.parse(redoStack.pop());
-  redrawAll(); updatePanel();
-}
-document.getElementById('btn-undo').addEventListener('click', undo);
-document.getElementById('btn-redo').addEventListener('click', redo);
-document.getElementById('btn-clear').addEventListener('click', () => {
-  if (!paths.length) return;
-  saveUndo(); paths = []; redrawAll(); updatePanel();
-});
-
-// ── PANEL ─────────────────────────────────────────────────────
-document.getElementById('btn-toggle-panel').addEventListener('click', () => {
-  document.getElementById('side-panel').classList.toggle('hidden');
-});
-
-function extractColorsFromPaths() {
-  const colors = new Set();
-  paths.forEach(obj => {
-    if (obj.stroke && obj.stroke !== 'transparent') colors.add(obj.stroke.toLowerCase());
-    if (obj.fill   && obj.fill   !== 'transparent') colors.add(obj.fill.toLowerCase());
-  });
-  return [...colors];
-}
-
-function extractFontsFromPaths() {
-  const fonts = new Set();
-  paths.forEach(obj => { if (obj.type === 'text' && obj.ff) fonts.add(obj.ff); });
-  return [...fonts];
-}
-
-function updatePanel() {
-  const colors = extractColorsFromPaths();
-  const fonts  = extractFontsFromPaths();
-
+function updatePanel(){
+  const colors=extractColors(), fonts=extractFonts();
   // palette
-  const pr = document.getElementById('panel-palette');
-  pr.innerHTML = '';
-  colors.forEach(hex => {
-    const w = document.createElement('div');
-    w.className = 'pe-swatch';
-    const c = document.createElement('div');
-    c.className = 'pe-color'; c.style.background = hex; c.title = 'Click to copy';
-    c.onclick = () => navigator.clipboard.writeText(hex);
-    const l = document.createElement('div');
-    l.className = 'pe-hex'; l.textContent = hex;
-    w.appendChild(c); w.appendChild(l); pr.appendChild(w);
+  const pp=document.getElementById('p-palette');
+  pp.innerHTML='';
+  colors.forEach(hex=>{
+    const w=document.createElement('div');w.className='psw';
+    const c=document.createElement('div');c.className='psw-color';c.style.background=hex;c.title='Copy '+hex;
+    c.onclick=()=>navigator.clipboard.writeText(hex);
+    const l=document.createElement('div');l.className='psw-hex';l.textContent=hex;
+    w.appendChild(c);w.appendChild(l);pp.appendChild(w);
   });
-
   // fonts
-  const fl = document.getElementById('panel-fonts');
-  fl.innerHTML = '';
-  fonts.forEach(f => {
-    const d = document.createElement('div');
-    d.className = 'font-item';
-    d.innerHTML = `<div class="fn" style="font-family:'${f}',sans-serif">${f}</div><div class="fs">Used in canvas</div>`;
-    fl.appendChild(d);
+  const pf=document.getElementById('p-fonts');
+  pf.innerHTML='';
+  fonts.forEach(f=>{
+    const d=document.createElement('div');d.className='pfont';
+    d.innerHTML=`<div class="pfont-name" style="font-family:'${f}',sans-serif">${f}</div>`;
+    pf.appendChild(d);
   });
 }
 
-// ── EXPORT PNG ────────────────────────────────────────────────
-function exportPNG() {
-  // render to clean canvas without transform artifacts
-  const exp = document.createElement('canvas');
-  exp.width  = canvas.width;
-  exp.height = canvas.height;
-  const ec = exp.getContext('2d');
-  ec.fillStyle = '#ffffff';
-  ec.fillRect(0, 0, exp.width, exp.height);
-  // draw all objects at current view
-  ec.save();
-  ec.translate(panX, panY);
-  ec.scale(zoom, zoom);
-
-  // replicate drawObject with ec
-  paths.forEach(obj => {
-    ec.save();
-    ec.globalAlpha = obj.opacity ?? 1;
-    ec.strokeStyle = obj.stroke;
-    ec.lineWidth   = obj.lw;
-    ec.lineCap = 'round'; ec.lineJoin = 'round';
-    if (obj.fill) ec.fillStyle = obj.fill;
-    switch(obj.type) {
-      case 'pen':
-        if (!obj.pts||obj.pts.length<2) break;
-        ec.beginPath(); ec.moveTo(obj.pts[0].x,obj.pts[0].y);
-        obj.pts.forEach(p=>ec.lineTo(p.x,p.y)); ec.stroke(); break;
-      case 'eraser':
-        if (!obj.pts||obj.pts.length<2) break;
-        ec.save(); ec.globalCompositeOperation='destination-out'; ec.globalAlpha=1;
-        ec.strokeStyle='rgba(0,0,0,1)'; ec.lineWidth=obj.lw;
-        ec.beginPath(); ec.moveTo(obj.pts[0].x,obj.pts[0].y);
-        obj.pts.forEach(p=>ec.lineTo(p.x,p.y)); ec.stroke(); ec.restore(); break;
-      case 'line':
-        ec.beginPath(); ec.moveTo(obj.x1,obj.y1); ec.lineTo(obj.x2,obj.y2); ec.stroke(); break;
-      case 'arrow': drawArrowCtx(ec,obj.x1,obj.y1,obj.x2,obj.y2,obj.lw); break;
-      case 'rect':
-        ec.beginPath(); ec.rect(obj.x,obj.y,obj.w,obj.h);
-        if(obj.fill) ec.fill(); ec.stroke(); break;
-      case 'circle':
-        ec.beginPath(); ec.ellipse(obj.cx,obj.cy,Math.abs(obj.rx),Math.abs(obj.ry),0,0,Math.PI*2);
-        if(obj.fill) ec.fill(); ec.stroke(); break;
-      case 'text':
-        ec.font=`${obj.fs}px "${obj.ff}",sans-serif`;
-        ec.fillStyle=obj.stroke; ec.globalAlpha=obj.opacity??1;
-        obj.text.split('\n').forEach((l,i)=>ec.fillText(l,obj.x,obj.y+i*obj.fs*1.3)); break;
-    }
-    ec.restore();
-  });
+// ═══════════════════════════════════════════════════════
+// EXPORT PNG
+// ═══════════════════════════════════════════════════════
+function exportPNG(){
+  const exp=document.createElement('canvas');
+  exp.width=cv.width; exp.height=cv.height;
+  const ec=exp.getContext('2d');
+  ec.fillStyle='#ffffff'; ec.fillRect(0,0,exp.width,exp.height);
+  ec.save(); ec.translate(panX,panY); ec.scale(zoom,zoom);
+  paths.forEach(o=>drawObjOn(ec,o));
   ec.restore();
-
-  const link = document.createElement('a');
-  link.download = 'palettly-canvas.png';
-  link.href = exp.toDataURL('image/png');
-  link.click();
+  const a=document.createElement('a');
+  a.download='palettly-canvas.png';
+  a.href=exp.toDataURL('image/png');
+  a.click();
 }
 
-function drawArrowCtx(ec, x1,y1,x2,y2,lw) {
-  const hl = Math.max(10,lw*4), angle=Math.atan2(y2-y1,x2-x1);
-  ec.beginPath(); ec.moveTo(x1,y1); ec.lineTo(x2,y2); ec.stroke();
-  ec.beginPath();
-  ec.moveTo(x2,y2);
-  ec.lineTo(x2-hl*Math.cos(angle-0.4),y2-hl*Math.sin(angle-0.4));
-  ec.lineTo(x2-hl*Math.cos(angle+0.4),y2-hl*Math.sin(angle+0.4));
-  ec.closePath(); ec.fillStyle=ec.strokeStyle; ec.fill();
+function drawObjOn(c,o){
+  c.save();c.globalAlpha=o.a??1;c.strokeStyle=o.s;c.lineWidth=o.lw;c.lineCap='round';c.lineJoin='round';
+  if(o.f)c.fillStyle=o.f;
+  switch(o.type){
+    case 'pen':if(!o.pts||o.pts.length<2)break;c.beginPath();c.moveTo(o.pts[0].x,o.pts[0].y);o.pts.forEach(p=>c.lineTo(p.x,p.y));c.stroke();break;
+    case 'eraser':if(!o.pts||o.pts.length<2)break;c.save();c.globalCompositeOperation='destination-out';c.globalAlpha=1;c.strokeStyle='rgba(0,0,0,1)';c.lineWidth=o.lw;c.beginPath();c.moveTo(o.pts[0].x,o.pts[0].y);o.pts.forEach(p=>c.lineTo(p.x,p.y));c.stroke();c.restore();break;
+    case 'line':c.beginPath();c.moveTo(o.x1,o.y1);c.lineTo(o.x2,o.y2);c.stroke();break;
+    case 'arrow':drawArrow(c,o.x1,o.y1,o.x2,o.y2,o.lw);break;
+    case 'rect':c.beginPath();c.rect(o.x,o.y,o.w,o.h);if(o.f)c.fill();c.stroke();break;
+    case 'circle':c.beginPath();c.ellipse(o.cx,o.cy,Math.abs(o.rx),Math.abs(o.ry),0,0,Math.PI*2);if(o.f)c.fill();c.stroke();break;
+    case 'text':c.font=`${o.fs}px "${o.ff}",sans-serif`;c.fillStyle=o.s;c.globalAlpha=o.a??1;o.text.split('\n').forEach((l,i)=>c.fillText(l,o.x,o.y+i*o.fs*1.3));break;
+  }
+  c.restore();
 }
 
-document.getElementById('btn-export-png').addEventListener('click', exportPNG);
-document.getElementById('modal-download-png').addEventListener('click', ()=>{ exportPNG(); });
+document.getElementById('p-png').onclick=exportPNG;
+document.getElementById('m-dl-png').onclick=exportPNG;
 
-// ── EXPORT MODAL ──────────────────────────────────────────────
-function openExportModal() {
-  const colors = extractColorsFromPaths();
-  const fonts  = extractFontsFromPaths();
-
-  // palette
-  const mp = document.getElementById('modal-palette');
-  mp.innerHTML = '';
-  colors.forEach(hex => {
-    const w=document.createElement('div'); w.className='modal-swatch';
-    const c=document.createElement('div'); c.className='modal-color'; c.style.background=hex;
-    c.onclick=()=>{navigator.clipboard.writeText(hex);};
-    const l=document.createElement('div'); l.className='modal-hex'; l.textContent=hex;
-    w.appendChild(c); w.appendChild(l); mp.appendChild(w);
+// ═══════════════════════════════════════════════════════
+// EXPORT MODAL
+// ═══════════════════════════════════════════════════════
+function openModal(){
+  const colors=extractColors(), fonts=extractFonts();
+  // palette swatches
+  const mp=document.getElementById('m-pal'); mp.innerHTML='';
+  colors.forEach(hex=>{
+    const w=document.createElement('div');w.className='msw';
+    const c=document.createElement('div');c.className='msw-c';c.style.background=hex;
+    c.onclick=()=>navigator.clipboard.writeText(hex);
+    const l=document.createElement('div');l.className='msw-h';l.textContent=hex;
+    w.appendChild(c);w.appendChild(l);mp.appendChild(w);
   });
-
   // css vars
-  const cssVars = colors.length
-    ? ':root {\n' + colors.map((c,i)=>`  --color-${i+1}: ${c};`).join('\n') + '\n}'
-    : '/* No colors used yet */';
-  document.getElementById('modal-css-vars').textContent = cssVars;
-
+  document.getElementById('m-css').textContent=colors.length
+    ?':root {\n'+colors.map((c,i)=>`  --color-${i+1}: ${c};`).join('\n')+'\n}'
+    :'/* No colors yet */';
   // fonts
-  const mf = document.getElementById('modal-fonts');
-  mf.innerHTML = '';
-  fonts.forEach(f => {
-    const d=document.createElement('div'); d.className='modal-font-card';
-    d.innerHTML=`<div class="mfc-name">${f}</div>
-      <div class="mfc-preview" style="font-family:'${f}',sans-serif">Aa Bb Cc</div>
-      <div class="mfc-embed">family=${encodeURIComponent(f)}</div>`;
+  const mf=document.getElementById('m-fonts');mf.innerHTML='';
+  fonts.forEach(f=>{
+    const d=document.createElement('div');d.className='mfont-card';
+    d.innerHTML=`<div class="mfn">${f}</div><div class="mfp" style="font-family:'${f}',sans-serif">Aa Bb Cc</div>`;
     mf.appendChild(d);
   });
-
-  // font imports
-  const imports = fonts.length
-    ? `/* Google Fonts */\n@import url('https://fonts.googleapis.com/css2?${
-        fonts.map(f=>`family=${encodeURIComponent(f)}`).join('&')
-      }&display=swap');\n\n/* Usage */\n${fonts.map(f=>`/* font-family: '${f}', sans-serif; */`).join('\n')}`
-    : '/* No fonts used yet */';
-  document.getElementById('modal-font-imports').textContent = imports;
-
-  document.getElementById('export-modal').classList.add('open');
+  // imports
+  document.getElementById('m-imports').textContent=fonts.length
+    ?`@import url('https://fonts.googleapis.com/css2?${fonts.map(f=>`family=${encodeURIComponent(f)}`).join('&')}&display=swap');\n\n${fonts.map(f=>`/* font-family: '${f}', sans-serif; */`).join('\n')}`
+    :'/* No fonts yet */';
+  document.getElementById('exp-modal').classList.add('open');
 }
 
-document.getElementById('btn-export-modal').addEventListener('click', openExportModal);
-document.getElementById('btn-export-kit').addEventListener('click', openExportModal);
-document.getElementById('modal-close').addEventListener('click', ()=>
-  document.getElementById('export-modal').classList.remove('open')
-);
-document.getElementById('export-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('export-modal'))
-    document.getElementById('export-modal').classList.remove('open');
-});
+document.getElementById('btn-export').onclick=openModal;
+document.getElementById('p-kit').onclick=openModal;
+document.getElementById('m-close').onclick=()=>document.getElementById('exp-modal').classList.remove('open');
+document.getElementById('exp-modal').onclick=e=>{if(e.target===document.getElementById('exp-modal'))document.getElementById('exp-modal').classList.remove('open');};
 
-function makeCopyBtn(btnId, sourceId) {
-  document.getElementById(btnId).addEventListener('click', function() {
-    navigator.clipboard.writeText(document.getElementById(sourceId).textContent);
-    this.textContent = 'Copied!'; this.classList.add('ok');
-    setTimeout(()=>{ this.textContent='Copy'; this.classList.remove('ok'); }, 1800);
-  });
+function makeCopy(btnId,srcId){
+  document.getElementById(btnId).onclick=function(){
+    navigator.clipboard.writeText(document.getElementById(srcId).textContent);
+    this.textContent='Copied!';this.classList.add('ok');
+    setTimeout(()=>{this.textContent='Copy';this.classList.remove('ok');},1800);
+  };
 }
-makeCopyBtn('copy-css-btn','modal-css-vars');
-makeCopyBtn('copy-fonts-btn','modal-font-imports');
+makeCopy('m-css-cp','m-css');
+makeCopy('m-imp-cp','m-imports');
 
-// ── INIT ──────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
 addColor('#181714');
+updateSizeUI();
+updateCursorRingColor();
+setTool('pen');
 updatePanel();
 </script>
 </body>
