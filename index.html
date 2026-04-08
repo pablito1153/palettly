@@ -118,7 +118,7 @@ h1 em{font-style:italic;color:var(--g600)}
       </span>
       <span class="hmeta-item">
         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <span data-i18n="meta3">10 tools and growing</span>
+        <span data-i18n="meta3">11 tools and growing</span>
       </span>
     </div>
   </div>
@@ -127,8 +127,18 @@ h1 em{font-style:italic;color:var(--g600)}
 <section class="tools-section">
   <div class="container">
     <h2 style="font-family:var(--fd);font-size:clamp(24px,3vw,32px);font-weight:400;letter-spacing:-.5px;text-align:center;margin-bottom:8px;color:var(--s900)">All tools</h2>
-    <p style="text-align:center;color:var(--muted);font-size:15px;margin-bottom:32px;font-weight:300">Click any tool to get started — everything runs instantly in your browser</p>
-    <div class="tools-grid">
+    <p style="text-align:center;color:var(--muted);font-size:15px;margin-bottom:24px;font-weight:300">Click any tool to get started — everything runs instantly in your browser</p>
+
+    <!-- SEARCH -->
+    <div style="max-width:480px;margin:0 auto 32px;position:relative">
+      <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--s400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="tool-search" placeholder="Search tools… try 'png', 'color', 'css'…"
+        style="width:100%;padding:11px 14px 11px 40px;font-family:var(--fb);font-size:15px;border:1.5px solid var(--border);border-radius:var(--rsm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s"
+        onfocus="this.style.borderColor='var(--g400)'" onblur="this.style.borderColor='var(--border)'">
+      <button id="search-clear" onclick="clearSearch()" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--s400);font-size:18px;line-height:1;padding:2px 4px">×</button>
+    </div>
+
+    <div class="tools-grid" id="tools-grid">
 
       <a href="palette.html" class="tool-card-hub tc-green">
         <div class="tool-icon green">
@@ -245,9 +255,76 @@ h1 em{font-style:italic;color:var(--g600)}
         <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
 
+      <a href="spreadsheet.html" class="tool-card-hub tc-green">
+        <div class="tool-icon green">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g600)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Spreadsheet converter</h3>
+          <p>Convert between CSV, XLSX, JSON and TSV instantly. Preview your data before downloading.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
     </div>
+
+    <!-- NO RESULTS -->
+    <div id="no-results" style="display:none;text-align:center;padding:48px 24px">
+      <svg style="margin:0 auto 16px;display:block;opacity:.25" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p style="font-size:16px;font-weight:500;color:var(--s800);margin-bottom:6px">No tools found</p>
+      <p style="font-size:14px;color:var(--muted)">Try a different keyword</p>
+    </div>
+
   </div>
 </section>
+
+<script>
+const TOOL_KEYWORDS = {
+  'palette.html':           ['color','palette','extract','image','hex','css','figma','tailwind','colors'],
+  'gradient.html':          ['gradient','css','linear','radial','conic','background','color'],
+  'color-convert.html':     ['color','convert','hex','rgb','hsl','hsb','format','css'],
+  'palette-generator.html': ['palette','color','complementary','analogous','triadic','monochromatic','scheme'],
+  'units.html':             ['unit','px','rem','em','vh','vw','convert','css','font','size','pixel'],
+  'compress.html':          ['compress','image','jpg','png','webp','optimize','size','reduce'],
+  'fonts.html':             ['font','google','typography','typeface','embed','preview'],
+  'mood.html':              ['mood','palette','color','warm','dark','minimal','retro','vibe','aesthetic'],
+  'picker.html':            ['color','picker','eyedropper','image','hex','rgb','hsl','dropper'],
+  'convert.html':           ['convert','svg','png','jpg','jpeg','webp','gif','image','format'],
+  'spreadsheet.html':       ['csv','xlsx','excel','spreadsheet','convert','json','tsv','table','data'],
+};
+const searchInput = document.getElementById('tool-search');
+const searchClear = document.getElementById('search-clear');
+const toolsGrid   = document.getElementById('tools-grid');
+const noResults   = document.getElementById('no-results');
+const cards       = Array.from(toolsGrid.querySelectorAll('.tool-card-hub'));
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  searchClear.style.display = q ? 'block' : 'none';
+  filterTools(q);
+});
+
+function filterTools(q) {
+  if (!q) { cards.forEach(c => c.style.display = ''); noResults.style.display = 'none'; return; }
+  let visible = 0;
+  cards.forEach(card => {
+    const href = card.getAttribute('href');
+    const kw = TOOL_KEYWORDS[href] || [];
+    const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+    const desc  = card.querySelector('p')?.textContent.toLowerCase()  || '';
+    const match = kw.some(k => k.includes(q) || q.includes(k)) || title.includes(q) || desc.includes(q);
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+
+function clearSearch() {
+  searchInput.value = ''; searchClear.style.display = 'none';
+  filterTools(''); searchInput.focus();
+}
+</script>
 
 <div class="container">
   <section style="max-width:800px;margin:0 auto 56px;padding:0 0 0">
