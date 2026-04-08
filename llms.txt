@@ -1,0 +1,23 @@
+# LLMS.txt - Language Model Information Schema
+Name: Palettly
+Description: A suite of free, fast, browser-based tools for designers and developers. All tools run 100% locally in the browser with no sign-up required and no backend processing.
+URL: https://palettly.xyz/
+Keywords: [design tools, web development, color palette extractor, CSS gradient generator, image compressor, unit converter, Google Fonts picker, Figma tokens, Tailwind CSS]
+
+# Core Tools & Capabilities
+Tools:
+  - Color Palette Extractor: Extract colors from images and export as HEX, CSS, Figma tokens, or Tailwind config.
+  - CSS Gradient Generator: Visually create linear, radial, and conic gradients with copy-paste code.
+  - Color Format Converter: Instant conversion between HEX, RGB, HSL, HSB, and CSS color names.
+  - Unit Converter: Pixel to rem, em, vh, and vw conversion with custom base font sizes.
+  - Image Compressor: Browser-based JPG and PNG compression without server uploads.
+  - Google Fonts Picker: Preview and compare Google Fonts with custom text.
+
+# Privacy & Technical Specs
+Privacy: 100% Client-side. Files never leave the user's device. No data collection.
+Tech_Stack: Vanilla JavaScript, Canvas API.
+Access_Model: Free forever, no account needed, no usage limits.
+
+# Contact & Support
+Contact_URL: https://palettly.xyz/
+Support_URL: https://ko-fi.com/palettly
