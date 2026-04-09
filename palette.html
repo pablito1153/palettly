@@ -84,14 +84,8 @@ header{padding:18px 0;border-bottom:1px solid var(--border);background:rgba(255,
 .lang-flag{font-size:16px;line-height:1}
 
 /* ADS */
-.ad-banner{background:var(--s100);border:1px dashed var(--s200);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;color:var(--s400);font-size:11px;letter-spacing:.5px;text-transform:uppercase}
-.ad-top{height:90px;margin:20px 0}
-.ad-bottom{height:90px;margin:24px 0 0}
 .tool-section{position:relative}
-.ad-side{position:absolute;top:0;width:148px;min-height:480px;border-radius:var(--rmd)}
-.ad-side-l{left:0}
-.ad-side-r{right:0}
-@media(max-width:1100px){.ad-side{display:none}}
+@media(max-width:1100px){}
 
 /* TOOL */
 .tool-wrap{max-width:720px;margin:0 auto}
@@ -250,11 +244,6 @@ canvas{display:none}
     </div>
   </div>
 </header>
-
-<div class="container">
-  <div class="ad-banner ad-top">Advertisement</div>
-</div>
-
 <section class="hero">
   <div class="container">
     <div class="eyebrow fu"><span class="dot"></span> <span data-i18n="eyebrow">No sign-up · No watermarks · No limits</span></div>
@@ -279,9 +268,7 @@ canvas{display:none}
 
 <div class="container">
   <div class="tool-section">
-    <div class="ad-banner ad-side ad-side-l">Ad</div>
-    <div class="ad-banner ad-side ad-side-r">Ad</div>
-    <div class="tool-wrap">
+<div class="tool-wrap">
       <div class="tool-card">
         <div class="tool-head">
           <h2 data-i18n="tool_title">Color extractor</h2>
@@ -353,9 +340,7 @@ canvas{display:none}
           </div>
         </div>
       </div>
-      <div class="ad-banner ad-bottom">Advertisement</div>
-
-      <div class="donate-wrap">
+<div class="donate-wrap">
         <div class="donate-card">
           <div class="donate-left">
             <div class="donate-icon">☕</div>
@@ -424,11 +409,14 @@ canvas{display:none}
 <footer>
   <div class="container">
     <div class="finner">
-      <div class="fleft"><strong>Palettly</strong> — <span data-i18n="footer_tagline">Free color palette extractor. Built with care.</span></div>
+          <div class="fleft"><strong>Palettly</strong> by <a href="https://trioni.net" target="_blank" rel="noopener noreferrer" style="color:var(--g600);text-decoration:none;font-weight:500">Trioni</a> — Free design &amp; developer tools.</div>
       <div class="flinks">
-        <a href="#" data-i18n="footer_privacy">Privacy</a>
-        <a href="#" data-i18n="footer_about">About</a>
-        <a href="#" data-i18n="footer_contact">Contact</a>
+        <a href="index.html">All tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
       </div>
     </div>
   </div>
