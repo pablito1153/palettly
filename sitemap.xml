@@ -224,4 +224,10 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://palettly.xyz/canvas.html"/>
   </url>
 
+  <url><loc>https://palettly.xyz/about.html</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://palettly.xyz/faq.html</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://palettly.xyz/privacy.html</loc><lastmod>2026-04-09</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://palettly.xyz/terms.html</loc><lastmod>2026-04-09</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://palettly.xyz/contact.html</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
 </urlset>
