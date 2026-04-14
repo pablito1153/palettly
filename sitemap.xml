@@ -230,4 +230,20 @@
   <url><loc>https://palettly.xyz/terms.html</loc><lastmod>2026-04-09</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://palettly.xyz/contact.html</loc><lastmod>2026-04-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
 
+  <url>
+    <loc>https://palettly.xyz/pdf-to-jpg.html</loc>
+    <lastmod>2026-04-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://palettly.xyz/pdf-to-jpg.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://palettly.xyz/pdf-to-jpg.html"/>
+  </url>
+
 </urlset>
