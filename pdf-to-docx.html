@@ -60,6 +60,13 @@
 </style>
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974" crossorigin="anonymous"></script>
+<!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { 
+    (window.vaq = window.vaq || []).push(arguments); 
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -366,6 +373,13 @@ document.getElementById('btn-download').addEventListener('click', () => {
       p  { margin: 0 0 6pt; }
       hr { border: none; border-top: 1pt solid #ccc; margin: 12pt 0; }
     </style>
+<!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { 
+    (window.vaq = window.vaq || []).push(arguments); 
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
   </head><body>${extractedHtml}</body></html>`;
 
   const blob = htmlDocx.asBlob(fullHtml, {
