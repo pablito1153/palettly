@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palettly — Free Design & Developer Tools</title>
+<meta name="description" content="Free browser-based tools for designers and developers. Extract color palettes, generate CSS gradients, convert units, compress images and more. No sign-up needed.">
+<meta name="keywords" content="free design tools, developer tools online, color palette, CSS gradient generator, image compressor, font picker, unit converter, hex to rgb, browser tools">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2da05a">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://palettly.xyz/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://palettly.xyz/">
+<meta property="og:title" content="Palettly — Free Design & Developer Tools">
+<meta property="og:description" content="Free browser-based tools for designers and developers. No sign-up, no backend, 100% free.">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta property="og:site_name" content="Palettly">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Palettly — Free Design & Developer Tools">
+<meta name="twitter:image" content="https://palettly.xyz/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Palettly","url":"https://palettly.xyz/","description":"Free browser-based design and developer tools. No sign-up required."}
+</script>
+<link rel="stylesheet" href="shared.css">
+<style>
+.hero{padding:64px 0 48px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--g600);background:var(--g50);border:1px solid var(--g200);padding:5px 14px;border-radius:100px;margin-bottom:22px}
+.dot{width:6px;height:6px;background:var(--g500);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{font-family:var(--fd);font-size:clamp(36px,5vw,60px);line-height:1.1;letter-spacing:-1.5px;color:var(--s900);margin-bottom:16px}
+h1 em{font-style:italic;color:var(--g600)}
+.hsub{font-size:18px;color:var(--muted);font-weight:300;max-width:500px;margin:0 auto 12px}
+.hmeta{display:flex;align-items:center;justify-content:center;gap:20px;font-size:13px;color:var(--s400);flex-wrap:wrap}
+.hmeta-item{display:flex;align-items:center;gap:5px}
+
+/* TOOLS GRID */
+.tools-section{padding:0 0 80px}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.tool-card-hub{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:24px;text-decoration:none;color:inherit;transition:all .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.tool-card-hub:hover{border-color:var(--g400);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.tool-card-hub::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--rlg) var(--rlg) 0 0;opacity:0;transition:opacity .2s}
+.tool-card-hub:hover::before{opacity:1}
+.tc-green::before{background:var(--g500)}
+.tc-amber::before{background:var(--amber)}
+.tc-sky::before{background:var(--sky)}
+.tc-coral::before{background:var(--coral)}
+.tc-purple::before{background:var(--purple)}
+
+.tool-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tool-icon.green{background:var(--g50);border:1px solid var(--g200)}
+.tool-icon.amber{background:#fff7ec;border:1px solid #fad9a0}
+.tool-icon.sky{background:#eef4fd;border:1px solid #b5d4f4}
+.tool-icon.coral{background:#fdf1ee;border:1px solid #f5c4b3}
+.tool-icon.purple{background:#f3f0fe;border:1px solid #c8c2f0}
+
+.tool-meta{flex:1}
+.tool-meta h3{font-size:16px;font-weight:500;margin-bottom:4px;color:var(--s900)}
+.tool-meta p{font-size:13px;color:var(--muted);line-height:1.5}
+.tool-badge{display:inline-flex;font-size:11px;font-weight:500;padding:2px 8px;border-radius:100px;margin-top:10px}
+.tool-badge.new{background:var(--g50);color:var(--g700);border:1px solid var(--g200)}
+.tool-arrow{position:absolute;bottom:20px;right:20px;color:var(--border);transition:color .2s,transform .2s}
+.tool-card-hub:hover .tool-arrow{color:var(--g400);transform:translateX(3px)}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QD3WBBG77');
+</script>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html" class="active" data-i18n="nav_all_tools">All tools</a>
+        <span class="badge" data-i18n="nav_free">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow fu"><span class="dot"></span> <span data-i18n="eyebrow">No sign-up · No backend · 100% free</span></div>
+    <h1 class="fu d1" data-i18n-html="hero_title"><em>Design tools</em> that<br>just work</h1>
+    <p class="hsub fu d2" data-i18n="hero_sub">A growing suite of fast, browser-based tools for designers and developers.</p>
+    <div class="hmeta fu d3">
+      <span class="hmeta-item">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="meta1">Everything runs in your browser</span>
+      </span>
+      <span class="hmeta-item">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="meta2">Your files never leave your device</span>
+      </span>
+      <span class="hmeta-item">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="var(--g500)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="meta3">14 tools and growing</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<section class="tools-section">
+  <div class="container">
+    <h2 style="font-family:var(--fd);font-size:clamp(24px,3vw,32px);font-weight:400;letter-spacing:-.5px;text-align:center;margin-bottom:8px;color:var(--s900)">All tools</h2>
+    <p style="text-align:center;color:var(--muted);font-size:15px;margin-bottom:24px;font-weight:300">Click any tool to get started — everything runs instantly in your browser</p>
+
+    <!-- SEARCH -->
+    <div style="max-width:480px;margin:0 auto 32px;position:relative">
+      <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--s400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="tool-search" placeholder="Search tools… try 'png', 'color', 'css'…"
+        style="width:100%;padding:11px 14px 11px 40px;font-family:var(--fb);font-size:15px;border:1.5px solid var(--border);border-radius:var(--rsm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s"
+        onfocus="this.style.borderColor='var(--g400)'" onblur="this.style.borderColor='var(--border)'">
+      <button id="search-clear" onclick="clearSearch()" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--s400);font-size:18px;line-height:1;padding:2px 4px">×</button>
+    </div>
+
+    <div class="tools-grid" id="tools-grid">
+
+      <a href="palette.html" class="tool-card-hub tc-green">
+        <div class="tool-icon green">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g600)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Color palette extractor</h3>
+          <p>Upload any image and extract a beautiful color palette. Export as HEX, CSS, Figma tokens or Tailwind config.</p>
+          <span class="tool-badge new">Most popular</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="gradient.html" class="tool-card-hub tc-amber">
+        <div class="tool-icon amber">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c07a10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#e8962a"/><stop offset="100%" stop-color="#e05c3a"/></linearGradient></defs><rect x="3" y="8" width="18" height="8" rx="2"/><path d="M8 8V6M12 8V5M16 8V6"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>CSS gradient generator</h3>
+          <p>Create linear, radial and conic gradients visually. Copy the CSS code ready to paste into your project.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="color-convert.html" class="tool-card-hub tc-green">
+        <div class="tool-icon green">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g600)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Color format converter</h3>
+          <p>Convert between HEX, RGB, HSL, HSB and CSS color names instantly. Live preview included.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="palette-generator.html" class="tool-card-hub tc-purple">
+        <div class="tool-icon purple">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Palette from base color</h3>
+          <p>Pick a base color and generate complementary, analogous, triadic or monochromatic palettes automatically.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="units.html" class="tool-card-hub tc-sky">
+        <div class="tool-icon sky">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--sky)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Unit converter</h3>
+          <p>Convert px ↔ rem ↔ em ↔ vh ↔ vw instantly. Set your base font size and get all values at once.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="compress.html" class="tool-card-hub tc-coral">
+        <div class="tool-icon coral">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Image compressor</h3>
+          <p>Compress JPG and PNG images directly in your browser. Adjust quality and download the result instantly.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="fonts.html" class="tool-card-hub tc-purple">
+        <div class="tool-icon purple">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Google Fonts picker</h3>
+          <p>Browse, preview and compare Google Fonts with your own text. Get the embed code ready to copy.</p>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="mood.html" class="tool-card-hub tc-coral">
+        <div class="tool-icon coral">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Mood palette generator</h3>
+          <p>Not inspired? Pick mood keywords — warm, dark, minimal, retro — and get a matching color palette instantly.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="picker.html" class="tool-card-hub tc-sky">
+        <div class="tool-icon sky">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--sky)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1-1-1V9"/><path d="m9 12 3-3 3 3"/><circle cx="12" cy="5" r="3"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Image color picker</h3>
+          <p>Upload any image and use the precision eyedropper to pick exact colors. Get HEX, RGB and HSL instantly.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="convert.html" class="tool-card-hub tc-amber">
+        <div class="tool-icon amber">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c07a10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Image format converter</h3>
+          <p>Convert between SVG, PNG, JPG and WEBP instantly. Auto-detects format, custom output size, quality control.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="spreadsheet.html" class="tool-card-hub tc-green">
+        <div class="tool-icon green">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--g600)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Spreadsheet converter</h3>
+          <p>Convert between CSV, XLSX, JSON and TSV instantly. Preview your data before downloading.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="pdf-to-docx.html" class="tool-card-hub tc-coral">
+        <div class="tool-icon coral">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>PDF to DOCX converter</h3>
+          <p>Convert PDF files to editable Word documents. Text and basic formatting preserved. Works best with simple PDFs.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="canvas.html" class="tool-card-hub tc-purple">
+        <div class="tool-icon purple">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>Palettly Canvas</h3>
+          <p>Draw, add shapes and text. Export your canvas as PNG plus a design kit with your color palette and fonts used.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="pdf-to-jpg.html" class="tool-card-hub tc-amber">
+        <div class="tool-icon amber">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#c07a10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><rect x="3" y="3" width="18" height="18" rx="3" style="display:none"/><circle cx="8.5" cy="13.5" r="1.5"/><polyline points="21 18 16 13 5 21" transform="translate(0,-5)"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>PDF to JPG converter</h3>
+          <p>Convert every page of one or many PDFs to JPG or PNG images. Download all at once as a ZIP. Free, unlimited, no sign-up.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+      <a href="to-webp.html" class="tool-card-hub tc-purple">
+        <div class="tool-icon purple">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="var(--purple)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/></svg>
+        </div>
+        <div class="tool-meta">
+          <h3>JPG / PNG to WebP</h3>
+          <p>Convert JPEG and PNG images to WebP in your browser. Batch support, quality control, download as ZIP. Free, no upload.</p>
+          <span class="tool-badge new">New</span>
+        </div>
+        <svg class="tool-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+    </div>
+
+    <!-- NO RESULTS -->
+    <div id="no-results" style="display:none;text-align:center;padding:48px 24px">
+      <svg style="margin:0 auto 16px;display:block;opacity:.25" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p style="font-size:16px;font-weight:500;color:var(--s800);margin-bottom:6px">No tools found</p>
+      <p style="font-size:14px;color:var(--muted)">Try a different keyword</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const TOOL_KEYWORDS = {
+  'palette.html':           ['color','palette','extract','image','hex','css','figma','tailwind','colors'],
+  'gradient.html':          ['gradient','css','linear','radial','conic','background','color'],
+  'color-convert.html':     ['color','convert','hex','rgb','hsl','hsb','format','css'],
+  'palette-generator.html': ['palette','color','complementary','analogous','triadic','monochromatic','scheme'],
+  'units.html':             ['unit','px','rem','em','vh','vw','convert','css','font','size','pixel'],
+  'compress.html':          ['compress','image','jpg','png','webp','optimize','size','reduce'],
+  'fonts.html':             ['font','google','typography','typeface','embed','preview'],
+  'mood.html':              ['mood','palette','color','warm','dark','minimal','retro','vibe','aesthetic'],
+  'picker.html':            ['color','picker','eyedropper','image','hex','rgb','hsl','dropper'],
+  'convert.html':           ['convert','svg','png','jpg','jpeg','webp','gif','image','format'],
+  'spreadsheet.html':       ['csv','xlsx','excel','spreadsheet','convert','json','tsv','table','data'],
+  'pdf-to-docx.html':       ['pdf','docx','word','convert','document','pdf to word','pdf to docx'],
+  'canvas.html':            ['canvas','draw','sketch','whiteboard','design','shapes','text','export','palette'],
+  'pdf-to-jpg.html':        ['pdf','jpg','jpeg','png','image','convert','pdf to image','pdf to jpg','pages'],
+  'to-webp.html':           ['webp','jpg','jpeg','png','convert','to webp','jpg to webp','png to webp','image','batch','compress'],
+};
+const searchInput = document.getElementById('tool-search');
+const searchClear = document.getElementById('search-clear');
+const toolsGrid   = document.getElementById('tools-grid');
+const noResults   = document.getElementById('no-results');
+const cards       = Array.from(toolsGrid.querySelectorAll('.tool-card-hub'));
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  searchClear.style.display = q ? 'block' : 'none';
+  filterTools(q);
+});
+
+function filterTools(q) {
+  if (!q) { cards.forEach(c => c.style.display = ''); noResults.style.display = 'none'; return; }
+  let visible = 0;
+  cards.forEach(card => {
+    const href = card.getAttribute('href');
+    const kw = TOOL_KEYWORDS[href] || [];
+    const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+    const desc  = card.querySelector('p')?.textContent.toLowerCase()  || '';
+    const match = kw.some(k => k.includes(q) || q.includes(k)) || title.includes(q) || desc.includes(q);
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+
+function clearSearch() {
+  searchInput.value = ''; searchClear.style.display = 'none';
+  filterTools(''); searchInput.focus();
+}
+</script>
+
+<div class="container">
+  <section style="max-width:800px;margin:0 auto 56px;padding:0 0 0">
+    <h2 style="font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:400;letter-spacing:-.3px;margin-bottom:20px;color:var(--s900)">Why use Palettly?</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">100% browser-based</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Every tool runs entirely in your browser using JavaScript and the Canvas API. No files are ever uploaded to any server — your data stays on your device at all times.</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">No sign-up, no limits</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Open a tool and start using it immediately. No account creation, no email required, no watermarks on exports, no daily limits. Just fast, focused tools that do their job.</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--s800)">Built for professionals</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">Export color palettes as HEX, CSS variables, Figma design tokens or Tailwind config. Convert units with custom base sizes. Generate CSS gradients ready to paste directly into your stylesheet.</p>
+      </div>
+    </div>
+  </section>
+  <div class="donate-wrap" style="margin-bottom:32px">
+    <div class="donate-card">
+      <div class="donate-left">
+        <div class="donate-icon">☕</div>
+        <div class="donate-text">
+          <p>Enjoying Palettly? Buy me a coffee</p>
+          <span>These tools are free and always will be. A small tip keeps them alive.</span>
+        </div>
+      </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn-donate" href="https://ko-fi.com/palettly" target="_blank" rel="noopener noreferrer" style="background:#FF5E5B">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.69-.929-1.201-2.224-.43-3.41.7-1.1 2.297-1.501 3.422-.503l.028.023.032-.024c1.143-1.019 2.791-.602 3.472.439.733 1.09.491 2.422-.061 3.52z"/></svg>
+              Ko-fi
+            </a>
+            <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+              PayPal
+            </a>
+          </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> by <a href="https://trioni.net" target="_blank" rel="noopener noreferrer" style="color:var(--g600);text-decoration:none;font-weight:500">Trioni</a> — Free design &amp; developer tools.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+<script src="shared.js"></script>
+<script>PALETTLY.initI18n('index');</script>
+</body>
+</html>

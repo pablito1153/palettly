@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF to JPG Converter — Free, Unlimited, No Sign-up — Palettly</title>
+<meta name="description" content="Convert PDF pages to JPG or PNG images instantly. Upload multiple PDFs at once, choose quality and resolution, download all as ZIP. Free, unlimited, no sign-up required.">
+<meta name="keywords" content="pdf to jpg, pdf to image, convert pdf to jpg free, pdf to png, pdf pages to images, batch pdf converter, pdf jpg online free">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2da05a">
+<link rel="canonical" href="https://palettly.xyz/pdf-to-jpg.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="PDF to JPG Converter — Free & Unlimited — Palettly">
+<meta property="og:description" content="Convert PDF pages to JPG images free. Upload multiple PDFs, download all as ZIP. No sign-up, no limits, no $35/month.">
+<meta property="og:url" content="https://palettly.xyz/pdf-to-jpg.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9QD3WBBG77');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* DROP ZONE */
+#drop-zone{border:2px dashed var(--g200);border-radius:var(--rlg);background:var(--g50);min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;text-align:center;padding:32px 24px}
+#drop-zone:hover,#drop-zone.over{border-color:var(--g400);background:var(--g100)}
+#drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-badge{display:inline-flex;align-items:center;gap:6px;background:var(--g500);color:#fff;font-size:12px;font-weight:500;padding:4px 12px;border-radius:100px;margin-bottom:14px}
+
+/* OPTIONS BAR */
+.options-bar{background:var(--s50);border:1px solid var(--border);border-radius:var(--rmd);padding:14px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.opt-group{display:flex;align-items:center;gap:8px}
+.opt-group label{font-size:13px;font-weight:500;color:var(--s700);white-space:nowrap}
+.opt-select{font-family:var(--fb);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:5px 10px;background:var(--surface);color:var(--s800);cursor:pointer}
+.opt-range{accent-color:var(--g500);width:80px}
+.opt-val{font-size:12px;font-weight:500;color:var(--s800);min-width:32px}
+
+/* PDF FILE CARDS */
+.pdf-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.pdf-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden}
+.pdf-card-head{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s}
+.pdf-card-head:hover{background:var(--s50)}
+.pdf-icon{width:36px;height:36px;border-radius:8px;background:#fdf1ee;color:#b84424;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.pdf-meta{flex:1;min-width:0}
+.pdf-name{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdf-info{font-size:12px;color:var(--muted);margin-top:2px}
+.pdf-status{font-size:12px;font-weight:500;flex-shrink:0}
+.pdf-status.pending{color:var(--s400)}
+.pdf-status.processing{color:var(--g600)}
+.pdf-status.done{color:var(--g600)}
+.pdf-status.error{color:#b84424}
+.pdf-chevron{width:16px;height:16px;color:var(--s400);transition:transform .2s;flex-shrink:0}
+.pdf-chevron.open{transform:rotate(180deg)}
+
+/* PAGES GRID */
+.pdf-pages{display:none;padding:0 18px 18px;border-top:1px solid var(--s100)}
+.pdf-pages.open{display:block}
+.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+.page-thumb{background:var(--s50);border:1px solid var(--border);border-radius:var(--rsm);overflow:hidden;position:relative;cursor:pointer;transition:all .15s}
+.page-thumb:hover{border-color:var(--g400);transform:translateY(-1px)}
+.page-thumb img{width:100%;display:block;aspect-ratio:210/297;object-fit:contain;background:#fff}
+.page-label{font-size:11px;color:var(--muted);text-align:center;padding:5px;border-top:1px solid var(--border);background:var(--surface)}
+.page-dl-btn{position:absolute;top:6px;right:6px;background:var(--g500);color:#fff;border:none;border-radius:5px;padding:3px 7px;font-size:10px;font-weight:500;cursor:pointer;opacity:0;transition:opacity .15s;font-family:var(--fb)}
+.page-thumb:hover .page-dl-btn{opacity:1}
+
+/* PROGRESS */
+.prog-wrap{height:6px;background:var(--s200);border-radius:100px;overflow:hidden;margin-top:8px}
+.prog-fill{height:100%;background:var(--g500);border-radius:100px;transition:width .3s;width:0%}
+
+/* GLOBAL ACTIONS */
+.global-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.stat-chip{background:var(--s100);border-radius:var(--rsm);padding:7px 14px;font-size:13px;color:var(--muted)}
+.stat-chip strong{color:var(--text);font-weight:500}
+
+/* HERO BADGES */
+.hero-badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero-badge{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:12px;color:var(--muted);padding:4px 12px}
+.hero-badge svg{color:var(--g500)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container" style="padding-top:40px;padding-bottom:16px">
+  <div class="tool-wrap" style="max-width:860px;margin:0 auto">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div>
+          <h2>PDF to JPG converter</h2>
+          <span style="font-size:13px;color:var(--muted)">Every page becomes an image. Multiple PDFs. Completely free.</span>
+        </div>
+      </div>
+      <div class="tool-body">
+
+        <!-- HERO BADGES -->
+        <div class="hero-badges" style="justify-content:flex-start;margin-bottom:20px">
+          <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited PDFs</span>
+          <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No sign-up</span>
+          <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Files never leave your device</span>
+          <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Download as ZIP</span>
+        </div>
+
+        <!-- DROP ZONE -->
+        <div id="drop-zone">
+          <input type="file" id="file-input" accept=".pdf,application/pdf" multiple>
+          <div class="drop-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Drop PDFs here
+          </div>
+          <p style="font-size:16px;font-weight:500;color:var(--s800);margin-bottom:6px">Drop one or many PDF files</p>
+          <p style="font-size:13px;color:var(--s400)">All processing happens in your browser — your files never leave your device</p>
+          <div style="display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap">
+            <button class="btn-primary" type="button" onclick="document.getElementById('file-input').click();event.stopPropagation()" style="position:relative;z-index:2">Choose PDFs</button>
+          </div>
+        </div>
+
+        <!-- OPTIONS -->
+        <div id="options-section" style="display:none">
+          <div class="options-bar">
+            <div class="opt-group">
+              <label>Format</label>
+              <select class="opt-select" id="opt-format">
+                <option value="jpeg">JPG</option>
+                <option value="png">PNG</option>
+              </select>
+            </div>
+            <div class="opt-group" id="quality-group">
+              <label>Quality</label>
+              <input type="range" class="opt-range" id="opt-quality" min="50" max="100" value="92" step="1">
+              <span class="opt-val" id="quality-val">92%</span>
+            </div>
+            <div class="opt-group">
+              <label>Scale</label>
+              <select class="opt-select" id="opt-scale">
+                <option value="1">1x — Screen</option>
+                <option value="1.5">1.5x — Medium</option>
+                <option value="2" selected>2x — High</option>
+                <option value="3">3x — Print</option>
+              </select>
+            </div>
+            <div class="opt-group" style="margin-left:auto">
+              <button class="btn-secondary" id="btn-add-more" style="font-size:12px;padding:6px 12px">+ Add more PDFs</button>
+              <input type="file" id="add-input" accept=".pdf,application/pdf" multiple style="display:none">
+            </div>
+          </div>
+
+          <!-- STATS -->
+          <div class="stats-bar" id="stats-bar"></div>
+
+          <!-- PDF LIST -->
+          <div class="pdf-list" id="pdf-list"></div>
+
+          <!-- GLOBAL ACTIONS -->
+          <div class="global-actions" id="global-actions" style="display:none">
+            <button class="btn-download" id="btn-zip-all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download all as ZIP
+            </button>
+            <button class="btn-ghost" id="btn-clear-all">Clear all</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DONATE -->
+    <div class="donate-wrap">
+      <div class="donate-card">
+        <div class="donate-left">
+          <div class="donate-icon">☕</div>
+          <div class="donate-text">
+            <p>This tool is free while others charge $35/month</p>
+            <span>If it saved you money, consider supporting Palettly.</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a class="btn-donate" href="https://ko-fi.com/palettly" target="_blank" rel="noopener noreferrer" style="background:#FF5E5B">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.69-.929-1.201-2.224-.43-3.41.7-1.1 2.297-1.501 3.422-.503l.028.023.032-.024c1.143-1.019 2.791-.602 3.472.439.733 1.09.491 2.422-.061 3.52z"/></svg>
+            Ko-fi
+          </a>
+          <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+            PayPal
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEO CONTENT -->
+<section style="padding:48px 0 64px">
+  <div class="container" style="max-width:720px;margin:0 auto">
+    <h2 style="font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:400;letter-spacing:-.3px;margin-bottom:20px">Why Palettly PDF to JPG?</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Truly free</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">No subscriptions, no credits, no watermarks. Other tools charge up to $35/month for what we do for free.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Multiple PDFs at once</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Upload as many PDFs as you want simultaneously. Convert hundreds of pages and download them all in one ZIP file.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">Private by design</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Everything runs in your browser using Mozilla's PDF.js. Your files never leave your device and are never sent to any server.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:18px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:6px">High quality output</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Choose from screen resolution (1x) up to print quality (3x). Control JPG compression quality from 50% to 100%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> by <a href="https://trioni.net" target="_blank" rel="noopener noreferrer" style="color:var(--g600);text-decoration:none;font-weight:500">Trioni</a> — Free design & developer tools.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- pdf.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- JSZip -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="shared.js"></script>
+<script>
+PALETTLY.initI18n('pdf-to-jpg');
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ── STATE ──────────────────────────────────────────────
+let pdfJobs = []; // { id, file, name, status, pages:[], pageCount }
+let jobCounter = 0;
+
+// ── FILE INPUT ─────────────────────────────────────────
+const dz = document.getElementById('drop-zone');
+const fi = document.getElementById('file-input');
+const ai = document.getElementById('add-input');
+
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('over')});
+dz.addEventListener('dragleave', ()=>dz.classList.remove('over'));
+dz.addEventListener('drop', e=>{
+  e.preventDefault();dz.classList.remove('over');
+  const files=[...e.dataTransfer.files].filter(f=>f.type==='application/pdf'||f.name.endsWith('.pdf'));
+  if(files.length) addFiles(files);
+});
+dz.addEventListener('click', e=>{if(!e.target.closest('.btn-primary'))fi.click()});
+fi.addEventListener('change', e=>{if(e.target.files.length)addFiles([...e.target.files])});
+ai.addEventListener('change', e=>{if(e.target.files.length)addFiles([...e.target.files])});
+document.getElementById('btn-add-more').addEventListener('click', ()=>ai.click());
+
+// quality/format
+document.getElementById('opt-quality').addEventListener('input', e=>{
+  document.getElementById('quality-val').textContent=e.target.value+'%';
+});
+document.getElementById('opt-format').addEventListener('change', e=>{
+  document.getElementById('quality-group').style.display=e.target.value==='png'?'none':'flex';
+});
+
+// ── ADD FILES ──────────────────────────────────────────
+function addFiles(files) {
+  dz.style.display = 'none';
+  document.getElementById('options-section').style.display = 'block';
+
+  files.forEach(file => {
+    const id = ++jobCounter;
+    const job = {id, file, name:file.name, status:'pending', pages:[], pageCount:0};
+    pdfJobs.push(job);
+    renderJobCard(job);
+    processJob(job);
+  });
+  updateStats();
+}
+
+function fmtSize(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(2)+' MB';}
+
+// ── RENDER JOB CARD ────────────────────────────────────
+function renderJobCard(job) {
+  const list = document.getElementById('pdf-list');
+  const card = document.createElement('div');
+  card.className = 'pdf-card';
+  card.id = `job-${job.id}`;
+  card.innerHTML = `
+    <div class="pdf-card-head" onclick="togglePages(${job.id})">
+      <div class="pdf-icon">PDF</div>
+      <div class="pdf-meta">
+        <div class="pdf-name">${job.name}</div>
+        <div class="pdf-info">${fmtSize(job.file.size)}</div>
+        <div class="prog-wrap"><div class="prog-fill" id="prog-${job.id}"></div></div>
+      </div>
+      <span class="pdf-status pending" id="status-${job.id}">Queued…</span>
+      <svg class="pdf-chevron" id="chev-${job.id}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="pdf-pages" id="pages-${job.id}">
+      <div class="pages-grid" id="grid-${job.id}"></div>
+    </div>`;
+  list.appendChild(card);
+}
+
+function togglePages(id) {
+  const pages = document.getElementById(`pages-${id}`);
+  const chev  = document.getElementById(`chev-${id}`);
+  const isOpen = pages.classList.contains('open');
+  pages.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function setStatus(id, status, text) {
+  const el = document.getElementById(`status-${id}`);
+  if (el) { el.className = `pdf-status ${status}`; el.textContent = text; }
+}
+
+function setProgress(id, pct) {
+  const el = document.getElementById(`prog-${id}`);
+  if (el) el.style.width = pct + '%';
+}
+
+// ── PROCESS JOB ────────────────────────────────────────
+async function processJob(job) {
+  job.status = 'processing';
+  setStatus(job.id, 'processing', 'Loading…');
+
+  try {
+    const ab = await job.file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: ab}).promise;
+    job.pageCount = pdf.numPages;
+    setStatus(job.id, 'processing', `0 / ${job.pageCount} pages`);
+
+    const scale  = parseFloat(document.getElementById('opt-scale').value);
+    const format = document.getElementById('opt-format').value;
+    const quality= parseInt(document.getElementById('opt-quality').value) / 100;
+    const mime   = format === 'png' ? 'image/png' : 'image/jpeg';
+    const ext    = format === 'png' ? 'png' : 'jpg';
+    const grid   = document.getElementById(`grid-${job.id}`);
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page     = await pdf.getPage(i);
+      const viewport = page.getViewport({scale});
+      const cv       = document.createElement('canvas');
+      cv.width  = viewport.width;
+      cv.height = viewport.height;
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, cv.width, cv.height);
+      await page.render({canvasContext:ctx, viewport}).promise;
+
+      const dataUrl = cv.toDataURL(mime, quality);
+      const baseName = job.name.replace(/\.pdf$/i,'');
+      const fileName = `${baseName}_page${String(i).padStart(3,'0')}.${ext}`;
+
+      job.pages.push({dataUrl, fileName, pageNum:i});
+
+      // add thumbnail
+      const thumb = document.createElement('div');
+      thumb.className = 'page-thumb';
+      thumb.innerHTML = `
+        <img src="${dataUrl}" alt="Page ${i}" loading="lazy">
+        <div class="page-label">Page ${i}</div>
+        <button class="page-dl-btn" onclick="downloadPage('${job.id}',${i-1})">↓</button>`;
+      grid.appendChild(thumb);
+
+      const pct = Math.round((i / pdf.numPages) * 100);
+      setProgress(job.id, pct);
+      setStatus(job.id, 'processing', `${i} / ${pdf.numPages} pages`);
+    }
+
+    job.status = 'done';
+    setStatus(job.id, 'done', `✓ ${job.pageCount} pages ready`);
+    setProgress(job.id, 100);
+
+    // auto-open pages if only one PDF
+    if (pdfJobs.length === 1) togglePages(job.id);
+
+  } catch(err) {
+    job.status = 'error';
+    setStatus(job.id, 'error', 'Error — try again');
+    console.error('PDF error:', err);
+  }
+
+  updateStats();
+  checkAllDone();
+}
+
+// ── DOWNLOAD SINGLE PAGE ───────────────────────────────
+function downloadPage(jobId, pageIdx) {
+  const job = pdfJobs.find(j=>j.id==jobId);
+  if (!job || !job.pages[pageIdx]) return;
+  const {dataUrl, fileName} = job.pages[pageIdx];
+  const a = document.createElement('a');
+  a.href = dataUrl; a.download = fileName; a.click();
+}
+
+// ── CHECK ALL DONE ─────────────────────────────────────
+function checkAllDone() {
+  const allDone = pdfJobs.every(j=>j.status==='done'||j.status==='error');
+  const hasDone = pdfJobs.some(j=>j.status==='done');
+  document.getElementById('global-actions').style.display = (allDone && hasDone) ? 'flex' : 'none';
+}
+
+// ── DOWNLOAD ALL AS ZIP ────────────────────────────────
+document.getElementById('btn-zip-all').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-zip-all');
+  btn.textContent = 'Preparing ZIP…'; btn.disabled = true;
+
+  const zip = new JSZip();
+  const format = document.getElementById('opt-format').value;
+  const ext = format === 'png' ? 'png' : 'jpg';
+
+  pdfJobs.filter(j=>j.status==='done').forEach(job => {
+    const folderName = job.name.replace(/\.pdf$/i,'').replace(/[^a-z0-9_\-]/gi,'_');
+    const folder = pdfJobs.filter(j=>j.status==='done').length > 1
+      ? zip.folder(folderName)
+      : zip;
+
+    job.pages.forEach(page => {
+      // strip data URL header
+      const base64 = page.dataUrl.split(',')[1];
+      folder.file(page.fileName, base64, {base64:true});
+    });
+  });
+
+  const blob = await zip.generateAsync({type:'blob', compression:'DEFLATE', compressionOptions:{level:6}});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = pdfJobs.length === 1
+    ? `${pdfJobs[0].name.replace(/\.pdf$/i,'')}-images.zip`
+    : `palettly-pdf-images.zip`;
+  a.click();
+
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download all as ZIP`;
+  btn.disabled = false;
+});
+
+// ── CLEAR ALL ──────────────────────────────────────────
+document.getElementById('btn-clear-all').addEventListener('click', () => {
+  pdfJobs = []; jobCounter = 0;
+  document.getElementById('pdf-list').innerHTML = '';
+  document.getElementById('options-section').style.display = 'none';
+  document.getElementById('global-actions').style.display = 'none';
+  document.getElementById('stats-bar').innerHTML = '';
+  dz.style.display = 'flex';
+  fi.value = ''; ai.value = '';
+});
+
+// ── STATS ──────────────────────────────────────────────
+function updateStats() {
+  const totalPdfs  = pdfJobs.length;
+  const totalPages = pdfJobs.reduce((s,j)=>s+j.pageCount,0);
+  const done       = pdfJobs.filter(j=>j.status==='done').length;
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat-chip"><strong>${totalPdfs}</strong> PDF${totalPdfs!==1?'s':''}</div>
+    <div class="stat-chip"><strong>${totalPages}</strong> pages total</div>
+    <div class="stat-chip"><strong>${done}</strong> converted</div>`;
+}
+</script>
+</body>
+</html>

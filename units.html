@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Unit Converter px rem em vh — Palettly</title>
+<meta name="description" content="Convert CSS units instantly. px to rem, em, vh, vw and pt. Set your base font size. Free CSS unit converter, no sign-up.">
+<meta name="keywords" content="px to rem converter, css unit converter, px to em, rem calculator, css units, font size converter">
+<link rel="canonical" href="https://palettly.xyz/units.html">
+<meta property="og:title" content="CSS Unit Converter — Palettly">
+<meta property="og:description" content="Convert px ↔ rem ↔ em ↔ vh ↔ vw instantly.">
+<meta property="og:url" content="https://palettly.xyz/units.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="shared.css">
+<style>
+.settings-bar{background:var(--g50);border:1px solid var(--g200);border-radius:var(--rmd);padding:14px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.settings-bar label{font-size:13px;color:var(--g700);font-weight:500;display:flex;align-items:center;gap:8px}
+.settings-bar input{width:72px}
+.units-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.units-grid{grid-template-columns:1fr}}
+.unit-card{background:var(--s50);border:1px solid var(--border);border-radius:var(--rmd);padding:16px;display:flex;flex-direction:column;gap:8px}
+.unit-card label{font-size:13px;font-weight:500;color:var(--s600);display:flex;align-items:center;justify-content:space-between}
+.unit-tag{font-size:11px;background:var(--s100);color:var(--s400);padding:2px 8px;border-radius:100px;font-weight:400}
+.unit-card input{font-size:22px;font-weight:300;border:none;background:transparent;color:var(--text);padding:0;outline:none;width:100%}
+.unit-card input:focus{color:var(--g600)}
+.unit-divider{height:1px;background:var(--border);margin:4px 0}
+.unit-formula{font-size:11px;color:var(--s400)}
+.table-wrap{overflow-x:auto;margin-top:24px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;background:var(--s100);color:var(--s600);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:8px 12px;border-bottom:1px solid var(--s100);color:var(--text)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--muted)}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QD3WBBG77');
+</script>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge" data-i18n="nav_free">Free forever</span>
+        <div class="lang-wrap" id="lang-wrap">
+          <button class="lang-btn" id="lang-btn" type="button">
+            <span id="lang-current-flag">🇬🇧</span>
+            <span id="lang-current-name">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="lang-dropdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+<div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head"><h2 data-i18n="tool_title">CSS unit converter</h2></div>
+        <div class="tool-body">
+
+          <div class="settings-bar">
+            <label data-i18n="lbl_base">Base font size <input type="number" id="base-size" value="16" min="1" max="100"> px</label>
+            <label data-i18n="lbl_vpw">Viewport width <input type="number" id="vp-width" value="1440" min="1"> px</label>
+            <label data-i18n="lbl_vph">Viewport height <input type="number" id="vp-height" value="900" min="1"> px</label>
+          </div>
+
+          <div class="units-grid">
+            <div class="unit-card">
+              <label>Pixels <span class="unit-tag">px</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="px-in" value="16" step="0.5" min="0">
+              <span class="unit-formula">Base unit</span>
+            </div>
+            <div class="unit-card">
+              <label>Root em <span class="unit-tag">rem</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="rem-in" value="1" step="0.01" min="0">
+              <span class="unit-formula" id="rem-formula">1rem = 16px</span>
+            </div>
+            <div class="unit-card">
+              <label>Em <span class="unit-tag">em</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="em-in" value="1" step="0.01" min="0">
+              <span class="unit-formula">Relative to parent font size</span>
+            </div>
+            <div class="unit-card">
+              <label>Viewport width <span class="unit-tag">vw</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="vw-in" value="1.11" step="0.01" min="0">
+              <span class="unit-formula" id="vw-formula">1vw = 14.4px</span>
+            </div>
+            <div class="unit-card">
+              <label>Viewport height <span class="unit-tag">vh</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="vh-in" value="1.78" step="0.01" min="0">
+              <span class="unit-formula" id="vh-formula">1vh = 9px</span>
+            </div>
+            <div class="unit-card">
+              <label>Points <span class="unit-tag">pt</span></label>
+              <div class="unit-divider"></div>
+              <input type="number" id="pt-in" value="12" step="0.5" min="0">
+              <span class="unit-formula">1pt = 1.333px</span>
+            </div>
+          </div>
+
+          <span class="slabel" data-i18n="lbl_ref">Common values reference</span>
+          <div class="table-wrap">
+            <table id="ref-table">
+              <thead><tr><th>px</th><th>rem</th><th>em</th><th>pt</th></tr></thead>
+              <tbody id="ref-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+<div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text"><p data-i18n="donate_title">Enjoying Palettly? Buy me a coffee</p><span data-i18n="donate_sub">A small tip keeps it free forever.</span></div>
+          </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn-donate" href="https://ko-fi.com/palettly" target="_blank" rel="noopener noreferrer" style="background:#FF5E5B">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.69-.929-1.201-2.224-.43-3.41.7-1.1 2.297-1.501 3.422-.503l.028.023.032-.024c1.143-1.019 2.791-.602 3.472.439.733 1.09.491 2.422-.061 3.52z"/></svg>
+              Ko-fi
+            </a>
+            <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+              PayPal
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="finner">
+          <div class="fleft"><strong>Palettly</strong> by <a href="https://www.trioni.net" target="_blank" rel="noopener noreferrer" style="color:var(--g600);text-decoration:none;font-weight:500">Trioni</a> — Free design &amp; developer tools.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+<script>
+let updating=false;
+const r=id=>document.getElementById(id);
+const f=v=>+parseFloat(v).toFixed(4);
+
+function getBase(){return+r('base-size').value||16}
+function getVpW(){return+r('vp-width').value||1440}
+function getVpH(){return+r('vp-height').value||900}
+
+function fromPx(px){
+  const base=getBase(),vpw=getVpW(),vph=getVpH();
+  if(updating)return;updating=true;
+  r('px-in').value=f(px);
+  r('rem-in').value=f(px/base);
+  r('em-in').value=f(px/base);
+  r('vw-in').value=f(px/vpw*100);
+  r('vh-in').value=f(px/vph*100);
+  r('pt-in').value=f(px*0.75);
+  updateFormulas();updateTable();
+  updating=false;
+}
+
+function updateFormulas(){
+  const base=getBase(),vpw=getVpW(),vph=getVpH();
+  r('rem-formula').textContent=`1rem = ${base}px`;
+  r('vw-formula').textContent=`1vw = ${f(vpw/100)}px`;
+  r('vh-formula').textContent=`1vh = ${f(vph/100)}px`;
+}
+
+function updateTable(){
+  const base=getBase();
+  const pxValues=[4,8,10,12,14,16,18,20,24,28,32,36,40,48,56,64];
+  const tbody=r('ref-body');
+  tbody.innerHTML='';
+  pxValues.forEach(px=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${px}</td><td>${f(px/base)}</td><td>${f(px/base)}</td><td>${f(px*0.75)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+r('px-in').addEventListener('input',e=>fromPx(+e.target.value));
+r('rem-in').addEventListener('input',e=>fromPx(+e.target.value*getBase()));
+r('em-in').addEventListener('input',e=>fromPx(+e.target.value*getBase()));
+r('vw-in').addEventListener('input',e=>fromPx(+e.target.value/100*getVpW()));
+r('vh-in').addEventListener('input',e=>fromPx(+e.target.value/100*getVpH()));
+r('pt-in').addEventListener('input',e=>fromPx(+e.target.value/0.75));
+r('base-size').addEventListener('input',()=>fromPx(+r('px-in').value));
+r('vp-width').addEventListener('input',()=>fromPx(+r('px-in').value));
+r('vp-height').addEventListener('input',()=>fromPx(+r('px-in').value));
+
+fromPx(16);
+</script>
+<script src="shared.js"></script>
+<script>PALETTLY.initI18n("units");</script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPG / PNG to WebP Converter — Palettly</title>
+<meta name="description" content="Convert JPG and PNG images to WebP instantly in your browser. Auto-detects format, batch support, quality control. Free, no upload, no sign-up.">
+<meta name="keywords" content="jpg to webp, png to webp, jpeg to webp, convert to webp, webp converter online, image format converter, batch webp, free webp converter">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#2da05a">
+<link rel="canonical" href="https://palettly.xyz/to-webp.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="JPG / PNG to WebP Converter — Palettly">
+<meta property="og:description" content="Convert JPG and PNG images to WebP instantly. Free, no sign-up, images never leave your device.">
+<meta property="og:url" content="https://palettly.xyz/to-webp.html">
+<meta property="og:image" content="https://palettly.xyz/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QD3WBBG77"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-9QD3WBBG77');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* DROP ZONE */
+#drop-zone{border:2px dashed var(--s200);border-radius:var(--rlg);background:var(--s50);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;text-align:center;padding:32px 24px}
+#drop-zone:hover,#drop-zone.over{border-color:#7c5cbf;background:#f5f2fb}
+#drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{width:52px;height:52px;background:var(--surface);border-radius:16px;border:1px solid var(--s200);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+
+/* QUALITY BAR */
+.quality-bar{background:var(--s100);border-radius:var(--rmd);padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.quality-bar label{font-size:13px;font-weight:500;color:var(--s800);white-space:nowrap}
+.quality-bar .qval{font-size:13px;font-weight:500;color:#534ab7;min-width:34px;text-align:right}
+.quality-bar input[type=range]{flex:1;accent-color:#7c5cbf}
+
+/* GLOBAL STATS */
+.global-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.gstat{background:var(--s100);border-radius:var(--rsm);padding:12px;text-align:center}
+.gstat .sv{font-size:18px;font-weight:500;color:var(--text);display:block}
+.gstat .sv.purple{color:#534ab7}
+.gstat .sv.green{color:var(--g600)}
+.gstat .sl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;display:block}
+
+/* FILE LIST */
+.file-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.file-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);overflow:hidden;display:grid;grid-template-columns:64px 1fr auto;align-items:stretch}
+.file-thumb{width:64px;height:64px;object-fit:cover;display:block;background:var(--s100)}
+.file-body{padding:10px 14px;min-width:0}
+.file-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.file-stats{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fmt-badge{font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:4px;display:inline-block}
+.fmt-badge.jpg{background:#eef4fd;color:#185fa5}
+.fmt-badge.png{background:var(--g50);color:var(--g700)}
+.fmt-badge.webp{background:#f3f0fe;color:#534ab7}
+.file-size-info{font-size:12px;color:var(--muted)}
+.file-saving{font-size:12px;font-weight:500}
+.file-saving.good{color:var(--g600)}
+.file-saving.neutral{color:var(--s400)}
+.file-actions{display:flex;align-items:center;padding:0 14px;gap:8px}
+.btn-dl{font-family:var(--fb);font-size:12px;font-weight:500;background:#f3f0fe;color:#534ab7;border:1px solid #d4cafc;padding:7px 14px;border-radius:var(--rsm);cursor:pointer;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-dl:hover{background:#e8e3fd;border-color:#7c5cbf}
+
+/* PROCESSING STATE */
+.file-row.processing .file-body::after{content:'Converting…';font-size:12px;color:var(--muted)}
+
+/* ACTIONS ROW */
+.actions-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* FORMATS LEGEND */
+.formats-note{font-size:12px;color:var(--muted);margin-top:8px}
+
+#results{display:none}
+canvas{display:none}
+
+@media(max-width:480px){
+  .file-row{grid-template-columns:52px 1fr}
+  .file-actions{display:none}
+  .global-stats{grid-template-columns:1fr 1fr}
+  .global-stats .gstat:last-child{grid-column:span 2}
+}
+</style>
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4129379322182974" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="container">
+    <div class="hinner">
+      <a href="index.html" class="logo">
+        <div class="logomark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <span class="logotext">Palet<span>tly</span></span>
+      </a>
+      <div class="nav-right">
+        <a href="index.html">← All tools</a>
+        <span class="badge">Free forever</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container" style="padding-top:32px;padding-bottom:16px">
+  <div class="tool-section">
+    <div class="tool-wrap">
+      <div class="tool-card">
+        <div class="tool-head">
+          <h2>JPG / PNG → WebP</h2>
+          <span style="font-size:13px;color:var(--muted)">Auto-detects format · Batch · Client-side</span>
+        </div>
+        <div class="tool-body">
+
+          <!-- DROP ZONE -->
+          <div id="drop-zone">
+            <input type="file" id="file-input" accept="image/jpeg,image/jpg,image/png" multiple>
+            <div class="drop-icon">
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#7c5cbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <p style="font-size:16px;font-weight:500;color:var(--s800);margin-bottom:6px">Drop JPG or PNG images here</p>
+            <p style="font-size:13px;color:var(--s400);margin-bottom:16px">Multiple files supported · Never leaves your device</p>
+            <button class="btn-primary" type="button" onclick="document.getElementById('file-input').click();event.stopPropagation()" style="position:relative;z-index:2;background:#7c5cbf">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Choose files
+            </button>
+          </div>
+
+          <!-- RESULTS -->
+          <div id="results">
+
+            <!-- QUALITY -->
+            <div class="quality-bar">
+              <label for="quality-slider">WebP quality</label>
+              <input type="range" id="quality-slider" min="10" max="100" value="85" step="1">
+              <span class="qval" id="quality-val">85%</span>
+              <button class="btn-secondary" id="btn-reconvert" type="button" style="font-size:12px;padding:6px 12px">Apply</button>
+            </div>
+
+            <!-- GLOBAL STATS -->
+            <div class="global-stats" id="global-stats"></div>
+
+            <!-- FILE LIST -->
+            <div class="file-list" id="file-list"></div>
+
+            <!-- ACTIONS -->
+            <div class="actions-row">
+              <button class="btn-primary" id="btn-zip" type="button" style="background:#7c5cbf">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download all as ZIP
+              </button>
+              <button class="btn-secondary" id="btn-reset" type="button">← Convert more</button>
+            </div>
+            <p class="formats-note" id="single-note" style="display:none">Single file — download button in the row above.</p>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="donate-wrap">
+        <div class="donate-card">
+          <div class="donate-left">
+            <div class="donate-icon">☕</div>
+            <div class="donate-text">
+              <p>Enjoying Palettly? Buy me a coffee</p>
+              <span>These tools are free and always will be.</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn-donate" href="https://ko-fi.com/palettly" target="_blank" rel="noopener noreferrer" style="background:#FF5E5B">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.69-.929-1.201-2.224-.43-3.41.7-1.1 2.297-1.501 3.422-.503l.028.023.032-.024c1.143-1.019 2.791-.602 3.472.439.733 1.09.491 2.422-.061 3.52z"/></svg>
+              Ko-fi
+            </a>
+            <a class="btn-donate" href="https://paypal.me/pablovozzi" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
+              PayPal
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="padding:48px 0 60px">
+  <div class="container" style="max-width:720px;margin:0 auto">
+    <h2 style="font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:400;letter-spacing:-.3px;margin-bottom:20px">Why convert to WebP?</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#534ab7">Smaller files</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">WebP is typically 25–35% smaller than JPEG and PNG at equivalent quality — faster load times for your site.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#534ab7">Transparency</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">WebP supports alpha transparency like PNG, but at a much smaller file size. Best of both worlds.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#534ab7">Universal support</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">All modern browsers support WebP. It's the recommended format by Google's Lighthouse and Core Web Vitals.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--rmd);padding:16px">
+        <h3 style="font-size:14px;font-weight:500;margin-bottom:8px;color:#534ab7">Private by design</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">All conversion happens in your browser using the Canvas API. Your images never leave your device.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="finner">
+      <div class="fleft"><strong>Palettly</strong> by <a href="https://www.trioni.net" target="_blank" rel="noopener noreferrer" style="color:var(--g600);text-decoration:none;font-weight:500">Trioni</a> — Free design &amp; developer tools.</div>
+      <div class="flinks">
+        <a href="index.html">All tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+<canvas id="canvas"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="shared.js"></script>
+<script>
+const cv  = document.getElementById('canvas');
+const ctx = cv.getContext('2d');
+const dz  = document.getElementById('drop-zone');
+const fi  = document.getElementById('file-input');
+const qSlider = document.getElementById('quality-slider');
+const qVal    = document.getElementById('quality-val');
+
+let convertedBlobs = []; // [{name, blob, origSize, fmt}]
+
+// ── DRAG & DROP ───────────────────────────────────────────────
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const files = [...e.dataTransfer.files].filter(isValid);
+  if (files.length) processFiles(files);
+});
+dz.addEventListener('click', e => { if (!e.target.closest('button')) fi.click(); });
+fi.addEventListener('change', e => {
+  const files = [...e.target.files].filter(isValid);
+  if (files.length) processFiles(files);
+});
+
+function isValid(f) {
+  return /\.(jpe?g|png)$/i.test(f.name) || ['image/jpeg','image/png'].includes(f.type);
+}
+
+function detectFmt(f) {
+  const ext = f.name.split('.').pop().toLowerCase();
+  if (ext === 'png' || f.type === 'image/png') return 'png';
+  return 'jpg';
+}
+
+function fmtSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/1024/1024).toFixed(2) + ' MB';
+}
+
+// ── QUALITY SLIDER ────────────────────────────────────────────
+qSlider.addEventListener('input', () => { qVal.textContent = qSlider.value + '%'; });
+
+// ── PROCESS FILES ─────────────────────────────────────────────
+function processFiles(files) {
+  dz.style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('file-list').innerHTML = '';
+  convertedBlobs = [];
+
+  const quality = parseInt(qSlider.value) / 100;
+  const promises = files.map(f => convertFile(f, quality));
+
+  Promise.all(promises).then(() => updateGlobalStats());
+}
+
+function convertFile(file, quality) {
+  return new Promise(resolve => {
+    const fmt = detectFmt(file);
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      cv.width  = img.naturalWidth;
+      cv.height = img.naturalHeight;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(img, 0, 0);
+      cv.toBlob(blob => {
+        URL.revokeObjectURL(url);
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+        const entry = { name: baseName + '.webp', blob, origSize: file.size, fmt };
+        convertedBlobs.push(entry);
+        renderFileRow(file, entry, img);
+        resolve();
+      }, 'image/webp', quality);
+    };
+    img.src = url;
+  });
+}
+
+function renderFileRow(origFile, entry, img) {
+  const list = document.getElementById('file-list');
+  const diff = Math.round((1 - entry.blob.size / entry.origSize) * 100);
+  const savingClass = diff > 0 ? 'good' : 'neutral';
+  const savingText  = diff > 0 ? `-${diff}%` : `+${Math.abs(diff)}%`;
+
+  const thumbUrl = URL.createObjectURL(entry.blob);
+
+  const row = document.createElement('div');
+  row.className = 'file-row';
+  row.dataset.name = entry.name;
+  row.innerHTML = `
+    <img class="file-thumb" src="${thumbUrl}" alt="${entry.name}">
+    <div class="file-body">
+      <div class="file-name">${entry.name}</div>
+      <div class="file-stats">
+        <span class="fmt-badge ${entry.fmt}">${entry.fmt.toUpperCase()}</span>
+        <span style="font-size:11px;color:var(--s400)">→</span>
+        <span class="fmt-badge webp">WEBP</span>
+        <span class="file-size-info">${fmtSize(entry.origSize)} → ${fmtSize(entry.blob.size)}</span>
+        <span class="file-saving ${savingClass}">${savingText}</span>
+      </div>
+    </div>
+    <div class="file-actions">
+      <a class="btn-dl" href="${thumbUrl}" download="${entry.name}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </a>
+    </div>`;
+  list.appendChild(row);
+}
+
+function updateGlobalStats() {
+  const totalOrig  = convertedBlobs.reduce((s, e) => s + e.origSize, 0);
+  const totalWebp  = convertedBlobs.reduce((s, e) => s + e.blob.size, 0);
+  const totalSaved = Math.round((1 - totalWebp / totalOrig) * 100);
+
+  document.getElementById('global-stats').innerHTML = `
+    <div class="gstat"><span class="sv">${convertedBlobs.length}</span><span class="sl">Files</span></div>
+    <div class="gstat"><span class="sv purple">${fmtSize(totalWebp)}</span><span class="sl">Total WebP size</span></div>
+    <div class="gstat"><span class="sv ${totalSaved > 0 ? 'green' : ''}">${totalSaved > 0 ? '-'+totalSaved+'%' : '+'+Math.abs(totalSaved)+'%'}</span><span class="sl">Avg. savings</span></div>`;
+
+  const zipBtn    = document.getElementById('btn-zip');
+  const singleNote = document.getElementById('single-note');
+  if (convertedBlobs.length === 1) {
+    zipBtn.style.display = 'none';
+    singleNote.style.display = 'block';
+  } else {
+    zipBtn.style.display = 'inline-flex';
+    singleNote.style.display = 'none';
+  }
+}
+
+// ── RE-CONVERT ON QUALITY CHANGE ──────────────────────────────
+document.getElementById('btn-reconvert').addEventListener('click', () => {
+  if (!fi.files.length && convertedBlobs.length === 0) return;
+  // Re-run from original files stored in input (only works if fi still has files)
+  const files = fi.files.length ? [...fi.files].filter(isValid) : null;
+  if (!files || !files.length) return;
+  processFiles(files);
+});
+
+// ── DOWNLOAD ZIP ──────────────────────────────────────────────
+document.getElementById('btn-zip').addEventListener('click', async () => {
+  if (!convertedBlobs.length) return;
+  const btn = document.getElementById('btn-zip');
+  btn.disabled = true;
+  btn.textContent = 'Zipping…';
+
+  const zip = new JSZip();
+  convertedBlobs.forEach(e => zip.file(e.name, e.blob));
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(zipBlob);
+  link.download = 'palettly-webp.zip';
+  link.click();
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download all as ZIP`;
+});
+
+// ── RESET ─────────────────────────────────────────────────────
+document.getElementById('btn-reset').addEventListener('click', () => {
+  dz.style.display = 'flex';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('file-list').innerHTML = '';
+  document.getElementById('global-stats').innerHTML = '';
+  convertedBlobs = [];
+  fi.value = '';
+});
+</script>
+</body>
+</html>
